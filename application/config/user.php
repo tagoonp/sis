@@ -6,8 +6,8 @@ if(!isset($_SESSION['doe_uid'])){
     die();
 }
 
-$uid = $_SESSION['sis_uid'];
-$token = $_SESSION['sis_token'];
+$uid = $_SESSION['doe_uid'];
+$token = $_SESSION['doe_token'];
 
 $strSQL = "SELECT * FROM sis_account a INNER JOIN sis_userinfo b ON a.UID = b.UID WHERE a.UID = '$uid' AND a.ACTIVE_STATUS = 'Y' AND b.USE_STATUS = 'Y'";
 $resUser = $db->fetch($strSQL, false, false);

@@ -135,108 +135,108 @@ $page = 'app-student';
             <div class="content-body">
                 <!-- Knowledge base Jumbotron start -->
             
-                            <div class="card">
-                                <div class="card-body card-dashboard">
-                                    <div class="table-responsive">
-                                        <table class="table table-striped dataex-html5-selectors">
-                                            <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Image</th>
-                                                    <th class="pl-0">Name</th>
-                                                    <th>Degree</th>
-                                                    <th>ROLE</th>
-                                                    <th>ACTIVE</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
+                <div class="card">
+                    <div class="card-body card-dashboard">
+                        <div class="table-responsive">
+                            <table class="table table-striped dataex-html5-selectors">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Image</th>
+                                        <th class="pl-0">Name</th>
+                                        <th>Degree</th>
+                                        <th>ROLE</th>
+                                        <th>ACTIVE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php 
+                                    $strSQL = "SELECT * FROM sis_account a INNER JOIN sis_userinfo b ON a.UID = b.UID 
+                                                LEFT JOIN sis_student_info c ON b.USERNAME = c.std_id
+                                                LEFT JOIN sis_degree d ON c.std_degree = d.dg_id
+                                                WHERE 
+                                                a.DELETE_STATUS = 'N' 
+                                                AND b.USE_STATUS = 'Y' 
+                                                AND a.ROLE = 'student' 
+                                                ORDER bY b.USERNAME
+                                                ";
+                                    $resList = $db->fetch($strSQL, true, false);
+                                    if(($resList) && ($resList['status'])){
+                                        $c = 1;
+                                        foreach ($resList['data'] as $row) {
+                                            ?>
+                                            <tr class="text-dark">
+                                                <td style="vertical-align: top;"><?php echo $row['USERNAME']; ?></td>
+                                                <td style="vertical-align: top;">
                                                 <?php 
-                                                $strSQL = "SELECT * FROM sis_account a INNER JOIN sis_userinfo b ON a.UID = b.UID 
-                                                           LEFT JOIN sis_student_info c ON b.USERNAME = c.std_id
-                                                           LEFT JOIN sis_degree d ON c.std_degree = d.dg_id
-                                                           WHERE 
-                                                           a.DELETE_STATUS = 'N' 
-                                                           AND b.USE_STATUS = 'Y' 
-                                                           AND a.ROLE = 'student' 
-                                                           ORDER bY b.USERNAME
-                                                           ";
-                                                $resList = $db->fetch($strSQL, true, false);
-                                                if(($resList) && ($resList['status'])){
-                                                    $c = 1;
-                                                    foreach ($resList['data'] as $row) {
+                                                if(($row['PHOTO'] != '') && ($row['PHOTO'] != null)){
+                                                    if (@getimagesize($row['PHOTO'])) {
                                                         ?>
-                                                        <tr class="text-dark">
-                                                            <td style="vertical-align: top;"><?php echo $row['USERNAME']; ?></td>
-                                                            <td style="vertical-align: top;">
-                                                            <?php 
-                                                            if(($row['PHOTO'] != '') && ($row['PHOTO'] != null)){
-                                                                if (@getimagesize($row['PHOTO'])) {
-                                                                    ?>
-                                                                    <img class="round" src="<?php echo $row['PHOTO']; ?>" alt="avatar" height="40" width="40">
-                                                                    <?php
-                                                                }else{
-                                                                    echo "-";
-                                                                }
-                                                            }else{
-                                                                echo "-";
-                                                            }
-                                                            ?>
-                                                            </td>
-                                                            <td style="vertical-align: top;" class="pl-0 text-dark">
-                                                                <div style="font-size: 1.2em;" class="text-dark"><?php echo $row['PREFIX'].$row['FNAME']." ".$row['LNAME']; ?></div>
-                                                                <div style="font-size: 1em;" class="text-muted">E-mail : <?php echo $row['EMAIL']; ?></div>
-                                                                <div class="pt-1">
-                                                                    <button class="btn btn-light-secondary btn-icon" data-toggle="tooltip" data-placement="top" title="Update information" onclick="window.location='app-student-info?uid=<?php echo $row['UID']; ?>'"><i class="bx bx-wrench"></i></button>
-                                                                    <button class="btn btn-light-secondary btn-icon" data-toggle="tooltip" data-placement="top" title="Send message via E-mail" onclick="window.location='app-line-message?toid=<?php echo $row['UID'];?>&totoken=<?php echo $row['LINELOGIN']?>'"><i class="bx bx-envelope"></i></button>
-                                                                    <button class="btn btn-danger btn-icon" data-toggle="tooltip" data-placement="top" title="Delete from SIS" onclick="user.delete('<?php echo $row['UID'];?>')" ><i class="bx bx-trash"></i></button>
-                                                                </div>
-                                                            </td>
-                                                            <td style="vertical-align: top;"><?php echo $row['dg_shorten']; ?></td>
-                                                            <td style="vertical-align: top;"><?php 
-                                                            if($row['ROLE'] == 'admin'){
-                                                                ?>
-                                                                <span class="badge badge-danger round">Admin</span>
-                                                                <?php
-                                                            }else if($row['ROLE'] == 'staff'){
-                                                                ?>
-                                                                <span class="badge badge-warning round">Staff</span>
-                                                                <?php
-                                                            }else if($row['ROLE'] == 'lecturer'){
-                                                                ?>
-                                                                <span class="badge badge-warning round">Lecturer</span>
-                                                                <?php
-                                                            }else if($row['ROLE'] == 'student'){
-                                                                ?>
-                                                                <span class="badge badge-warning round">Student</span>
-                                                                <?php
-                                                            }else {
-                                                                ?>
-                                                                <span class="badge badge-secondary round">Common</span>
-                                                                <?php
-                                                            }
-                                                            ?></td>
-                                                            <td style="vertical-align: top;">
-                                                                <div class="custom-control custom-switch custom-switch-success mr-2 mb-1">
-                                                                    <input type="checkbox" class="custom-control-input" id="customSwitchcolor_<?php echo $row['ID'];?>" onclick="toggleActiveApplication('ACTIVE_STATUS', '<?php echo $row['UID']; ?>', '<?php echo $row['ACTIVE_STATUS']; ?>')"
-                                                                    <?php 
-                                                                    if($row['ACTIVE_STATUS'] == 'Y'){ echo "checked"; }
-                                                                    ?>
-                                                                    >
-                                                                    <label class="custom-control-label" for="customSwitchcolor_<?php echo $row['ID'];?>"></label>
-                                                                </div>
-                                                            </td>
-                                                            
-                                                        </tr>
+                                                        <img class="round" src="<?php echo $row['PHOTO']; ?>" alt="avatar" height="40" width="40">
                                                         <?php
-                                                        $c++;
+                                                    }else{
+                                                        echo "-";
                                                     }
+                                                }else{
+                                                    echo "-";
                                                 }
                                                 ?>
+                                                </td>
+                                                <td style="vertical-align: top;" class="pl-0 text-dark">
+                                                    <div style="font-size: 1.2em;" class="text-dark"><?php echo $row['PREFIX'].$row['FNAME']." ".$row['LNAME']; ?></div>
+                                                    <div style="font-size: 1em;" class="text-muted">E-mail : <?php echo $row['EMAIL']; ?></div>
+                                                    <div class="pt-1">
+                                                        <button class="btn btn-light-secondary btn-icon" data-toggle="tooltip" data-placement="top" title="Update information" onclick="window.location='app-student-info?uid=<?php echo $row['UID']; ?>'"><i class="bx bx-wrench"></i></button>
+                                                        <button class="btn btn-light-secondary btn-icon" data-toggle="tooltip" data-placement="top" title="Send message via E-mail" onclick="window.location='app-line-message?toid=<?php echo $row['UID'];?>&totoken=<?php echo $row['LINELOGIN']?>'"><i class="bx bx-envelope"></i></button>
+                                                        <button class="btn btn-danger btn-icon" data-toggle="tooltip" data-placement="top" title="Delete from SIS" onclick="user.delete('<?php echo $row['UID'];?>')" ><i class="bx bx-trash"></i></button>
+                                                    </div>
+                                                </td>
+                                                <td style="vertical-align: top;"><?php echo $row['dg_shorten']; ?></td>
+                                                <td style="vertical-align: top;"><?php 
+                                                if($row['ROLE'] == 'admin'){
+                                                    ?>
+                                                    <span class="badge badge-danger round">Admin</span>
+                                                    <?php
+                                                }else if($row['ROLE'] == 'staff'){
+                                                    ?>
+                                                    <span class="badge badge-warning round">Staff</span>
+                                                    <?php
+                                                }else if($row['ROLE'] == 'lecturer'){
+                                                    ?>
+                                                    <span class="badge badge-warning round">Lecturer</span>
+                                                    <?php
+                                                }else if($row['ROLE'] == 'student'){
+                                                    ?>
+                                                    <span class="badge badge-warning round">Student</span>
+                                                    <?php
+                                                }else {
+                                                    ?>
+                                                    <span class="badge badge-secondary round">Common</span>
+                                                    <?php
+                                                }
+                                                ?></td>
+                                                <td style="vertical-align: top;">
+                                                    <div class="custom-control custom-switch custom-switch-success mr-2 mb-1">
+                                                        <input type="checkbox" class="custom-control-input" id="customSwitchcolor_<?php echo $row['ID'];?>" onclick="toggleActiveApplication('ACTIVE_STATUS', '<?php echo $row['UID']; ?>', '<?php echo $row['ACTIVE_STATUS']; ?>')"
+                                                        <?php 
+                                                        if($row['ACTIVE_STATUS'] == 'Y'){ echo "checked"; }
+                                                        ?>
+                                                        >
+                                                        <label class="custom-control-label" for="customSwitchcolor_<?php echo $row['ID'];?>"></label>
+                                                    </div>
+                                                </td>
                                                 
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+                                            </tr>
+                                            <?php
+                                            $c++;
+                                        }
+                                    }
+                                    ?>
+                                    
+                            </table>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>

@@ -41,8 +41,6 @@ $page = 'app-lecturer';
     <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap-extended.css">
     <link rel="stylesheet" type="text/css" href="../../../app-assets/css/colors.css">
     <link rel="stylesheet" type="text/css" href="../../../app-assets/css/components.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/dark-layout.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/semi-dark-layout.css">
     <!-- END: Theme CSS-->
 
     <!-- BEGIN: Page CSS-->
@@ -121,198 +119,120 @@ $page = 'app-lecturer';
             <div class="content-header row">
                 <div class="content-header-left col-12 mb-2 mt-1">
                     <div class="breadcrumbs-top">
-                        <h5 class="content-header-title float-left pr-1 mb-0 text-white">DOE users</h5>
+                        <h5 class="content-header-title float-left pr-1 mb-0 text-white">Lecturer</h5>
                         <div class="breadcrumb-wrapper d-none d-sm-block">
                             <ol class="breadcrumb p-0 mb-0 pl-1">
                                 <li class="breadcrumb-item active"><a href="index.html"><i class="bx bx-home-alt"></i></a></li>
                                 <li class="breadcrumb-item">Users</li>
-                                <li class="breadcrumb-item active"><a href="app-user-list">User list</a></li>
+                                <li class="breadcrumb-item active"><a href="app-user-list">Lecturer list</a></li>
                             </ol>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="content-body">
-                <!-- Knowledge base Jumbotron start -->
-                
-                            <?php 
-                            $strSQL = "SELECT * FROM mym_system WHERE sys_status = '1'";
-                            $resSys = $db->fetch($strSQL, true, true);
-                            $sys = false;
-                            if(($resSys) && ($resSys['status'])){
-                                $sys = true;
-                            }
-
-                            ?>
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title">
-                                    DOE users account
-                                    </h4>
-                                </div>
-                                <div class="card-body card-dashboard">
-                                    <div class="table-responsive">
-                                        <table class="table table-striped dataex-html5-selectors">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Image</th>
-                                                    <th class="pl-0">Name</th>
-                                                    <th>Position</th>
-                                                    <th>ROLE</th>
-                                                    <th>LINE</th>
-                                                    <th>Account ACTIVE</th>
-                                                    <?php 
-                                                    if($sys){
-                                                        foreach ($resSys['data'] as $rowSys) {
-                                                            ?>
-                                                            <th><?php echo $rowSys['sys_name_short']; ?></th>
-                                                            <?php
-                                                        }
-                                                    }
-                                                    ?>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
+                <div class="card">
+                    <div class="card-body card-dashboard">
+                        <div class="table-responsive">
+                            <table class="table table-striped dataex-html5-selectors">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Image</th>
+                                        <th class="pl-0">Name</th>
+                                        <th>Degree</th>
+                                        <th>ROLE</th>
+                                        <th>ACTIVE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php 
+                                    $strSQL = "SELECT * FROM sis_account a INNER JOIN sis_userinfo b ON a.UID = b.UID 
+                                                LEFT JOIN sis_student_info c ON b.USERNAME = c.std_id
+                                                LEFT JOIN sis_degree d ON c.std_degree = d.dg_id
+                                                WHERE 
+                                                a.DELETE_STATUS = 'N' 
+                                                AND b.USE_STATUS = 'Y' 
+                                                AND a.ROLE = 'lecturer' 
+                                                ORDER bY b.USERNAME
+                                                ";
+                                    $resList = $db->fetch($strSQL, true, false);
+                                    if(($resList) && ($resList['status'])){
+                                        $c = 1;
+                                        foreach ($resList['data'] as $row) {
+                                            ?>
+                                            <tr class="text-dark">
+                                                <td style="vertical-align: top;"><?php echo $row['USERNAME']; ?></td>
+                                                <td style="vertical-align: top;">
                                                 <?php 
-                                                $strSQL = "SELECT * FROM mym_useraccount a 
-                                                           WHERE 
-                                                           a.DELETE_STATUS = 'N' 
-                                                           ORDER BY a.FNAME";
-                                                $resList = $db->fetch($strSQL, true, false);
-                                                if(($resList) && ($resList['status'])){
-                                                    $c = 1;
-                                                    foreach ($resList['data'] as $row) {
+                                                if(($row['PHOTO'] != '') && ($row['PHOTO'] != null)){
+                                                    if (@getimagesize($row['PHOTO'])) {
                                                         ?>
-                                                        <tr>
-                                                            <td style="vertical-align: top;"><?php echo $c; ?></td>
-                                                            <td style="vertical-align: top;">
-                                                            <?php 
-                                                            if(($row['PHOTO'] != '') && ($row['PHOTO'] != null)){
-                                                                if (@getimagesize($row['PHOTO'])) {
-                                                                    ?>
-                                                                    <img class="round" src="<?php echo $row['PHOTO']; ?>" alt="avatar" height="40" width="40">
-                                                                    <?php
-                                                                }else{
-                                                                    echo "-";
-                                                                }
-                                                            }else{
-                                                                echo "-";
-                                                            }
-                                                            ?>
-                                                            </td>
-                                                            <td style="vertical-align: top;" class="pl-0">
-                                                                <div class="pb-0">
-                                                                    <span class="text-success">ID : <?php echo $row['PID']; ?></span>
-                                                                </div>
-                                                                <div style="font-size: 1.2em;" class="text-white"><?php echo $row['PREFIX'].$row['FNAME']." ".$row['LNAME']; ?></div>
-                                                                <div style="font-size: 1em;" class="text-muted">E-mail : <?php echo $row['EMAIL']; ?></div>
-                                                                <div class="pt-1">
-                                                                    <button class="btn btn-light-secondary btn-icon"><i class="bx bx-wrench"></i></button>
-                                                                    <button class="btn btn-light-secondary btn-icon"><i class="bx bx-list-ul"></i></button>
-                                                                    <?php 
-                                                                    if($row['LINELOGIN'] != null){
-                                                                        ?>
-                                                                        <button class="btn btn-light-secondary btn-icon" onclick="window.location='app-line-message?toid=<?php echo $row['UID'];?>&totoken=<?php echo $row['LINELOGIN']?>'"><i class="bx bx-paper-plane"></i></button>
-                                                                        <?php
-                                                                    }else{
-                                                                        ?>
-                                                                        <button class="btn btn-light-secondary btn-icon" disabled><i class="bx bx-paper-plane"></i></button>
-                                                                        <?php
-                                                                    }
-                                                                    ?>
-                                                                    
-                                                                    
-                                                                    <button class="btn btn-danger btn-icon"><i class="bx bx-trash"></i></button>
-                                                                </div>
-                                                            </td>
-                                                            <td style="vertical-align: top;"><?php echo $row['POSITION']; ?></td>
-                                                            <td style="vertical-align: top;"><?php 
-                                                            if($row['ROLE'] == 'admin'){
-                                                                ?>
-                                                                <span class="badge badge-danger round">Admin</span>
-                                                                <?php
-                                                            }else if($row['ROLE'] == 'staff'){
-                                                                ?>
-                                                                <span class="badge badge-warning round">Staff</span>
-                                                                <?php
-                                                            }else {
-                                                                ?>
-                                                                <span class="badge badge-success round">Common</span>
-                                                                <?php
-                                                            }
-                                                            ?></td>
-                                                            <td style="vertical-align: top;">
-                                                                <?php 
-                                                                if($row['LINELOGIN'] != null){
-                                                                    ?>
-                                                                    <i class="bx bx-link text-success" style="font-size: 2em; "></i>
-                                                                    <?php
-                                                                }else{
-                                                                    echo "-";
-                                                                }
-                                                                ?>
-                                                            </td>
-                                                            <td style="vertical-align: top;">
-                                                                <div class="custom-control custom-switch custom-switch-success mr-2 mb-1">
-                                                                    <input type="checkbox" class="custom-control-input" id="customSwitchcolor_<?php echo $row['ID'];?>" onclick="toggleActiveApplication('ACTIVE_STATUS', '<?php echo $row['UID']; ?>', '<?php echo $row['ACTIVE_STATUS']; ?>')"
-                                                                    <?php 
-                                                                    if($row['ACTIVE_STATUS'] == 'Y'){ echo "checked"; }
-                                                                    ?>
-                                                                    >
-                                                                    <label class="custom-control-label" for="customSwitchcolor_<?php echo $row['ID'];?>"></label>
-                                                                </div>
-                                                            </td>
-                                                            <?php 
-                                                            if($sys){
-                                                                foreach ($resSys['data'] as $rowSys) {
-                                                                    ?>
-                                                                    <td style="vertical-align: top;">
-                                                                        <div class="custom-control custom-switch custom-switch-success mr-2 mb-1">
-                                                                            <input type="checkbox" class="custom-control-input" id="customSwitchcolor_<?php echo $rowSys['sys_id'];?>_<?php echo $row['ID'];?>"
-                                                                            <?php 
-                                                                            if(($rowSys['sys_name_short'] == 'SIS') && ($row['SIS'] == '1')){ 
-                                                                                echo "checked "; 
-                                                                                ?>
-                                                                                onclick="toggleActiveApplication('SIS', '<?php echo $row['UID']; ?>', '<?php echo $row['SIS']; ?>')"
-                                                                                <?php
-                                                                            }else if(($rowSys['sys_name_short'] == 'SIS') && ($row['SIS'] == '0')){
-                                                                                ?>
-                                                                                onclick="toggleActiveApplication('SIS', '<?php echo $row['UID']; ?>', '<?php echo $row['SIS']; ?>')"
-                                                                                <?php
-                                                                            }
-
-                                                                            if(($rowSys['sys_name_short'] == 'WFH') && ($row['WFH'] == '1')){ 
-                                                                                echo "checked "; 
-                                                                                ?>
-                                                                                onclick="toggleActiveApplication('WFH', '<?php echo $row['UID']; ?>', '<?php echo $row['WFH']; ?>')"
-                                                                                <?php
-                                                                            }else if(($rowSys['sys_name_short'] == 'WFH') && ($row['WFH'] == '0')){
-                                                                                ?>
-                                                                                onclick="toggleActiveApplication('WFH', '<?php echo $row['UID']; ?>', '<?php echo $row['WFH']; ?>')"
-                                                                                <?php
-                                                                            }
-                                                                            ?>
-                                                                            >
-                                                                            <label class="custom-control-label" for="customSwitchcolor_<?php echo $rowSys['sys_id'];?>_<?php echo $row['ID'];?>"></label>
-                                                                        </div>    
-                                                                    </td>
-                                                                    <?php
-                                                                }
-                                                            }
-                                                            ?>
-                                                        </tr>
+                                                        <img class="round" src="<?php echo $row['PHOTO']; ?>" alt="avatar" height="40" width="40">
                                                         <?php
-                                                        $c++;
+                                                    }else{
+                                                        echo "-";
                                                     }
+                                                }else{
+                                                    echo "-";
                                                 }
                                                 ?>
+                                                </td>
+                                                <td style="vertical-align: top;" class="pl-0 text-dark">
+                                                    <div style="font-size: 1.2em;" class="text-dark"><?php echo $row['PREFIX'].$row['FNAME']." ".$row['LNAME']; ?></div>
+                                                    <div style="font-size: 1em;" class="text-muted">E-mail : <?php echo $row['EMAIL']; ?></div>
+                                                    <div class="pt-1">
+                                                        <button class="btn btn-light-secondary btn-icon" data-toggle="tooltip" data-placement="top" title="Update information" onclick="window.location='app-student-info?uid=<?php echo $row['UID']; ?>'"><i class="bx bx-wrench"></i></button>
+                                                        <button class="btn btn-light-secondary btn-icon" data-toggle="tooltip" data-placement="top" title="Send message via E-mail" onclick="window.location='app-line-message?toid=<?php echo $row['UID'];?>&totoken=<?php echo $row['LINELOGIN']?>'"><i class="bx bx-envelope"></i></button>
+                                                        <button class="btn btn-danger btn-icon" data-toggle="tooltip" data-placement="top" title="Delete from SIS" onclick="user.delete('<?php echo $row['UID'];?>')" ><i class="bx bx-trash"></i></button>
+                                                    </div>
+                                                </td>
+                                                <td style="vertical-align: top;"><?php echo $row['dg_shorten']; ?></td>
+                                                <td style="vertical-align: top;"><?php 
+                                                if($row['ROLE'] == 'admin'){
+                                                    ?>
+                                                    <span class="badge badge-danger round">Admin</span>
+                                                    <?php
+                                                }else if($row['ROLE'] == 'staff'){
+                                                    ?>
+                                                    <span class="badge badge-warning round">Staff</span>
+                                                    <?php
+                                                }else if($row['ROLE'] == 'lecturer'){
+                                                    ?>
+                                                    <span class="badge badge-warning round">Lecturer</span>
+                                                    <?php
+                                                }else if($row['ROLE'] == 'student'){
+                                                    ?>
+                                                    <span class="badge badge-warning round">Student</span>
+                                                    <?php
+                                                }else {
+                                                    ?>
+                                                    <span class="badge badge-secondary round">Common</span>
+                                                    <?php
+                                                }
+                                                ?></td>
+                                                <td style="vertical-align: top;">
+                                                    <div class="custom-control custom-switch custom-switch-success mr-2 mb-1">
+                                                        <input type="checkbox" class="custom-control-input" id="customSwitchcolor_<?php echo $row['ID'];?>" onclick="toggleActiveApplication('ACTIVE_STATUS', '<?php echo $row['UID']; ?>', '<?php echo $row['ACTIVE_STATUS']; ?>')"
+                                                        <?php 
+                                                        if($row['ACTIVE_STATUS'] == 'Y'){ echo "checked"; }
+                                                        ?>
+                                                        >
+                                                        <label class="custom-control-label" for="customSwitchcolor_<?php echo $row['ID'];?>"></label>
+                                                    </div>
+                                                </td>
                                                 
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-
+                                            </tr>
+                                            <?php
+                                            $c++;
+                                        }
+                                    }
+                                    ?>
+                                    
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

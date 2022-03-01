@@ -20,6 +20,56 @@ if(!isset($_REQUEST['stage'])){
 
 $stage = mysqli_real_escape_string($conn, $_REQUEST['stage']);
 
+if($stage == 'update_basic_info'){
+    if(
+        (!isset($_REQUEST['role'])) ||
+        (!isset($_REQUEST['uid'])) ||
+        (!isset($_REQUEST['target_uid']))
+      ){
+        $return['status'] = 'Fail';
+        $return['error_message'] = 'Error x1001';
+        echo json_encode($return);
+        mysqli_close($conn);
+        die();
+    }
+    $uid = mysqli_real_escape_string($conn, $_POST['uid']);
+    $role = mysqli_real_escape_string($conn, $_POST['role']);
+    $target_uid = mysqli_real_escape_string($conn, $_POST['target_uid']);
+
+    $prefix = mysqli_real_escape_string($conn, $_POST['prefix']);
+    $fname = mysqli_real_escape_string($conn, $_POST['fname']);
+    $mname = mysqli_real_escape_string($conn, $_POST['mname']);
+    $lname = mysqli_real_escape_string($conn, $_POST['lname']);
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $targe_role = mysqli_real_escape_string($conn, $_POST['targe_role']);
+    $position = mysqli_real_escape_string($conn, $_POST['position']);
+
+    $strSQL = "UPDATE sis_account SET ROLE = '$targe_role' WHERE UID = '$target_uid'";
+    $db->execute($strSQL);
+
+    $strSQL = "SELECT * FROM sis_userinfo WHERE UID = '$target_uid' AND USE_STATUS = 'Y'";
+    $res = $db->fetch($strSQL, false, false);
+    if($res){
+        $strSQL = "UPDATE sis_userinfo SET USE_STATUS = 'N' WHERE UID = '$target_uid'";
+        $db->execute($strSQL);
+        $email = $res['EMAIL'];
+
+        $strSQL = "INSERT INTO sis_userinfo
+                   (`UID`, `PREFIX`, `FNAME`, `MNAME`, `LNAME`, `POSITION`, `USERNAME`, `EMAIL`, `UDATETIME`, `USE_STATUS`)
+                   VALUES 
+                   ('$target_uid', '$prefix', '$fname', '$mname', '$lname', '$position', '$username', '$email', '$datetime', 'Y')
+                  ";
+        $resInnsert = $db->insert($strSQL, false);
+        if($resInnsert){
+            insertLog($db, $ip, $datetime, $uid, 'Update user info', 'Updated UID : '.$target_uid, $target_uid);
+            $return['status'] = 'Success';
+        }
+    }
+    echo json_encode($return);
+    mysqli_close($conn);
+    die();
+}
+
 if($stage == 'delete'){
     if(
         (!isset($_REQUEST['role'])) ||

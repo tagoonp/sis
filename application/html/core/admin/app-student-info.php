@@ -12,7 +12,7 @@ require('../../../config/user.php');
 $page = 'app-student';
 
 if(
-    (!isset($_REQUEST['uid']))
+    (!isset($_GET['uid']))
   ){
     mysqli_close($conn);
     header('Location: ./');
@@ -37,6 +37,11 @@ if(!$target_info){
     header('Location: ./');
     die();
 }
+
+$info = 1;
+if(isset($_REQUEST['info_tab'])){
+    $info = mysqli_real_escape_string($conn, $_REQUEST['info_tab']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +59,7 @@ if(!$target_info){
     <meta name="description" content="DOE Account, Department of Epidemiology, Faculty of Medicine, Prince of Songkla University">
     <meta name="keywords" content="">
     <meta name="author" content="Department of Epidemiology">
-    <title>DOE-SIS student information</title>
+    <title>DOE-SIS : Department of Epidemiology Student Information System</title>
     <link rel="apple-touch-icon" href="../../../app-assets/images/ico/apple-icon-120.png">
     <link rel="shortcut icon" type="image/x-icon" href="../../../app-assets/images/ico/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@100;300;400&display=swap" rel="stylesheet">
@@ -132,7 +137,7 @@ if(!$target_info){
                                 </g>
                             </svg>
                         </div>
-                        <h2 class="brand-text mb-0 text-success">DOE</h2>
+                        <h2 class="brand-text mb-0 text-shuccess"><span class="text-white">DOE-SIS</span> </h2>
                     </a></li>
                 <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="bx bx-x d-block d-xl-none font-medium-4 primary"></i><i class="toggle-icon bx bx-disc font-medium-4 d-none d-xl-block primary" data-ticon="bx-disc"></i></a></li>
             </ul>
@@ -162,154 +167,88 @@ if(!$target_info){
             </div>
             <div class="content-body">
                 <div class="d-block d-sm-none">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-12 text-center">
-                                    <?php 
-                                    if(($currentUser['PHOTO'] != '') && ($currentUser['PHOTO'] != null)){
-                                        if (@getimagesize($currentUser['PHOTO'])) {
-                                            ?>
-                                            <img class="round mb-1" src="<?php echo $currentUser['PHOTO']; ?>" alt="avatar" height="150" width="150">
-                                            <?php
-                                        }else{
-                                            ?>
-                                            <img class="round mb-1" src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="200" width="200">
-                                            <?php 
-                                        }
-                                    }else{
-                                        ?>
-                                        <img class="round mb-1" src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="60" width="60">
-                                        <?php
-                                    }
-                                    ?>
-                                </div>
-                                <div class="col-12 text-center">
-                                    <h3 class="text-dark"><?php echo $target_info['FNAME']." ".$target_info['LNAME']; ?></h3>
-                                    <h5 class="text-dark"><span class="badge badge-success round">ID : <?php echo $target_info['USERNAME']; ?></span></h5>
-                                    <div class="pt-0 pb-2">
-                                        <button class="btn btn-icon pl-1 pr-1 btn-outline-secondary btn-sm"><i class="bx bx-camera"></i></button>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-4">Full name</div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <select name="txtPrefix" id="txtPrefix" class="form-control">
-                                            <option value="" selected>-- Prefix --</option>
-                                            <?php 
-                                            $strSQL = "SELECT * FROM sis_prefix WHERE status = 'Y'";
-                                            $resPrefix = $db->fetch($strSQL, true, true);
-                                            if(($resPrefix) && ($resPrefix['status'])){
-                                                foreach ($resPrefix['data'] as $row) {
-                                                    ?>
-                                                    <option value="<?php echo $row['prefix'];?>" <?php if($row['prefix'] == $target_info['PREFIX']){ echo "selected";} ?> ><?php echo $row['prefix'];?></option>
-                                                    <?php
-                                                }
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="txtFname" value="<?php echo $target_info['FNAME'];?>">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="txtMname" value="<?php echo $target_info['MNAME'];?>">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="txtLname" value="<?php echo $target_info['LNAME'];?>">
-                                    </div>
-                                </div>
-
-                                <?php 
-                                    if(($role == 'admin') || ($role == 'staff')){
-                                        ?>
-                                        <div class="col-12">Role</div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <select name="txtPrefix" id="txtPrefix" class="form-control">
-                                                    <option value="" selected>-- Role --</option>
-                                                    <option value="admin" <?php if($target_info['ROLE'] == 'admin'){ echo "selected";} ?>>Administrator</option>
-                                                    <option value="staff" <?php if($target_info['ROLE'] == 'staff'){ echo "selected";} ?>>Staff</option>
-                                                    <option value="lecturer" <?php if($target_info['ROLE'] == 'lecturer'){ echo "selected";} ?>>Lecturer</option>
-                                                    <option value="student" <?php if($target_info['ROLE'] == 'student'){ echo "selected";} ?>>Student</option>
-                                                    <option value="common" <?php if($target_info['ROLE'] == 'common'){ echo "selected";} ?>>Common</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <?php
-                                    }
-                                    ?>
-
-
-                                <div class="col-12 col-sm-4">Personnal ID / ID</div>
-                                <div class="col-12 col-sm-8 text-white"><?php echo $currentUser['PID']; ?></div>
-                                <div class="col-12 col-sm-4">Position</div>
-                                <div class="col-12 col-sm-8 text-white">
-                                    <?php 
-                                    if(($currentUser['POSITION'] == null) || ($currentUser['POSITION'] == '')){
-                                        echo "-";
-                                    }
-                                    ?>
-                                </div>
-                                <div class="col-12 col-sm-8 offset-sm-4">
-                                    <div class="pt-1 pb-2">
-                                        <button class="btn btn-icon- btn-outline-secondary btn-sm- pl-1 pr-2" style="padding-bottom: 8px;"><i class="bx bx-pencil"></i> Update basic info</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php // require('./comp/user_info_mobile.php'); ?>
                 </div>
 
                 <div class="d-none d-sm-block">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4>Basic information</h4>
-                            <p>Some info may be visible to other people using DOE services.</p>
-                            <div class="row">
-                                <div class="col-12 col-sm-4">Photo</div>
-                                <div class="col-12 col-sm-8">
-                                    <?php 
-                                    if(($currentUser['PHOTO'] != '') && ($currentUser['PHOTO'] != null)){
-                                        if (@getimagesize($currentUser['PHOTO'])) {
-                                            ?>
-                                            <img class="round mb-1" src="<?php echo $currentUser['PHOTO']; ?>" alt="avatar" height="60" width="60">
-                                            <?php
-                                        }else{
-                                            ?>
-                                            <img class="round mb-1" src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="60" width="60">
-                                            <?php 
-                                        }
-                                    }else{
-                                        ?>
-                                        <img class="round mb-1" src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="60" width="60">
-                                        <?php
-                                    }
-                                    ?>
-                                    <div class="pt-0 pb-2">
-                                        <button class="btn btn-icon pl-1 pr-1 btn-outline-secondary btn-sm"><i class="bx bx-camera"></i></button>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-4">Full name</div>
-                                <div class="col-12 col-sm-8 text-white"><?php echo $currentUser['PREFIX'].$currentUser['FNAME']." ".$currentUser['LNAME']; ?></div>
-                                <div class="col-12 col-sm-4">Personnal ID / ID</div>
-                                <div class="col-12 col-sm-8 text-white"><?php echo $currentUser['PID']; ?></div>
-                                <div class="col-12 col-sm-4">Position</div>
-                                <div class="col-12 col-sm-8 text-white">
-                                    <?php 
-                                    if(($currentUser['POSITION'] == null) || ($currentUser['POSITION'] == '')){
-                                        echo "-";
-                                    }
-                                    ?>
-                                </div>
-                                <div class="col-12 col-sm-8 offset-sm-4">
-                                    <div class="pt-1 pb-2">
-                                        <button class="btn btn-icon- btn-outline-secondary btn-sm- pl-1 pr-2" style="padding-bottom: 8px;"><i class="bx bx-pencil"></i> Update basic info</button>
+                    <div class="row">
+                        <div class="col-12 col-sm-9">
+                            <?php 
+                            if($info == 1){
+                                require('./comp/user_info_desktop.php');
+                            }else if($info == 2){
+                                if($target_info['ROLE'] == 'student')
+                                    require('./comp/user_education_desktop.php');
+                            }else if($info == 3){
+                                require('./comp/user_contact_desktop.php');
+                            }else if($info == 4){
+                                if($target_info['ROLE'] == 'student')
+                                    require('./comp/user_imm_desktop.php');
+                            }else if($info == 5){
+                                require('./comp/user_log_desktop.php');
+                            }else if($info == 6){
+                                require('./comp/user_progress_desktop.php');
+                            }
+                            ?>
+                        </div>
+                        <div class="col-12 col-sm-3">
+                            <div class="card">
+                                <div class="card-body p-0">
+                                    <div class="list-group list-group-flush">
+                                        <a href="app-student-info?uid=<?php echo $target_uid; ?>&info_tab=1" class="list-group-item list-group-item-action border-0 d-flex <?php if($info == 1){ echo "active"; } ?>">
+                                            <div class="list-icon">
+                                                <i class="badge-circle badge-circle-light-secondary bx bx-user mr-1 text-primary"></i>
+                                            </div>
+                                            <div class="list-content" style="padding-top: 6px;">
+                                                <h5 class="<?php if($info == 1){}else{ echo "text-dark"; }?>">Basic info.</h5>
+                                            </div>
+                                        </a>
+                                        <a href="app-student-info?uid=<?php echo $target_uid; ?>&info_tab=2" class="list-group-item list-group-item-action border-0 d-flex <?php if($info == 2){ echo "active"; } ?>">
+                                            <div class="list-icon">
+                                                <i class="badge-circle badge-circle-light-secondary bx bxl-instagram-alt mr-1 text-danger"></i>
+                                            </div>
+                                            <div class="list-content" style="padding-top: 6px;">
+                                                <h5 class="<?php if($info == 2){}else{ echo "text-dark"; }?>">Education</h5>
+                                            </div>
+                                        </a>
+                                        <a href="app-student-info?uid=<?php echo $target_uid; ?>&info_tab=6" class="list-group-item list-group-item-action border-0 d-flex <?php if($info == 6){ echo "active"; } ?>">
+                                            <div class="list-icon">
+                                                <i class="badge-circle badge-circle-light-secondary bx bx-wrench mr-1 text-danger"></i>
+                                            </div>
+                                            <div class="list-content" style="padding-top: 6px;">
+                                                <h5 class="<?php if($info == 6){}else{ echo "text-dark"; }?>">Progress</h5>
+                                            </div>
+                                        </a>
+                                        <a href="app-student-info?uid=<?php echo $target_uid; ?>&info_tab=3" class="list-group-item list-group-item-action border-0 d-flex <?php if($info == 3){ echo "active"; } ?>">
+                                            <div class="list-icon">
+                                                <i class="badge-circle badge-circle-light-secondary bx bx-envelope mr-1 text-success"></i>
+                                            </div>
+                                            <div class="list-content" style="padding-top: 6px;">
+                                                <h5  class="<?php if($info == 3){}else{ echo "text-dark"; }?>">Contact</h5>
+                                            </div>
+                                        </a>
+                                        <a href="app-student-info?uid=<?php echo $target_uid; ?>&info_tab=4" class="list-group-item list-group-item-action border-0 d-flex <?php if($info == 4){ echo "active"; } ?>">
+                                            <div class="list-icon">
+                                                <i class="badge-circle badge-circle-light-secondary bx bxs-camera mr-1 text-info"></i>
+                                            </div>
+                                            <div class="list-content" style="padding-top: 6px;">
+                                                <h5  class="<?php if($info == 4){}else{ echo "text-dark"; }?>">Immigration</h5>
+                                            </div>
+                                        </a>
+                                        <a href="app-student-info?uid=<?php echo $target_uid; ?>&info_tab=5" class="list-group-item list-group-item-action border-0 d-flex <?php if($info == 5){ echo "active"; } ?>">
+                                            <div class="list-icon">
+                                                <i class="badge-circle badge-circle-light-secondary bx bx-menu mr-1 text-danger"></i>
+                                            </div>
+                                            <div class="list-content" style="padding-top: 6px;">
+                                                <h5 class="<?php if($info == 5){}else{ echo "text-dark"; }?>">Activity log.</h5>
+                                            </div>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
                 </div>
 
             </div>

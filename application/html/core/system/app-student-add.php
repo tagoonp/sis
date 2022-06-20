@@ -6,10 +6,18 @@ require('../../../config/database.php');
 $db = new Database();
 $conn = $db->conn();
 
-require('../../../config/admin.php'); 
 require('../../../config/user.php'); 
 
-$page = 'app-staff';
+$page = 'app-student';
+
+$filter1 = ''; $filter2 = '';
+if(isset($_REQUEST['filter1'])){
+    $filter1 = mysqli_real_escape_string($conn, $_REQUEST['filter1']);
+}
+if(isset($_REQUEST['filter1'])){
+    $filter2 = mysqli_real_escape_string($conn, $_REQUEST['filter2']);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +32,7 @@ $page = 'app-staff';
     <meta name="description" content="DOE Account, Department of Epidemiology, Faculty of Medicine, Prince of Songkla University">
     <meta name="keywords" content="">
     <meta name="author" content="Department of Epidemiology">
-    <title>DOE-SIS Staff list</title>
+    <title><?php echo strtoupper($role); ?> : DOE-SIS : Department of Epidemiology Student Information System</title>
     <link rel="apple-touch-icon" href="../../../app-assets/images/ico/apple-icon-120.png">
     <link rel="shortcut icon" type="image/x-icon" href="../../../app-assets/images/ico/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@100;300;400&display=swap" rel="stylesheet">
@@ -73,7 +81,7 @@ $page = 'app-staff';
     <div class="main-menu menu-fixed menu-dark menu-accordion menu-shadow" data-scroll-to-active="true">
         <div class="navbar-header">
             <ul class="nav navbar-nav flex-row">
-                <li class="nav-item mr-auto"><a class="navbar-brand" href="../../../html/ltr/vertical-menu-template-dark/index.html">
+                <li class="nav-item mr-auto"><a class="navbar-brand" href="../../../html/ltr/vertical-menu-template-dark/index.php">
                         <div class="brand-logo">
                             <svg class="logo" width="26px" height="26px" viewbox="0 0 26 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <title>icon</title>
@@ -102,7 +110,7 @@ $page = 'app-staff';
                                 </g>
                             </svg>
                         </div>
-                        <h2 class="brand-text mb-0 text-success">DOE</h2>
+                        <h2 class="brand-text mb-0 text-shuccess"><span class="text-white">DOE-SIS</span> </h2>
                     </a></li>
                 <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="bx bx-x d-block d-xl-none font-medium-4 primary"></i><i class="toggle-icon bx bx-disc font-medium-4 d-none d-xl-block primary" data-ticon="bx-disc"></i></a></li>
             </ul>
@@ -119,124 +127,120 @@ $page = 'app-staff';
             <div class="content-header row">
                 <div class="content-header-left col-12 mb-2 mt-1">
                     <div class="breadcrumbs-top">
-                        <h5 class="content-header-title float-left pr-1 mb-0 text-dark">Staff</h5>
+                        <h5 class="content-header-title float-left pr-1 mb-0 text-dark">Create new students account</h5>
                         <div class="breadcrumb-wrapper d-none d-sm-block">
                             <ol class="breadcrumb p-0 mb-0 pl-1">
-                                <li class="breadcrumb-item active"><a href="index.html"><i class="bx bx-home-alt"></i></a></li>
-                                <li class="breadcrumb-item">Users</li>
-                                <li class="breadcrumb-item active"><a href="#">Staff list</a></li>
+                                <li class="breadcrumb-item active"><a href="./"><i class="bx bx-home-alt"></i></a></li>
                             </ol>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="content-body">
-                <div class="card">
-                    <div class="card-body card-dashboard">
-                        <div class="table-responsive">
-                            <table class="table table-striped dataex-html5-selectors">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Image</th>
-                                        <th class="pl-0">Name</th>
-                                        <th>Degree</th>
-                                        <th>ROLE</th>
-                                        <th>ACTIVE</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php 
-                                    $strSQL = "SELECT * FROM sis_account a INNER JOIN sis_userinfo b ON a.UID = b.UID 
-                                                LEFT JOIN sis_student_info c ON b.USERNAME = c.std_id
-                                                LEFT JOIN sis_degree d ON c.std_degree = d.dg_id
-                                                WHERE 
-                                                a.DELETE_STATUS = 'N' 
-                                                AND b.USE_STATUS = 'Y' 
-                                                AND a.ROLE = 'staff' 
-                                                ORDER bY b.USERNAME
-                                                ";
-                                    $resList = $db->fetch($strSQL, true, false);
-                                    if(($resList) && ($resList['status'])){
-                                        $c = 1;
-                                        foreach ($resList['data'] as $row) {
-                                            ?>
-                                            <tr class="text-dark">
-                                                <td style="vertical-align: top;"><?php echo $row['USERNAME']; ?></td>
-                                                <td style="vertical-align: top;">
-                                                <?php 
-                                                if(($row['PHOTO'] != '') && ($row['PHOTO'] != null)){
-                                                    if (@getimagesize($row['PHOTO'])) {
-                                                        ?>
-                                                        <img class="round" src="<?php echo $row['PHOTO']; ?>" alt="avatar" height="40" width="40">
-                                                        <?php
-                                                    }else{
-                                                        echo "-";
-                                                    }
-                                                }else{
-                                                    echo "-";
-                                                }
-                                                ?>
-                                                </td>
-                                                <td style="vertical-align: top;" class="pl-0 text-dark">
-                                                    <div style="font-size: 1.2em;" class="text-dark"><?php echo $row['PREFIX'].$row['FNAME']." ".$row['LNAME']; ?></div>
-                                                    <div style="font-size: 1em;" class="text-muted">E-mail : <?php echo $row['EMAIL']; ?></div>
-                                                    <div class="pt-1">
-                                                        <button class="btn btn-light-secondary btn-icon" data-toggle="tooltip" data-placement="top" title="Update information" onclick="window.location='app-student-info?uid=<?php echo $row['UID']; ?>'"><i class="bx bx-wrench"></i></button>
-                                                        <button class="btn btn-light-secondary btn-icon" data-toggle="tooltip" data-placement="top" title="Send message via E-mail" onclick="window.location='app-line-message?toid=<?php echo $row['UID'];?>&totoken=<?php echo $row['LINELOGIN']?>'"><i class="bx bx-envelope"></i></button>
-                                                        <button class="btn btn-danger btn-icon" data-toggle="tooltip" data-placement="top" title="Delete from SIS" onclick="user.delete('<?php echo $row['UID'];?>')" ><i class="bx bx-trash"></i></button>
+                <!-- users list start -->
+                <section class="users-list-wrapper">
+                    <div class="users-list-table">
+                        <div class="card">
+                            <div class="card-body">
+                                <form>
+                                    <div class="row mb-2">
+                                        <div class="col-12 col-sm-6 col-lg-3">
+                                            <label for="users-list-verified">Degree : <span class="text-dannger">*</span></label>
+                                            <fieldset class="form-group">
+                                                <select class="form-control" id="users-degree">
+                                                    <option value="">-- Select --</option>
+                                                    <option value="1">Ph.D.</option>
+                                                    <option value="2">M.Sc.</option>
+                                                    <option value="3">Short course</option>
+                                                </select>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-lg-3">
+                                            <label for="users-list-role">Status <span class="text-dannger">*</span></label>
+                                            <fieldset class="form-group">
+                                                <select class="form-control" id="users-status">
+                                                    <option value="">-- Select --</option>
+                                                    <option value="studying">Studying</option>
+                                                    <option value="graduated">Graduated</option>
+                                                    <option value="retired">Retired</option>
+                                                </select>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-lg-3">
+                                            
+                                            <div class="form-group">
+                                                <label for="users-list-role">Student ID <span class="text-dannger">*</span></label>
+                                                <input type="text" class="form-control" id="txtStudentId">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-center">
+                                            <button type="button" class="btn btn-secondary btn-block glow users-list-clear mb-0" onclick="window.location = 'app-student-add'"><i class="bx bx-search"></i> Check</button>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="addform">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <hr>
+                                                <div class="row">
+                                                    <div class="form-group col-12 col-sm-3">
+                                                        <label for="">Prefix : <span class="text-danger">*</span></label>
+                                                        <select name="" id="" class="form-control">
+                                                            <option value="">-- Select --</option>
+                                                        </select>
                                                     </div>
-                                                </td>
-                                                <td style="vertical-align: top;"><?php echo $row['dg_shorten']; ?></td>
-                                                <td style="vertical-align: top;"><?php 
-                                                if($row['ROLE'] == 'admin'){
-                                                    ?>
-                                                    <span class="badge badge-danger round">Admin</span>
-                                                    <?php
-                                                }else if($row['ROLE'] == 'staff'){
-                                                    ?>
-                                                    <span class="badge badge-warning round">Staff</span>
-                                                    <?php
-                                                }else if($row['ROLE'] == 'lecturer'){
-                                                    ?>
-                                                    <span class="badge badge-warning round">Lecturer</span>
-                                                    <?php
-                                                }else if($row['ROLE'] == 'student'){
-                                                    ?>
-                                                    <span class="badge badge-warning round">Student</span>
-                                                    <?php
-                                                }else {
-                                                    ?>
-                                                    <span class="badge badge-secondary round">Common</span>
-                                                    <?php
-                                                }
-                                                ?></td>
-                                                <td style="vertical-align: top;">
-                                                    <div class="custom-control custom-switch custom-switch-success mr-2 mb-1">
-                                                        <input type="checkbox" class="custom-control-input" id="customSwitchcolor_<?php echo $row['ID'];?>" onclick="toggleActiveApplication('ACTIVE_STATUS', '<?php echo $row['UID']; ?>', '<?php echo $row['ACTIVE_STATUS']; ?>')"
-                                                        <?php 
-                                                        if($row['ACTIVE_STATUS'] == 'Y'){ echo "checked"; }
-                                                        ?>
-                                                        >
-                                                        <label class="custom-control-label" for="customSwitchcolor_<?php echo $row['ID'];?>"></label>
+                                                    <div class="form-group col-12 col-sm-3">
+                                                        <label for="">First name : <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="txtFname">
                                                     </div>
-                                                </td>
-                                                
-                                            </tr>
-                                            <?php
-                                            $c++;
-                                        }
-                                    }
-                                    ?>
-                                    
-                            </table>
+                                                    <div class="form-group col-12 col-sm-3">
+                                                        <label for="">Middle name : <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="txtMname">
+                                                    </div>
+                                                    <div class="form-group col-12 col-sm-3">
+                                                        <label for="">Last name : <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="txtLname">
+                                                    </div>
+                                                    <div class="form-group col-12 col-sm-3">
+                                                        <label for="">Country : <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="txtLname">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </section>
+                <!-- users list ends -->
+
             </div>
         </div>
     </div>
     <!-- END: Content-->
+
+    <div aria-live="polite" aria-atomic="true" style="position: relative">
+        <!-- Position it -->
+        <div style="position: fixed; top: 1rem; right: 1rem; margin-left: 1rem; z-index: 1030">
+            <div class="toast toast-basic hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000" style="top: 1rem; right: 1rem">
+                <div class="toast-header">
+                    <i class="bx bx-bulb"></i>
+                    <span class="mr-auto toast-title">Message</span>&nbsp;&nbsp;
+                    <small>Just now</small>
+                    <button type="button" class="close" data-dismiss="toast" aria-label="Close">
+                        <i class="bx bx-x"></i>
+                    </button>
+                </div>
+                <div class="toast-body">
+                    Student ID <span id="msg1"></span> monitoring status updated.
+                </div>
+            </div>
+            <!-- Basic Toast ends -->
+        </div>
+    </div>
 
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
@@ -254,16 +258,6 @@ $page = 'app-staff';
     <!-- BEGIN Vendor JS-->
 
     <!-- BEGIN: Page Vendor JS-->
-    <script src="../../../app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.bootstrap4.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/buttons.html5.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/buttons.print.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/buttons.bootstrap4.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/pdfmake.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/vfs_fonts.js"></script>
-    <script src="../../../app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
-    <script src="../../../app-assets/vendors/preload.js/dist/js/preload.js"></script>
     <!-- END: Page Vendor JS-->
 
     <!-- BEGIN: Theme JS-->
@@ -275,38 +269,34 @@ $page = 'app-staff';
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Page JS-->
+    <script src="../../../app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js"></script>
+    <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.bootstrap4.min.js"></script>
+    <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js"></script>
+    <script src="../../../app-assets/vendors/js/tables/datatable/buttons.html5.min.js"></script>
+    <script src="../../../app-assets/vendors/js/tables/datatable/buttons.print.min.js"></script>
+    <script src="../../../app-assets/vendors/js/tables/datatable/buttons.bootstrap4.min.js"></script>
+    <script src="../../../app-assets/vendors/js/tables/datatable/pdfmake.min.js"></script>
+    <script src="../../../app-assets/vendors/js/tables/datatable/vfs_fonts.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
+    <script src="../../../app-assets/vendors/preload.js/dist/js/preload.js"></script>
+    <script src="../../../app-assets/vendors/ckeditor_lite/ckeditor.js"></script>
+    <!-- END: Page JS-->
+
     <script src="../../../assets/js/core.js?v=<?php echo filemtime('../../../assets/js/core.js'); ?>"></script>
     <script src="../../../assets/js/authen.js?v=<?php echo filemtime('../../../assets/js/authen.js'); ?>"></script>
-    <script src="../../../assets/js/user.js?v=<?php echo filemtime('../../../assets/js/user.js'); ?>"></script>
-    <!-- END: Page JS-->
+    <script src="../../../assets/js/student.js?v=<?php echo filemtime('../../../assets/js/student.js'); ?>"></script>
+
     <script>
         $(document).ready(function(){
-            $('.dataex-html5-selectors').DataTable( {
-                dom: 'Bfrtip',
-                "columnDefs": [
-                    { "width": "50px", "targets": 0 }
-                ],
-                buttons: [
-                    {
-                        extend: 'pdfHtml5',
-                        exportOptions: {
-                            columns: ':visible'
-                        }
-                    },
-                    {
-                        extend: 'print',
-                        exportOptions: {
-                            columns: ':visible'
-                        }
-                    }
-                ]
-            });
-
             preload.hide()
-        })
+            $('.zero-configuration').DataTable();
 
-        
+            $('.toast-light-toggler').on('click', function () {
+                $('.toast-basic').toast('show');
+            });
+        })
     </script>
+
 </body>
 <!-- END: Body-->
 

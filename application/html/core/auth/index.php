@@ -78,19 +78,17 @@ $conn = $db->conn();
                                         <div class="card-body pt-2">
                                             <h4 class="text-dark">Sign in</h4>
                                             <form onsubmit="return false;" id="loginForm">
-                                                <div class="form-group mb-50">
-                                                    <!-- <label class="text-bold-600" for="exampleInputEmail1">Email address</label> -->
+                                                <!-- <div class="form-group mb-50">
                                                     <label class="control-label f500" for="val-username">Enter DOE account <span class="text-danger">**</span></label>
                                                     <input type="text" class="form-control" id="txtUsername" placeholder="Username or E-mail address" autofocus></div>
                                                 <div class="form-group">
-                                                    <!-- <label class="text-bold-600" for="exampleInputPassword1">Password</label> -->
                                                     <input type="password" class="form-control" id="txtPassword" placeholder="Password">
                                                 </div>
                                                 <div class="text-right pb-1">
                                                     <div class="text-right"></div>
-                                                </div>
-                                                <button type="submit" class="btn btn-secondary glow w-100 position-relative" style="margin-bottom: 5px;">Log in<i id="icon-arrow" class="bx bx-right-arrow-alt"></i></button>
-                                                <button type="button" class="btn btn-success glow w-100 position-relative" onclick="window.location='line.php'">Line login<i id="icon-arrow" class="bx bx-right-arrow-alt"></i></button>
+                                                </div> -->
+                                                <!-- <button type="submit" class="btn btn-secondary glow w-100 position-relative" style="margin-bottom: 5px;">Log in<i id="icon-arrow" class="bx bx-right-arrow-alt"></i></button> -->
+                                                <button type="button" class="btn btn-success glow w-100 position-relative" onclick="psupassport()">PSU Passport login<i id="icon-arrow" class="bx bx-right-arrow-alt"></i></button>
                                             </form>
                                             <div class="row">
                                                 <div class="col-12 pt-2">
@@ -176,6 +174,19 @@ $conn = $db->conn();
     <!-- BEGIN: Page JS-->
     <script src="../../../assets/js/core.js?v=<?php echo filemtime('../../../assets/js/core.js'); ?>"></script>
     <script src="../../../assets/js/authen.js?v=<?php echo filemtime('../../../assets/js/authen.js'); ?>"></script>
+
+    <script src="https://medhr.medicine.psu.ac.th/SingleSign/services?js"></script>
+    <script>
+        var param = {
+            'redirect_uri' : api + 'php/auth',
+            'responses' : 'uid,name,surname,studentId,email',
+            'redirect_mode' : true
+        };
+        function psupassport(){
+            param.option = 'psupassport';
+            popupLogin(param);
+        }
+    </script>
 
     <script>
         preload.hide()

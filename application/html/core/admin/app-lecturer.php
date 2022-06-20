@@ -24,7 +24,7 @@ $page = 'app-lecturer';
     <meta name="description" content="DOE Account, Department of Epidemiology, Faculty of Medicine, Prince of Songkla University">
     <meta name="keywords" content="">
     <meta name="author" content="Department of Epidemiology">
-    <title>DOE Account</title>
+    <title>DOE Account <?php echo DB_HOST; ?></title>
     <link rel="apple-touch-icon" href="../../../app-assets/images/ico/apple-icon-120.png">
     <link rel="shortcut icon" type="image/x-icon" href="../../../app-assets/images/ico/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@100;300;400&display=swap" rel="stylesheet">
@@ -119,12 +119,12 @@ $page = 'app-lecturer';
             <div class="content-header row">
                 <div class="content-header-left col-12 mb-2 mt-1">
                     <div class="breadcrumbs-top">
-                        <h5 class="content-header-title float-left pr-1 mb-0 text-white">Lecturer</h5>
+                        <h5 class="content-header-title float-left pr-1 mb-0 text-dark">Lecturer</h5>
                         <div class="breadcrumb-wrapper d-none d-sm-block">
                             <ol class="breadcrumb p-0 mb-0 pl-1">
                                 <li class="breadcrumb-item active"><a href="index.html"><i class="bx bx-home-alt"></i></a></li>
                                 <li class="breadcrumb-item">Users</li>
-                                <li class="breadcrumb-item active"><a href="app-user-list">Lecturer list</a></li>
+                                <li class="breadcrumb-item active"><a href="#">Lecturer list</a></li>
                             </ol>
                         </div>
                     </div>
@@ -147,9 +147,7 @@ $page = 'app-lecturer';
                                 </thead>
                                 <tbody>
                                     <?php 
-                                    $strSQL = "SELECT * FROM sis_account a INNER JOIN sis_userinfo b ON a.UID = b.UID 
-                                                LEFT JOIN sis_student_info c ON b.USERNAME = c.std_id
-                                                LEFT JOIN sis_degree d ON c.std_degree = d.dg_id
+                                    $strSQL = "SELECT * FROM sis_account a INNER JOIN sis_userinfo b ON a.UID = b.UID   
                                                 WHERE 
                                                 a.DELETE_STATUS = 'N' 
                                                 AND b.USE_STATUS = 'Y' 

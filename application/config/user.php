@@ -1,15 +1,14 @@
 <?php 
 
 if(!isset($_SESSION['doe_uid'])){
-    // echo "error 1";
     header('Location: '.ROOT_DOMAIN);
     die();
 }
 
 $uid = $_SESSION['doe_uid'];
-$token = $_SESSION['doe_token'];
+$role = $_SESSION['doe_sis_role'];
 
-$strSQL = "SELECT * FROM sis_account a INNER JOIN sis_userinfo b ON a.UID = b.UID WHERE a.UID = '$uid' AND a.ACTIVE_STATUS = 'Y' AND b.USE_STATUS = 'Y'";
+$strSQL = "SELECT * FROM sis_account a INNER JOIN sis_userinfo b ON a.USERNAME = b.USERNAME WHERE a.ACTIVE_STATUS = 'Y' AND a.DELETE_STATUS = 'N' AND b.USE_STATUS = 'Y' AND a.USERNAME = '$uid'";
 $resUser = $db->fetch($strSQL, false, false);
 
 $currentUser = null;
@@ -17,9 +16,9 @@ if($resUser){
     $currentUser = $resUser;
 }else{
     session_destroy();
-    // echo "error 2";
-    // die();
     header('Location: '.ROOT_DOMAIN);
     die();
 }
 ?>
+<input type="hidden" id="txtUid" value="<?php echo $uid; ?>">
+<input type="hidden" id="txtRole" value="<?php echo $role; ?>">

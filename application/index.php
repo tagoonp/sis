@@ -1,3 +1,3 @@
 <?php 
-header('Location: ./html/core/login/');
+header('Location: ./html/core/auth/');
 ?>

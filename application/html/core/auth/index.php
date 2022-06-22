@@ -94,7 +94,7 @@ $conn = $db->conn();
                                                 <div class="col-12 pt-2">
                                                     <div class="form-group d-flex flex-md-row flex-column justify-content-between align-items-center">
                                                         <div class="text-right">
-                                                            <a href="auth-forgot-password.html" class="card-link">Forget password ?</a>
+                                                            <!-- <a href="auth-forgot-password.html" class="card-link">Forget password ?</a> -->
                                                         </div>
                                                     </div>
                                                 </div>

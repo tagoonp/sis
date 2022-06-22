@@ -149,8 +149,8 @@ if(isset($_REQUEST['filter1'])){
                                             <fieldset class="form-group">
                                                 <select class="form-control" id="txtDegree">
                                                     <option value="">-- Select --</option>
-                                                    <option value="1">Ph.D.</option>
-                                                    <option value="2">M.Sc.</option>
+                                                    <option value="2">Ph.D.</option>
+                                                    <option value="1">M.Sc.</option>
                                                     <option value="3">Short course</option>
                                                 </select>
                                             </fieldset>

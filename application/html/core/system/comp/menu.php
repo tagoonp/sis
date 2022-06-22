@@ -27,7 +27,14 @@
                 }
                 ?>
 
-                <li class=" navigation-header text-truncate text-white"><span data-i18n="Apps">Management</span></li>
+                <?php 
+                if($role != 'student'){
+                    ?>
+                    <li class=" navigation-header text-truncate text-white"><span data-i18n="Apps">Management</span></li>
+                    <?php
+                }
+                ?>
+
                 <?php 
                 if($role == 'admin'){
                     ?>

@@ -20,6 +20,41 @@ if(!isset($_REQUEST['stage'])){
 
 $stage = mysqli_real_escape_string($conn, $_REQUEST['stage']);
 
+if($stage == 'update_student_profile'){
+    if(
+        (!isset($_REQUEST['uid'])) ||
+        (!isset($_REQUEST['username'])) ||
+        (!isset($_REQUEST['contry'])) ||
+        (!isset($_REQUEST['fname'])) ||
+        (!isset($_REQUEST['lname'])) ||
+        (!isset($_REQUEST['prefix'])) 
+      ){
+        $return['status'] = 'Fail';
+        $return['error_message'] = 'Error x1001';
+        echo json_encode($return);
+        mysqli_close($conn);
+        die();
+    }
+    $uid = mysqli_real_escape_string($conn, $_POST['uid']);
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $fname = mysqli_real_escape_string($conn, $_POST['fname']);
+    $mname = mysqli_real_escape_string($conn, $_POST['mname']);
+    $lname = mysqli_real_escape_string($conn, $_POST['lname']);
+    $country = mysqli_real_escape_string($conn, $_POST['contry']);
+    $prefix = mysqli_real_escape_string($conn, $_POST['prefix']);
+
+    $strSQL = "UPDATE sis_student_info SET std_country = '$country' WHERE std_id = '$username'";
+    $resUpdate = $db->execute($strSQL);
+
+    $strSQL = "UPDATE sis_userinfo SET PREFIX = '$prefix', FNAME = '$fname', MNAME = '$mname', LNAME = '$lname' WHERE USERNAME = '$username'";
+    $resUpdate = $db->execute($strSQL);
+
+    $return['status'] = 'Success';
+    echo json_encode($return);
+    mysqli_close($conn);
+    die();
+}
+
 if($stage == 'get_note'){
     if(
         (!isset($_REQUEST['uid'])) ||

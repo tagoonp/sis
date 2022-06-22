@@ -149,7 +149,13 @@ $page = 'home';
                                         ?>
                                         
                                     </div>
-                                    <h1 class=" mb-2 kb-title text-dark">Welcome, <?php echo $currentUser['PREFIX'].$currentUser['FNAME']." ".$currentUser['LNAME']; ?> </h1>
+                                    <h1 class=" mb-2 kb-title text-dark">Welcome, <?php 
+                                            if($currentUser['MNAME'] == ''){
+                                                echo $currentUser['PREFIX'].$currentUser['FNAME']." ".$currentUser['LNAME'];
+                                            }else{
+                                                echo $currentUser['PREFIX'].$currentUser['FNAME']." ".$currentUser['MNAME']." ".$currentUser['LNAME'];
+                                            }
+                                             ?> </h1>
                                     <p class=" mb-1">
                                         Manage your info, privacy, and security to make our department work better for you.
                                     </p>

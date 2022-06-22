@@ -133,7 +133,7 @@ var student = {
                    })
     },
     reload_student_list(){
-        window.location = window.location.pathname + '?filter1=' + $('#users-degree').val() + '&filter2=' + $('#users-status').val()
+        window.location = window.location.pathname + '?filter1=' + $('#users-degree').val() + '&filter2=' + $('#users-status').val() + '&filter3=' + $('#txtKeyword').val()
     },
     deleteNote(id){
         Swal.fire({

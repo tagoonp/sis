@@ -10,12 +10,16 @@ require('../../../config/user.php');
 
 $page = 'app-student';
 
-$filter1 = ''; $filter2 = '';
+$filter1 = ''; $filter2 = ''; $filter3 = '';
 if(isset($_REQUEST['filter1'])){
     $filter1 = mysqli_real_escape_string($conn, $_REQUEST['filter1']);
 }
 if(isset($_REQUEST['filter1'])){
     $filter2 = mysqli_real_escape_string($conn, $_REQUEST['filter2']);
+}
+if(isset($_REQUEST['filter3'])){
+    $filter3 = mysqli_real_escape_string($conn, $_REQUEST['filter3']);
+    $filter3 = " AND a.USERNAME LIKE '$filter3%' OR b.FNAME LIKE '$filter3%' OR b.LNAME LIKE '$filter3%' ";
 }
 
 ?>
@@ -142,18 +146,18 @@ if(isset($_REQUEST['filter1'])){
                     <div class="users-list-filter px-1">
                         <form>
                             <div class="row border rounded py-2 mb-2">
-                                <div class="col-12 col-sm-6 col-lg-3">
+                                <div class="col-12 col-sm-6 col-lg-2">
                                     <label for="users-list-verified">Degree</label>
                                     <fieldset class="form-group">
                                         <select class="form-control" id="users-degree">
                                             <option value="">Any</option>
-                                            <option value="1">Ph.D.</option>
-                                            <option value="2">M.Sc.</option>
+                                            <option value="2">Ph.D.</option>
+                                            <option value="1">M.Sc.</option>
                                             <option value="3">Short course</option>
                                         </select>
                                     </fieldset>
                                 </div>
-                                <div class="col-12 col-sm-6 col-lg-3">
+                                <div class="col-12 col-sm-6 col-lg-2">
                                     <label for="users-list-role">Status</label>
                                     <fieldset class="form-group">
                                         <select class="form-control" id="users-status">
@@ -162,6 +166,12 @@ if(isset($_REQUEST['filter1'])){
                                             <option value="graduated">Graduated</option>
                                             <option value="retired">Graduated</option>
                                         </select>
+                                    </fieldset>
+                                </div>
+                                <div class="col-12 col-sm-6 col-lg-2">
+                                    <label for="users-list-role">Keyword</label>
+                                    <fieldset class="form-group">
+                                        <input type="text" class="form-control" id="txtKeyword">
                                     </fieldset>
                                 </div>
                                 <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-center">
@@ -201,6 +211,7 @@ if(isset($_REQUEST['filter1'])){
                                                        a.ROLE_STUDENT = 'Y' 
                                                        AND a.DELETE_STATUS = 'N' 
                                                        AND b.USE_STATUS = 'Y'
+                                                       $filter3
                                                        AND c.std_delete = 'N'
                                                        ";
                                             $res = $db->fetch($strSQL, true, false);

@@ -145,9 +145,9 @@ if(isset($_REQUEST['filter1'])){
                                 <form>
                                     <div class="row mb-2">
                                         <div class="col-12 col-sm-6 col-lg-3">
-                                            <label for="users-list-verified">Degree : <span class="text-dannger">*</span></label>
+                                            <label for="users-list-verified">Degree : <span class="text-danger">*</span></label>
                                             <fieldset class="form-group">
-                                                <select class="form-control" id="users-degree">
+                                                <select class="form-control" id="txtDegree">
                                                     <option value="">-- Select --</option>
                                                     <option value="1">Ph.D.</option>
                                                     <option value="2">M.Sc.</option>
@@ -156,9 +156,9 @@ if(isset($_REQUEST['filter1'])){
                                             </fieldset>
                                         </div>
                                         <div class="col-12 col-sm-6 col-lg-3">
-                                            <label for="users-list-role">Status <span class="text-dannger">*</span></label>
+                                            <label for="users-list-role">Status <span class="text-danger">*</span></label>
                                             <fieldset class="form-group">
-                                                <select class="form-control" id="users-status">
+                                                <select class="form-control" id="txtStatus">
                                                     <option value="">-- Select --</option>
                                                     <option value="studying">Studying</option>
                                                     <option value="graduated">Graduated</option>
@@ -169,25 +169,36 @@ if(isset($_REQUEST['filter1'])){
                                         <div class="col-12 col-sm-6 col-lg-3">
                                             
                                             <div class="form-group">
-                                                <label for="users-list-role">Student ID <span class="text-dannger">*</span></label>
+                                                <label for="users-list-role">Student ID <span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="txtStudentId">
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-center">
-                                            <button type="button" class="btn btn-secondary btn-block glow users-list-clear mb-0" onclick="window.location = 'app-student-add'"><i class="bx bx-search"></i> Check</button>
+                                            <button type="button" class="btn btn-secondary btn-block glow users-list-clear mb-0" onclick="staff.check_before_add()"><i class="bx bx-search"></i> Check</button>
                                         </div>
                                     </div>
 
 
-                                    <div class="addform">
+                                    <div class="addform dn">
                                         <div class="row">
                                             <div class="col-12">
                                                 <hr>
-                                                <div class="row">
+                                                <div class="row pt-1">
                                                     <div class="form-group col-12 col-sm-3">
                                                         <label for="">Prefix : <span class="text-danger">*</span></label>
-                                                        <select name="" id="" class="form-control">
+                                                        <select name="txtPrefix" id="txtPrefix" class="form-control">
                                                             <option value="">-- Select --</option>
+                                                            <?php 
+                                                            $strSQL = "SELECT * FROM sis_prefix WHERE student_status = 'Yes'";
+                                                            $res = $db->fetch($strSQL, true, false);
+                                                            if(($res) && ($res['status'])){
+                                                                foreach ($res['data'] as $row) {
+                                                                    ?>
+                                                                    <option value="<?php echo $row['prefix']; ?>"><?php echo $row['prefix']; ?></option>
+                                                                    <?php
+                                                                }
+                                                            }
+                                                            ?>
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-12 col-sm-3">
@@ -195,7 +206,7 @@ if(isset($_REQUEST['filter1'])){
                                                         <input type="text" class="form-control" id="txtFname">
                                                     </div>
                                                     <div class="form-group col-12 col-sm-3">
-                                                        <label for="">Middle name : <span class="text-danger">*</span></label>
+                                                        <label for="">Middle name :</label>
                                                         <input type="text" class="form-control" id="txtMname">
                                                     </div>
                                                     <div class="form-group col-12 col-sm-3">
@@ -203,8 +214,15 @@ if(isset($_REQUEST['filter1'])){
                                                         <input type="text" class="form-control" id="txtLname">
                                                     </div>
                                                     <div class="form-group col-12 col-sm-3">
-                                                        <label for="">Country : <span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="txtLname">
+                                                        <label for="">Start year : <span class="text-danger">*</span></label>
+                                                        <input type="number" class="form-control" id="txtStartyear">
+                                                    </div>
+                                                    <div class="form-group col-12 col-sm-3">
+                                                        <label for="">Start education date : <span class="text-danger">*</span></label>
+                                                        <input type="date" class="form-control" id="txtEdudate">
+                                                    </div>
+                                                    <div class="form-group text-center col-12 pt-2">
+                                                        <button class="btn btn-success" type="button" onclick="staff.save_student()">Save</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -284,6 +302,7 @@ if(isset($_REQUEST['filter1'])){
 
     <script src="../../../assets/js/core.js?v=<?php echo filemtime('../../../assets/js/core.js'); ?>"></script>
     <script src="../../../assets/js/authen.js?v=<?php echo filemtime('../../../assets/js/authen.js'); ?>"></script>
+    <script src="../../../assets/js/staff.js?v=<?php echo filemtime('../../../assets/js/staff.js'); ?>"></script>
     <script src="../../../assets/js/student.js?v=<?php echo filemtime('../../../assets/js/student.js'); ?>"></script>
 
     <script>

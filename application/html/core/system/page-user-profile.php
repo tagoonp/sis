@@ -37,8 +37,6 @@ $page = 'page-user-profile';
     <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap-extended.css">
     <link rel="stylesheet" type="text/css" href="../../../app-assets/css/colors.css">
     <link rel="stylesheet" type="text/css" href="../../../app-assets/css/components.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/dark-layout.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/semi-dark-layout.css">
     <!-- END: Theme CSS-->
 
     <!-- BEGIN: Page CSS-->
@@ -98,7 +96,7 @@ $page = 'page-user-profile';
                                 </g>
                             </svg>
                         </div>
-                        <h2 class="brand-text mb-0 text-shuccess">DOE</h2>
+                        <h2 class="brand-text mb-0 text-shuccess"><span class="text-white">DOE-SIS</span> </h2>
                     </a></li>
                 <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="bx bx-x d-block d-xl-none font-medium-4 primary"></i><i class="toggle-icon bx bx-disc font-medium-4 d-none d-xl-block primary" data-ticon="bx-disc"></i></a></li>
             </ul>
@@ -111,11 +109,11 @@ $page = 'page-user-profile';
     <!-- BEGIN: Content-->
     <div class="app-content content">
         <div class="content-overlay"></div>
-        <div class="content-wrapper">
+        <div class="content-wrapper pl-0 pr-0 pl-sm-2 pr-sm-2">
             <div class="content-header row">
                 <div class="content-header-left col-12 mb-2 mt-1">
                     <div class="breadcrumbs-top">
-                        <h5 class="content-header-title float-left pr-1 mb-0 text-white">Doe Account</h5>
+                        <h5 class="content-header-title float-left pr-1 mb-0 text-dark d-none d-sm-block">DOE Student information system</h5>
                         <div class="breadcrumb-wrapper d-none d-sm-block">
                             <ol class="breadcrumb p-0 mb-0 pl-1">
                                 <li class="breadcrumb-item active"><a href="index.php"><i class="bx bx-home-alt"></i></a></li>
@@ -130,11 +128,8 @@ $page = 'page-user-profile';
                     <div class="row">
                         <div class="col-12">
                             <div class="card bg-transparent shadow-none kb-header-">
-                                <div class="card-body text-center">
-                                    <h1 class=" mb-2 kb-title">Personal info</h1>
-                                    <p class=" mb-0">
-                                    Info about you and your preferences across DOE services
-                                    </p>
+                                <div class="card-body text-center pb-0">
+                                    <h1 class=" mb-0 kb-title text-dark pt-0 pb-0">Personal info</h1>
                                 </div>
                             </div>
                         </div>
@@ -147,8 +142,7 @@ $page = 'page-user-profile';
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4>Basic information</h4>
-                                    <p>Some info may be visible to other people using DOE services.</p>
+                                    <h4 class="text-dark">Basic information</h4>
                                     <div class="row">
                                         <div class="col-12 col-sm-4">Photo</div>
                                         <div class="col-12 col-sm-8">
@@ -173,98 +167,221 @@ $page = 'page-user-profile';
                                                 <button class="btn btn-icon pl-1 pr-1 btn-outline-secondary btn-sm"><i class="bx bx-camera"></i></button>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-sm-4">Full name</div>
-                                        <div class="col-12 col-sm-8 text-white"><?php echo $currentUser['PREFIX'].$currentUser['FNAME']." ".$currentUser['LNAME']; ?></div>
-                                        <div class="col-12 col-sm-4">Personnal ID / ID</div>
-                                        <div class="col-12 col-sm-8 text-white"><?php echo $currentUser['PID']; ?></div>
-                                        <div class="col-12 col-sm-4">Position</div>
-                                        <div class="col-12 col-sm-8 text-white">
-                                            <?php 
-                                            if(($currentUser['POSITION'] == null) || ($currentUser['POSITION'] == '')){
-                                                echo "-";
-                                            }
-                                            ?>
-                                        </div>
-                                        <div class="col-12 col-sm-8 offset-sm-4">
-                                            <div class="pt-1 pb-2">
-                                                <button class="btn btn-icon- btn-outline-secondary btn-sm- pl-1 pr-2" style="padding-bottom: 8px;"><i class="bx bx-pencil"></i> Update basic info</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4>Contact information</h4>
-                                    <div class="row">
-                                        <div class="col-12 col-sm-4">E-mail address :</div>
-                                        <div class="col-12 col-sm-8 text-white"><?php echo $currentUser['EMAIL']; ?></div>
-                                        <div class="col-12 col-sm-4">Phone number :</div>
-                                        <div class="col-12 col-sm-8"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-12 col-sm-6">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <h4>Security</h4>
-                                            <p>A Secure password to protect your DOE Account</p>
+                                        <div class="col-12">
                                             <div class="row">
-                                                <div class="col-12">
-                                                    <?php 
-                                                    $pwd = base64_decode($currentUser['PASSWORD']);
-                                                    $pwdlen = strlen($pwd);
-
-                                                    for ($i=0; $i < $pwdlen; $i++) { 
-                                                        echo '<i class="bx bxs-circle" style="font-size: 0.8em; margin-right: 3px;"></i>';
-                                                    }
-                                                    ?>
-                                                </div>
-                                               
-                                                <div class="col-12 pt-1">
-                                                    Last changed on : 
-                                                    <?php 
-                                                    $strSQL = "SELECT * FROM mym_log WHERE uid = '".$currentUser['UID']."' AND activity = 'Update password' ORDER BY ID DESC LIMIT 1";
-                                                    $res = $db->fetch($strSQL, false, false);
-                                                    if($res){
-                                                        echo date('d M Y, H:i:s', strtotime($res['datetime']));
-                                                    }else{
-                                                        ?>
-                                                        <span class="text-secondary">No data</span>
-                                                        <?php
-                                                    }
-                                                    ?>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Student ID : <span class="text-danger">*</span></label>
+                                                        <input type="text" id="txtUsername" class="form-control" name="txtUsername" readonly placeholder="First Name" value="<?php echo $currentUser['USERNAME']; ?>">
+                                                    </div>
                                                 </div>
 
-                                                <div class="col-12 text-left" style="padding-top: 20px;">
-                                                    <a href="Javascript:$('#modalPasword').modal()" class="btn btn-outline-success"><i class="bx bx-pencil"></i> Update password</a>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Degree : <span class="text-danger">*</span></label>
+                                                        <input type="text" id="txtUsername" class="form-control" name="txtUsername" readonly placeholder="First Name" value="<?php echo $currentUser['USERNAME']; ?>">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Country : <span class="text-danger">*</span></label>
+                                                        <select name="txtCountry" id="txtCountry" class="form-control">
+                                                            <option value="">-- Select country --</option>
+                                                            <?php 
+                                                            $strSQL = "SELECT CountryName FROM sis_country WHERE 1 ORDER BY CountryName";
+                                                            $resCountry = $db->fetch($strSQL, true, false);
+                                                            if(($resCountry) && ($resCountry['status'])){
+                                                                foreach ($resCountry['data'] as $row) {
+                                                                    ?>
+                                                                    <option value="<?php echo $row['CountryName'];?>" <?php if($currentUser['std_country'] == $row['CountryName']){ echo "selected"; }?>><?php echo $row['CountryName'];?></option>
+                                                                    <?php
+                                                                }
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>First Name : <span class="text-danger">*</span></label>
+                                                        <input type="text" id="txtFname" class="form-control" name="txtFname" placeholder="First Name" value="<?php echo $currentUser['FNAME']; ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Middle Name :</label>
+                                                        <input type="text" id="txtMname" class="form-control" name="txtMname" placeholder="Middle Name" value="<?php echo $currentUser['MNAME']; ?>">
+                                                    </div>
+                                                    
                                                 </div>
                                                 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <h4>Applications and services</h4>
-                                            <div class="row">
-                                                <div class="col-12 col-sm-4">E-mail address</div>
-                                                <div class="col-12 col-sm-8"></div>
-                                                <div class="col-12 col-sm-4">Phone number</div>
-                                                <div class="col-12 col-sm-8"></div>
-                                                <div class="col-12 col-sm-4">Personnal ID / ID</div>
-                                                <div class="col-12 col-sm-8"></div>
-                                                <div class="col-12 col-sm-4">Position</div>
-                                                <div class="col-12 col-sm-8"></div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Last Name : <span class="text-danger">*</span></label>
+                                                        <input type="text" id="txtLname" class="form-control" name="txtLname" placeholder="Last Name" value="<?php echo $currentUser['LNAME']; ?>">
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-sm-12 text-center pt-2">
+                                                    <button type="submit" class="btn btn-primary mr-1">Update record</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+                            <?php 
+                            if($role == 'student'){
+                                ?>
+                                <div class="card">
+                                    <div class="card-header bg-secondary">
+                                        <h3 class="text-white mb-0">Contact information</h3>
+                                    </div>
+                                    <div class="card-body pt-2 pb-0">
+                                        <h4 class="text-dark pb-1">Contact in Thailand</h4>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Email : <span class="text-danger">*</span></label>
+                                                    <input type="email" id="txtEmail" class="form-control" name="txtEmail" placeholder="Your e-mail address" value="<?php echo $currentUser['EMAIL']; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Contact phone in Thailand : <span class="text-danger">*</span></label>
+                                                    <input type="email" id="txtEmail" class="form-control" name="txtEmail" placeholder="Your e-mail address" value="<?php echo $currentUser['EMAIL']; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Address Thailand : </label>
+                                                    <textarea name="" class="form-control" id="" cols="30" rows="3" placeholder="Enter address in Thailand"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body pt-0">
+                                        <hr>
+                                        <h4 class="text-dark pb-1 pt-1">Home address</h4>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Home contact number : </label>
+                                                    <input type="email" id="txtHomeTel" class="form-control" name="txtHomeTel" placeholder="Enter your home contact number" value="<?php echo $currentUser['std_hm_tel']; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Home address : </label>
+                                                    <textarea name="txtHomeAddress" class="form-control" id="txtHomeAddress" cols="30" rows="3" placeholder="Enter your home address"><?php echo $currentUser['std_hm_address']; ?></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body pt-0">
+                                        <hr>
+                                        <h4 class="text-dark pb-1 pt-1">Workplace address</h4>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Workplace contact number : </label>
+                                                    <input type="text" id="txtWorkplaceTel" class="form-control" name="txtWorkplaceTel" placeholder="Enter your workplace contact number" value="<?php echo $currentUser['std_wk_tel']; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Workplace address : </label>
+                                                    <textarea name="txtWorkplaceAddress" class="form-control" id="txtWorkplaceAddress" cols="30" rows="3" placeholder="Enter your workplace address"><?php echo $currentUser['std_wk_address']; ?></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 text-center pt-2">
+                                                <button type="submit" class="btn btn-primary mr-1">Update address</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-header bg-secondary">
+                                        <h3 class="text-white mb-0">Immigration information</h3>
+                                    </div>
+                                    <div class="card-body pt-2 pb-0">
+                                        <h4 class="text-dark pb-1">Thai identification info <span class="text-danger">(For Thai student)</span></h4>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>ID : <span class="text-danger">*</span></label>
+                                                    <input type="text" id="txtEmail" class="form-control" name="txtEmail" placeholder="Your e-mail address" value="<?php echo $currentUser['EMAIL']; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Issue date : <span class="text-danger">*</span></label>
+                                                    <input type="date" id="txtEmail" class="form-control" name="txtEmail" placeholder="Your e-mail address" value="<?php echo $currentUser['EMAIL']; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Expire date : </label>
+                                                    <input type="date" id="txtEmail" class="form-control" name="txtEmail" placeholder="Your e-mail address" value="<?php echo $currentUser['EMAIL']; ?>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body pt-0">
+                                        <hr>
+                                        <h4 class="text-dark pb-1 pt-1">VISA</h4>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>VISA Number : </label>
+                                                    <input type="email" id="txtHomeTel" class="form-control" name="txtHomeTel" placeholder="Enter your home contact number" value="<?php echo $currentUser['std_hm_tel']; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Home address : </label>
+                                                    <textarea name="txtHomeAddress" class="form-control" id="txtHomeAddress" cols="30" rows="3" placeholder="Enter your home address"><?php echo $currentUser['std_hm_address']; ?></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body pt-0">
+                                        <hr>
+                                        <h4 class="text-dark pb-1 pt-1">Workplace address</h4>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Workplace contact number : </label>
+                                                    <input type="text" id="txtWorkplaceTel" class="form-control" name="txtWorkplaceTel" placeholder="Enter your workplace contact number" value="<?php echo $currentUser['std_wk_tel']; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Workplace address : </label>
+                                                    <textarea name="txtWorkplaceAddress" class="form-control" id="txtWorkplaceAddress" cols="30" rows="3" placeholder="Enter your workplace address"><?php echo $currentUser['std_wk_address']; ?></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 text-center pt-2">
+                                                <button type="submit" class="btn btn-primary mr-1">Update address</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <?php
+                            }
+                            ?>
+
+                            
                         </div>
                     </div>
                 </section>

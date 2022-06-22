@@ -30,6 +30,8 @@ $page = 'page-user-profile';
 
     <!-- BEGIN: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/ui/prism.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/file-uploaders/dropzone.min.css">
     <!-- END: Vendor CSS-->
 
     <!-- BEGIN: Theme CSS-->
@@ -44,6 +46,7 @@ $page = 'page-user-profile';
     <!-- BEGIN: Page CSS-->
     <link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/menu/menu-types/vertical-menu.css">
     <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/page-knowledge-base.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/file-uploaders/dropzone.css">
     <!-- END: Page CSS-->
 
     <!-- BEGIN: Custom CSS-->
@@ -111,11 +114,11 @@ $page = 'page-user-profile';
     <!-- BEGIN: Content-->
     <div class="app-content content">
         <div class="content-overlay"></div>
-        <div class="content-wrapper pl-0 pr-0 pl-sm-2 pr-sm-2">
+        <div class="content-wrapper">
             <div class="content-header row">
                 <div class="content-header-left col-12 mb-2 mt-1">
                     <div class="breadcrumbs-top">
-                        <h5 class="content-header-title float-left pr-1 mb-0 text-dark d-none d-sm-block">DOE Student information system</h5>
+                        <h5 class="content-header-title float-left pr-1 mb-0 text-dark  d-none d-sm-block">DOE Student information system</h5>
                         <div class="breadcrumb-wrapper d-none d-sm-block">
                             <ol class="breadcrumb p-0 mb-0 pl-1">
                                 <li class="breadcrumb-item active"><a href="index.php"><i class="bx bx-home-alt"></i></a></li>
@@ -127,11 +130,12 @@ $page = 'page-user-profile';
             <div class="content-body">
                 <!-- Knowledge base Jumbotron start -->
                 <section class="kb-search">
+                    <div class="" id="previewImg"></div>
                     <div class="row">
                         <div class="col-12">
                             <div class="card bg-transparent shadow-none kb-header-">
-                                <div class="card-body text-center pb-0">
-                                    <h1 class=" mb-0 kb-title text-dark pt-0 pb-0">Personal info</h1>
+                                <div class="card-body text-center pb-0 pt-0">
+                                    <h1 class=" mb-0 kb-title text-dark pt-0 pb-0 ">Personal info</h1>
                                 </div>
                             </div>
                         </div>
@@ -140,7 +144,7 @@ $page = 'page-user-profile';
                 <!-- Knowledge base Jumbotron ends -->
                 <!-- Knowledge base start -->
                 <section class="kb-content">
-                    <div class="row kb-search-content-info mx-1 mx-md-2">
+                    <div class="row kb-search-content-info mx-0 mx-md-2">
                         <?php 
                         if($role == 'student'){
                             require_once('./comp/student_profile.php');
@@ -187,7 +191,34 @@ $page = 'page-user-profile';
     </div>
     <!-- /.modal -->
 
+    <div class="modal fade" id="modalUploadPhoto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-secondary">
+                    <h5 class="modal-title text-white" id="exampleModalCenterTitle">Upload photo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="bx bx-x"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="card-text">Please choose your profile picture in .jpg, .jpeg or .png with 1:1 ratio (ex. 300 pixel x 300 pixel).</p>
+                    <!-- <form action="#" class="dropzone dropzone-area" id="dp-accept-files">
+                        <div class="dz-message">Drop Files Here To Upload</div>
+                    </form> -->
 
+                    <!-- <div action="#"  id="mydropzone_5" class="dropzone text-center  dropzone-previews" style="min-height: 50px !important;  background: transparent;border: dashed; border-radius: 10px; border-width: 1px; border-color: #888; ">
+                        <div class="fallback">
+                            <input name="file" type="file"  />
+                        </div>
+                    </div> -->
+
+                    <form action="#" class="dropzone dropzone-area dropzone-previews" id="dpz-single-file">
+                        <div class="dz-message">Drop Files Here To Upload</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- BEGIN: Vendor JS-->
     <script src="../../../app-assets/vendors/js/vendors.min.js"></script>
     <script src="../../../app-assets/fonts/LivIconsEvo/js/LivIconsEvo.tools.js"></script>
@@ -196,6 +227,9 @@ $page = 'page-user-profile';
     <!-- BEGIN Vendor JS-->
 
     <!-- BEGIN: Page Vendor JS-->
+    <!-- <script src="../../../app-assets/vendors/js/file-uploaders/dropzone.min.js"></script> -->
+    <script src="../../../app-assets/vendors/dropzone/dist/dropzone.js"></script>
+    <!-- <script src="../../../app-assets/vendors/js/ui/prism.min.js"></script> -->
     <!-- END: Page Vendor JS-->
 
     <!-- BEGIN: Theme JS-->
@@ -210,12 +244,14 @@ $page = 'page-user-profile';
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Page JS-->
-    <script src="../../../app-assets/js/scripts/pages/page-knowledge-base.js"></script>
+    
     <!-- END: Page JS-->
 
     <script src="../../../assets/js/core.js?v=<?php echo filemtime('../../../assets/js/core.js'); ?>"></script>
     <script src="../../../assets/js/authen.js?v=<?php echo filemtime('../../../assets/js/authen.js'); ?>"></script>
     <script src="../../../assets/js/student.js?v=<?php echo filemtime('../../../assets/js/student.js'); ?>"></script>
+    <script src="../../../assets/js/staff.js?v=<?php echo filemtime('../../../assets/js/staff.js'); ?>"></script>
+    <script src="../../../app-assets/js/scripts/extensions/dropzone.js?v=<?php echo filemtime('../../../app-assets/js/scripts/extensions/dropzone.js'); ?>"></script>
 
     <script>
         $(document).ready(function(){

@@ -46,6 +46,92 @@ var student = {
                         }
                    })
     },
+    update_address(username){
+        $check = 0; $('.form-control').removeClass('is-invalid')
+
+        if($('#txtEmail').val() == ''){ $check++; $('#txtEmail').addClass('is-invalid'); }
+
+        if($check != 0){ return ;}
+
+        var param = {
+            username: username,
+            email: $('#txtEmail').val(),
+            tel: $('#txtPhone').val(),
+            address: $('#txtAddress').val(),
+            hmtel: $('#txtHomeTel').val(),
+            hmaddress: $('#txtHomeAddress').val(),
+            wptel: $('#txtWorkplaceTel').val(),
+            wpaddress: $('#txtWorkplaceAddress').val(),
+            uid: $('#txtUid').val()
+        }
+
+        console.log(param);
+        preload.show()
+        
+        var jxr = $.post(api + 'student?stage=update_student_address', param, function(){}, 'json')
+                   .always(function(snap){
+                        preload.hide()
+                        console.log(snap);
+                        if(snap.status == 'Success'){
+                            Swal.fire({
+                                icon: "success",
+                                title: 'Success',
+                                text: "Profile update success",
+                                confirmButtonText: 'OK',
+                                confirmButtonClass: 'btn btn-success',
+                            })
+                        }else{
+                            Swal.fire({
+                                icon: "error",
+                                title: 'Error',
+                                text: "Can not update",
+                                confirmButtonText: 'Re-try',
+                                confirmButtonClass: 'btn btn-danger',
+                            })
+                        }
+                   })
+    },
+    update_immigration(username){
+        var param = {
+            username: username,
+            cid: $('#txtCid').val(),
+            cid_iss: $('#txtCidIssue').val(),
+            cid_exp: $('#txtCidExp').val(),
+            visa: $('#txtVisa').val(),
+            visa_iss: $('#txtVisaIssue').val(),
+            visa_exp: $('#txtVisaExp').val(),
+            passport: $('#txtPassport').val(),
+            passport_iss: $('#txtPassportIssue').val(),
+            passport_exp: $('#txtPassportExp').val(),
+            uid: $('#txtUid').val()
+        }
+
+        console.log(param);
+        preload.show()
+        
+        var jxr = $.post(api + 'student?stage=update_student_immigration', param, function(){}, 'json')
+                   .always(function(snap){
+                        preload.hide()
+                        console.log(snap);
+                        if(snap.status == 'Success'){
+                            Swal.fire({
+                                icon: "success",
+                                title: 'Success',
+                                text: "Profile update success",
+                                confirmButtonText: 'OK',
+                                confirmButtonClass: 'btn btn-success',
+                            })
+                        }else{
+                            Swal.fire({
+                                icon: "error",
+                                title: 'Error',
+                                text: "Can not update",
+                                confirmButtonText: 'Re-try',
+                                confirmButtonClass: 'btn btn-danger',
+                            })
+                        }
+                   })
+    },
     reload_student_list(){
         window.location = window.location.pathname + '?filter1=' + $('#users-degree').val() + '&filter2=' + $('#users-status').val()
     },

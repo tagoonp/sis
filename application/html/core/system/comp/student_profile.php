@@ -1,9 +1,15 @@
-<div class="col-12">
+<div class="col-12 pl-0 pr-0">
     <div class="card">
-        <div class="card-body">
-            <h4 class="text-dark">Basic information</h4>
+        <div class="card-header bg-secondary">
+            <h3 class="text-white mb-0">Basic information</h3>
+        </div>
+        <div class="card-body pt-2">
             <div class="row">
-                <div class="col-12 col-sm-4">Photo</div>
+                <div class="col-12 col-sm-4">Photo
+                    <div class="pt-0 pb-2">
+                        <button class="btn btn-icon pl-1 pr-1 btn-outline-secondary btn-sm" data-toggle="modal" data-target="#modalUploadPhoto" style="padding: 5px 10px 8px 10px; "><i class="bx bx-camera"></i> Upload image</button>
+                    </div>
+                </div>
                 <div class="col-12 col-sm-8">
                     <?php 
                     if(($currentUser['PHOTO'] != '') && ($currentUser['PHOTO'] != null)){
@@ -13,18 +19,16 @@
                             <?php
                         }else{
                             ?>
-                            <img class="round mb-1" src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="60" width="60">
+                            <img class="round mb-1" src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="100" width="100">
                             <?php 
                         }
                     }else{
                         ?>
-                        <img class="round mb-1" src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="60" width="60">
+                        <img class="round mb-1" src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="100" width="100">
                         <?php
                     }
                     ?>
-                    <div class="pt-0 pb-2">
-                        <button class="btn btn-icon pl-1 pr-1 btn-outline-secondary btn-sm"><i class="bx bx-camera"></i></button>
-                    </div>
+                    
                 </div>
                 <div class="col-12">
                     <div class="row">
@@ -110,153 +114,162 @@
         </div>
     </div>
 
-    <?php 
-    if($role == 'student'){
-        ?>
-        <div class="card">
-            <div class="card-header bg-secondary">
-                <h3 class="text-white mb-0">Contact information</h3>
-            </div>
-            <div class="card-body pt-2 pb-0">
-                <h4 class="text-dark pb-1">Contact in Thailand</h4>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Email : <span class="text-danger">*</span></label>
-                            <input type="email" id="txtEmail" class="form-control" name="txtEmail" placeholder="Your e-mail address" value="<?php echo $currentUser['EMAIL']; ?>">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Contact phone in Thailand : <span class="text-danger">*</span></label>
-                            <input type="email" id="txtEmail" class="form-control" name="txtEmail" placeholder="Your e-mail address" value="<?php echo $currentUser['EMAIL']; ?>">
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Address Thailand : </label>
-                            <textarea name="" class="form-control" id="" cols="30" rows="3" placeholder="Enter address in Thailand"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-body pt-0">
-                <hr>
-                <h4 class="text-dark pb-1 pt-1">Home address</h4>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Home contact number : </label>
-                            <input type="email" id="txtHomeTel" class="form-control" name="txtHomeTel" placeholder="Enter your home contact number" value="<?php echo $currentUser['std_hm_tel']; ?>">
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Home address : </label>
-                            <textarea name="txtHomeAddress" class="form-control" id="txtHomeAddress" cols="30" rows="3" placeholder="Enter your home address"><?php echo $currentUser['std_hm_address']; ?></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-body pt-0">
-                <hr>
-                <h4 class="text-dark pb-1 pt-1">Workplace address</h4>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Workplace contact number : </label>
-                            <input type="text" id="txtWorkplaceTel" class="form-control" name="txtWorkplaceTel" placeholder="Enter your workplace contact number" value="<?php echo $currentUser['std_wk_tel']; ?>">
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Workplace address : </label>
-                            <textarea name="txtWorkplaceAddress" class="form-control" id="txtWorkplaceAddress" cols="30" rows="3" placeholder="Enter your workplace address"><?php echo $currentUser['std_wk_address']; ?></textarea>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 text-center pt-2">
-                        <button type="submit" class="btn btn-primary mr-1">Update address</button>
-                    </div>
-                </div>
-            </div>
-
+    <div class="card">
+        <div class="card-header bg-secondary">
+            <h3 class="text-white mb-0">Contact information</h3>
         </div>
-
-        <div class="card">
-            <div class="card-header bg-secondary">
-                <h3 class="text-white mb-0">Immigration information</h3>
-            </div>
-            <div class="card-body pt-2 pb-0">
-                <h4 class="text-dark pb-1">Thai identification info <span class="text-danger">(For Thai student)</span></h4>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>ID : <span class="text-danger">*</span></label>
-                            <input type="text" id="txtEmail" class="form-control" name="txtEmail" placeholder="Your e-mail address" value="<?php echo $currentUser['EMAIL']; ?>">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Issue date : <span class="text-danger">*</span></label>
-                            <input type="date" id="txtEmail" class="form-control" name="txtEmail" placeholder="Your e-mail address" value="<?php echo $currentUser['EMAIL']; ?>">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Expire date : </label>
-                            <input type="date" id="txtEmail" class="form-control" name="txtEmail" placeholder="Your e-mail address" value="<?php echo $currentUser['EMAIL']; ?>">
-                        </div>
+        <div class="card-body pt-2 pb-0">
+            <h4 class="text-dark pb-1">Contact in Thailand</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Email : <span class="text-danger">*</span></label>
+                        <input type="email" id="txtEmail" class="form-control" name="txtEmail" placeholder="Your e-mail address" value="<?php echo $currentUser['EMAIL']; ?>">
                     </div>
                 </div>
-            </div>
-
-            <div class="card-body pt-0">
-                <hr>
-                <h4 class="text-dark pb-1 pt-1">VISA</h4>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>VISA Number : </label>
-                            <input type="email" id="txtHomeTel" class="form-control" name="txtHomeTel" placeholder="Enter your home contact number" value="<?php echo $currentUser['std_hm_tel']; ?>">
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Home address : </label>
-                            <textarea name="txtHomeAddress" class="form-control" id="txtHomeAddress" cols="30" rows="3" placeholder="Enter your home address"><?php echo $currentUser['std_hm_address']; ?></textarea>
-                        </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Contact phone in Thailand : </label>
+                        <input type="text" id="txtPhone" class="form-control" name="txtPhone" placeholder="Your phone contact number in Thailand" value="<?php echo $currentUser['std_tel']; ?>">
                     </div>
                 </div>
-            </div>
-
-            <div class="card-body pt-0">
-                <hr>
-                <h4 class="text-dark pb-1 pt-1">Workplace address</h4>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Workplace contact number : </label>
-                            <input type="text" id="txtWorkplaceTel" class="form-control" name="txtWorkplaceTel" placeholder="Enter your workplace contact number" value="<?php echo $currentUser['std_wk_tel']; ?>">
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Workplace address : </label>
-                            <textarea name="txtWorkplaceAddress" class="form-control" id="txtWorkplaceAddress" cols="30" rows="3" placeholder="Enter your workplace address"><?php echo $currentUser['std_wk_address']; ?></textarea>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 text-center pt-2">
-                        <button type="submit" class="btn btn-primary mr-1">Update address</button>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Address Thailand : </label>
+                        <textarea name="txtAddress" class="form-control" id="txtAddress" cols="30" rows="3" placeholder="Enter address in Thailand"><?php echo $currentUser['std_address']; ?></textarea>
                     </div>
                 </div>
             </div>
         </div>
 
-        <?php
-    }
-    ?>
+        <div class="card-body pt-0">
+            <hr>
+            <h4 class="text-dark pb-1 pt-1">Home address</h4>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Home contact number : </label>
+                        <input type="text" id="txtHomeTel" class="form-control" name="txtHomeTel" placeholder="Enter your home contact number" value="<?php echo $currentUser['std_hm_tel']; ?>">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Home address : </label>
+                        <textarea name="txtHomeAddress" class="form-control" id="txtHomeAddress" cols="30" rows="3" placeholder="Enter your home address"><?php echo $currentUser['std_hm_address']; ?></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body pt-0">
+            <hr>
+            <h4 class="text-dark pb-1 pt-1">Workplace address</h4>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Workplace contact number : </label>
+                        <input type="text" id="txtWorkplaceTel" class="form-control" name="txtWorkplaceTel" placeholder="Enter your workplace contact number" value="<?php echo $currentUser['std_wk_tel']; ?>">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Workplace address : </label>
+                        <textarea name="txtWorkplaceAddress" class="form-control" id="txtWorkplaceAddress" cols="30" rows="3" placeholder="Enter your workplace address"><?php echo $currentUser['std_wk_address']; ?></textarea>
+                    </div>
+                </div>
+                <div class="col-sm-12 text-center pt-2">
+                    <button type="button" class="btn btn-primary mr-1" onclick="student.update_address('<?php echo $currentUser['USERNAME']; ?>')">Update address</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-secondary">
+            <h3 class="text-white mb-0">Immigration information</h3>
+        </div>
+        <div class="card-body pt-2 pb-0">
+            <h4 class="text-dark pb-1">Thai citizen info</h4>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Identification number : </label>
+                        <input type="text" id="txtCid" class="form-control" name="txtCid" placeholder="Your e-mail address" value="<?php echo base64_decode($currentUser['std_idcard']); ?>">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Issue date : </label>
+                        <input type="date" id="txtCidIssue" class="form-control" name="txtCidIssue" placeholder="Your e-mail address" value="<?php echo $currentUser['std_idcard_issue']; ?>">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Expire date : </label>
+                        <input type="date" id="txtCidExp" class="form-control" name="txtCidExp" placeholder="Your e-mail address" value="<?php echo $currentUser['std_idcard_expire']; ?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body pt-0">
+            <hr>
+            <h4 class="text-dark pb-1 pt-1">VISA</h4>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>VISA number : </label>
+                        <input type="text" id="txtVisa" class="form-control" name="txtVisa" placeholder="Your VISA number" value="<?php echo base64_decode($currentUser['std_visa_id']); ?>">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Issue date : </label>
+                        <input type="date" id="txtVisaIssue" class="form-control" name="txtVisaIssue" placeholder="Your e-mail address" value="<?php echo $currentUser['std_visa_issue']; ?>">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Expire date : </label>
+                        <input type="date" id="txtVisaExp" class="form-control" name="txtVisaExp" placeholder="Your e-mail address" value="<?php echo $currentUser['std_visa_expire']; ?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body pt-0">
+            <hr>
+            <h4 class="text-dark pb-1 pt-1">Passport</h4>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Passport number : </label>
+                        <input type="text" id="txtPassport" class="form-control" name="txtPassport" placeholder="Your passport number" value="<?php echo base64_decode($currentUser['std_visa_id']); ?>">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Issue date : </label>
+                        <input type="date" id="txtPassportIssue" class="form-control" name="txtPassportIssue" placeholder="Your e-mail address" value="<?php echo $currentUser['std_visa_issue']; ?>">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Expire date : </label>
+                        <input type="date" id="txtPassportExp" class="form-control" name="txtPassportExp" placeholder="Your e-mail address" value="<?php echo $currentUser['std_visa_expire']; ?>">
+                    </div>
+                </div>
+                <div class="col-sm-12 text-center pt-2">
+                    <button type="button" class="btn btn-primary mr-1" onclick="student.update_immigration('<?php echo $currentUser['USERNAME']; ?>')">Update info</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+
+    
 
     
 </div>
+

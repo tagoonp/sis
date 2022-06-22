@@ -174,7 +174,7 @@ $page = 'home';
                 <!-- Knowledge base Jumbotron ends -->
                 <!-- Knowledge base start -->
                 <section class="kb-content">
-                    <div class="row kb-search-content-info mx-1 mx-md-2 mx-lg-5">
+                    <div class="row kb-search-content-info mx-0 mx-md-2 mx-lg-5">
                         <div class="col-12">
                             <div class="row match-height">
                                 <div class="col-md-4 col-sm-6 kb-search-content">

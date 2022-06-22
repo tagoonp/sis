@@ -37,13 +37,13 @@ $page = 'page-study-info';
     <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap-extended.css">
     <link rel="stylesheet" type="text/css" href="../../../app-assets/css/colors.css">
     <link rel="stylesheet" type="text/css" href="../../../app-assets/css/components.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/dark-layout.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/semi-dark-layout.css">
     <!-- END: Theme CSS-->
 
     <!-- BEGIN: Page CSS-->
     <link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/menu/menu-types/vertical-menu.css">
     <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/page-knowledge-base.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/sweetalert2.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/preload.js/dist/css/preload.css">
     <!-- END: Page CSS-->
 
     <!-- BEGIN: Custom CSS-->
@@ -98,7 +98,7 @@ $page = 'page-study-info';
                                 </g>
                             </svg>
                         </div>
-                        <h2 class="brand-text mb-0 text-shuccess">DOE</h2>
+                        <h2 class="brand-text mb-0 text-shuccess"><span class="text-white">DOE-SIS</span> </h2>
                     </a></li>
                 <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="bx bx-x d-block d-xl-none font-medium-4 primary"></i><i class="toggle-icon bx bx-disc font-medium-4 d-none d-xl-block primary" data-ticon="bx-disc"></i></a></li>
             </ul>
@@ -111,11 +111,11 @@ $page = 'page-study-info';
     <!-- BEGIN: Content-->
     <div class="app-content content">
         <div class="content-overlay"></div>
-        <div class="content-wrapper pl-0 pr-0 pl-sm-1 pr-sm-1">
+        <div class="content-wrapper">
             <div class="content-header row">
                 <div class="content-header-left col-12 mb-2 mt-1">
                     <div class="breadcrumbs-top">
-                        <h5 class="content-header-title float-left pr-1 mb-0 text-white">DoE Study info.</h5>
+                        <h5 class="content-header-title float-left pr-1 mb-0 text-dark d-none d-sm-block">DOE Student information system</h5>
                         <div class="breadcrumb-wrapper d-none d-sm-block">
                             <ol class="breadcrumb p-0 mb-0 pl-1">
                                 <li class="breadcrumb-item active"><a href="index.php"><i class="bx bx-home-alt"></i></a></li>
@@ -129,12 +129,9 @@ $page = 'page-study-info';
                 <section class="kb-search">
                     <div class="row">
                         <div class="col-12">
-                            <div class="card bg-transparent shadow-none kb-header-">
-                                <div class="card-body text-center">
-                                    <h1 class=" mb-2 kb-title">Study info</h1>
-                                    <p class=" mb-0">
-                                    This is all student progress.
-                                    </p>
+                            <div class="card bg-transparent shadow-none kb-header- pb-0">
+                                <div class="card-body text-center pt-0 pb-0">
+                                    <h1 class=" mb-0 kb-title text-dark pt-0 pb-0 mb-0">Study info</h1>
                                 </div>
                             </div>
                         </div>
@@ -143,57 +140,12 @@ $page = 'page-study-info';
                 <!-- Knowledge base Jumbotron ends -->
                 <!-- Knowledge base start -->
                 <section class="kb-content">
-                    <div class="row kb-search-content-info mx-1 mx-md-2">
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4>Advisor</h4>
-                                    <p>Some info may be visible to other people using DOE services.</p>
-                                    <div class="row">
-                                        <div class="col-12 col-sm-4">Main advisor :</div>
-                                        <div class="col-12 col-sm-8">
-                                            <div class="form-group">
-                                                <select name="" id="" class="form-control" readonly>
-                                                    <option value="">-- Select main advisor --</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-sm-4">Co-advisor 1 : </div>
-                                        <div class="col-12 col-sm-8 text-white">
-
-                                        </div>
-                                        <div class="col-12 col-sm-4">Co-advisor 2 : </div>
-                                        <div class="col-12 col-sm-8 text-white">
-                                        
-                                        </div>
-                                        <div class="col-12 col-sm-4">Co-advisor 3 : </div>
-                                        <div class="col-12 col-sm-8 text-white">
-                                            
-                                        </div>
-                                        <div class="col-12 col-sm-8 offset-sm-4">
-                                            <div class="pt-1 pb-2">
-                                                <button class="btn btn-icon- btn-outline-secondary btn-sm- pl-1 pr-2" style="padding-bottom: 8px;"><i class="bx bx-pencil"></i> Save update</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4>Study progress</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-12 col-sm-4">E-mail address :</div>
-                                        <div class="col-12 col-sm-8 text-white"><?php echo $currentUser['EMAIL']; ?></div>
-                                        <div class="col-12 col-sm-4">Phone number :</div>
-                                        <div class="col-12 col-sm-8"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
+                    <div class="row kb-search-content-info mx-0 mx-md-2">
+                        <?php 
+                        if($role == 'student'){
+                            require_once('./comp/student_study.php');
+                        }
+                        ?>
                     </div>
                 </section>
                 <!-- Knowledge base ends -->
@@ -252,14 +204,26 @@ $page = 'page-study-info';
     <script src="../../../app-assets/js/core/app.js"></script>
     <script src="../../../app-assets/js/scripts/components.js"></script>
     <script src="../../../app-assets/js/scripts/footer.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
+    <script src="../../../app-assets/vendors/preload.js/dist/js/preload.js"></script>
+    <script src="../../../app-assets/vendors/ckeditor_lite/ckeditor.js"></script>
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Page JS-->
     <script src="../../../app-assets/js/scripts/pages/page-knowledge-base.js"></script>
+    <script src="../../../app-assets/js/scripts/navs/navs.js"></script>
     <!-- END: Page JS-->
 
     <script src="../../../assets/js/core.js?v=<?php echo filemtime('../../../assets/js/core.js'); ?>"></script>
     <script src="../../../assets/js/authen.js?v=<?php echo filemtime('../../../assets/js/authen.js'); ?>"></script>
+    <script src="../../../assets/js/student.js?v=<?php echo filemtime('../../../assets/js/student.js'); ?>"></script>
+    <script src="../../../assets/js/staff.js?v=<?php echo filemtime('../../../assets/js/staff.js'); ?>"></script>
+
+    <script>
+        $(document).ready(function(){
+            preload.hide()
+        })
+    </script>
 
 </body>
 <!-- END: Body-->

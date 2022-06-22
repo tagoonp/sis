@@ -65,9 +65,9 @@
                 }
                 ?>
                 
-                <li class=" navigation-header text-truncate text-white"><span data-i18n="Support">Support</span>
+                <!-- <li class=" navigation-header text-truncate text-white"><span data-i18n="Support">Support</span>
                 </li>
                 <li class=" nav-item"><a href="https://pixinvent.com/demo/frest-clean-bootstrap-admin-dashboard-template/documentation" target="_blank"><i class="menu-livicon" data-icon="morph-folder"></i><span class="menu-title text-truncate text-white" data-i18n="Documentation">Documentation</span></a>
-                </li>
+                </li> -->
             </ul>
         </div>

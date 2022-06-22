@@ -55,6 +55,94 @@ if($stage == 'update_student_profile'){
     die();
 }
 
+if($stage == 'update_student_address'){
+    if(
+        (!isset($_REQUEST['uid'])) ||
+        (!isset($_REQUEST['username'])) ||
+        (!isset($_REQUEST['email'])) 
+      ){
+        $return['status'] = 'Fail';
+        $return['error_message'] = 'Error x1001';
+        echo json_encode($return);
+        mysqli_close($conn);
+        die();
+    }
+    $uid = mysqli_real_escape_string($conn, $_POST['uid']);
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $tel = mysqli_real_escape_string($conn, $_POST['tel']);
+    $address = mysqli_real_escape_string($conn, $_POST['address']);
+    $hmtel = mysqli_real_escape_string($conn, $_POST['hmtel']);
+    $hmaddress = mysqli_real_escape_string($conn, $_POST['hmaddress']);
+    $wptel = mysqli_real_escape_string($conn, $_POST['wptel']);
+    $wpaddress = mysqli_real_escape_string($conn, $_POST['wpaddress']);
+    
+
+    $strSQL = "UPDATE sis_student_info 
+               SET 
+               std_address = '$address', 
+               std_tel = '$tel', 
+               std_hm_address = '$hmaddress', 
+               std_hm_tel = '$hmtel', 
+               std_wk_address = '$wpaddress',
+               std_wk_tel = '$wptel'
+                WHERE std_id = '$username'";
+    $resUpdate = $db->execute($strSQL);
+
+    $strSQL = "UPDATE sis_userinfo SET EMAIL = '$email'
+               WHERE USERNAME = '$username'";
+    $resUpdate = $db->execute($strSQL);
+
+    $return['status'] = 'Success';
+    echo json_encode($return);
+    mysqli_close($conn);
+    die();
+}
+
+if($stage == 'update_student_immigration'){
+    if(
+        (!isset($_REQUEST['uid'])) ||
+        (!isset($_REQUEST['username']))
+      ){
+        $return['status'] = 'Fail';
+        $return['error_message'] = 'Error x1001';
+        echo json_encode($return);
+        mysqli_close($conn);
+        die();
+    }
+    $uid = mysqli_real_escape_string($conn, $_POST['uid']);
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $cid = base64_encode(mysqli_real_escape_string($conn, $_POST['cid']));
+    $cid_iss = mysqli_real_escape_string($conn, $_POST['cid_iss']);
+    $cid_exp = mysqli_real_escape_string($conn, $_POST['cid_exp']);
+    $visa = base64_encode(mysqli_real_escape_string($conn, $_POST['visa']));
+    $visa_iss = mysqli_real_escape_string($conn, $_POST['visa_iss']);
+    $visa_exp = mysqli_real_escape_string($conn, $_POST['visa_exp']);
+    $passport = base64_encode(mysqli_real_escape_string($conn, $_POST['passport']));
+    $passport_iss = mysqli_real_escape_string($conn, $_POST['passport_iss']);
+    $passport_exp = mysqli_real_escape_string($conn, $_POST['passport_exp']);
+    
+
+    $strSQL = "UPDATE sis_student_info 
+               SET 
+               std_idcard = '$cid', 
+               std_idcard_issue = '$cid_iss', 
+               std_idcard_expire = '$cid_exp', 
+               std_passport_id = '$passport', 
+               std_passport_issue = '$passport_iss',
+               std_passport_expire = '$passport_exp', 
+               std_visa_id = '$visa', 
+               std_visa_issue = '$visa_iss', 
+               std_visa_expire = '$visa_exp'
+                WHERE std_id = '$username'";
+    $resUpdate = $db->execute($strSQL);
+    
+    $return['status'] = 'Success';
+    echo json_encode($return);
+    mysqli_close($conn);
+    die();
+}
+
 if($stage == 'get_note'){
     if(
         (!isset($_REQUEST['uid'])) ||

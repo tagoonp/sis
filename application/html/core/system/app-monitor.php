@@ -241,13 +241,13 @@ if(isset($_REQUEST['filter1'])){
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">P.E</a>
-                                                            <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">Q/E</a>
-                                                            <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">T/E</a>
+                                                            <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">PE</a>
                                                             <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">ENG</a>
-                                                            <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">AS</a>
-                                                            <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">PE</a>
-                                                            <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">PE</a>
+                                                            <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">QE</a>
+                                                            <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">EC</a>
+                                                            <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">PUB</a>
+                                                            <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">TE</a>
+                                                            <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">CE</a>
                                                         </td>
                                                         <td>
                                                             <div class="custom-control custom-switch custom-control-inline mb-1 pt-1" onclick="student.unmonitor('<?php echo $row['USERNAME'];?>')">
@@ -256,7 +256,7 @@ if(isset($_REQUEST['filter1'])){
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-sm mr-1" style="padding: 5px;"><i class="bx bx-search"></i></a>
+                                                            <a href="app-student-info?id=<?php echo $row['USERNAME'];?>" class="btn btn-sm mr-1" style="padding: 5px;"><i class="bx bx-search"></i></a>
                                                             <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-sm" style="padding: 5px;"  data-toggle="modal" data-target="#modalNote" onclick="setNoteOwner('<?php echo $row['USERNAME']; ?>', '<?php echo $row['FNAME'].' '.$row['LNAME']; ?>')" ><i class="bx bx-comment"></i></a>
 
                                                             <div class="modal fade text-left" id="modalNote" tabindex="-1" role="dialog" aria-labelledby="myModalLabel150" aria-hidden="true">

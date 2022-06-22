@@ -134,7 +134,7 @@ $page = 'home';
                                         if(($currentUser['PHOTO'] != '') && ($currentUser['PHOTO'] != null)){
                                             if (@getimagesize($currentUser['PHOTO'])) {
                                                 ?>
-                                                <img class="round mb-2" src="<?php echo $currentUser['PHOTO']; ?>" alt="avatar" height="150" width="150">
+                                                <img class="round mb-2" src="<?php echo $currentUser['PHOTO']; ?>" alt="avatar" width="150">
                                                 <?php
                                             }else{
                                                 ?>

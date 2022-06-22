@@ -98,7 +98,7 @@ Dropzone.autoDiscover = false;
 
 var dropzone_5 = new Dropzone("#dpz-single-file", {
   // dictDefaultMessage: '<i class="bx bx-upload"></i> อัพโหลดไฟล์ที่นี่',
-  url: api + '/upload_profile.php?uid=' + $('#txtUsername').val(),
+  url: api + 'upload_profile.php?uid=' + $('#txtUsername').val(),
   acceptedFiles: 'image/*',
   previewsContainer: ".dropzone-previews",
   maxFiles: 1,

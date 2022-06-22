@@ -21,7 +21,7 @@ $uid = mysqli_real_escape_string($conn, $_REQUEST['uid']);
 
 if(isset($_FILES)){
     $originalName = $_FILES['file']['name'];
-    $path = ROOT_DOMAIN.'img/profile';
+    $path = '../img/profile';
 
     $generatedName = $dateu.'-'.$uid.'-'.$_FILES['file']['name'];
     $filePath = $path."/".$generatedName;

@@ -243,7 +243,9 @@ if(isset($_REQUEST['filter3'])){
                                                                 <label class="custom-control-label mr-1" for="customSwitch2_<?php echo $row['USERNAME']; ?>"></label>
                                                             </div>
                                                         </td>
-                                                        <td><a href="../../../html/ltr/vertical-menu-template/app-users-edit.html"><i class="bx bx-edit-alt"></i></a></td>
+                                                        <td>
+                                                            <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html"><i class="bx bx-edit-alt"></i></a>
+                                                        </td>
                                                     </tr>
                                                     <?php
                                                     $c++;

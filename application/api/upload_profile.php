@@ -28,6 +28,13 @@ if(isset($_FILES)){
 
     if (move_uploaded_file($_FILES['file']['tmp_name'], $filePath)) {
         $fileUrl = ROOT_DOMAIN.'img/profile/'.$generatedName;
+
+        $strSQL = "UPDATE sis_account SET PHOTO = '$fileUrl' WHERE USERNAME = '$uid'";
+        $res = $db->execute($strSQL, false);
+
+        echo "Success";
+        $db->close(); 
+        die();
     }else{
         echo "Fail x1003";
         $db->close(); 

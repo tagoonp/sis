@@ -15,16 +15,16 @@
                     if(($currentUser['PHOTO'] != '') && ($currentUser['PHOTO'] != null)){
                         if (@getimagesize($currentUser['PHOTO'])) {
                             ?>
-                            <img class="round mb-1" src="<?php echo $currentUser['PHOTO']; ?>" alt="avatar" height="60" width="60">
+                            <img class="round mb-1" src="<?php echo $currentUser['PHOTO']; ?>" alt="avatar" width="100">
                             <?php
                         }else{
                             ?>
-                            <img class="round mb-1" src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="100" width="100">
+                            <img class="round mb-1" src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" width="100">
                             <?php 
                         }
                     }else{
                         ?>
-                        <img class="round mb-1" src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="100" width="100">
+                        <img class="round mb-1" src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" width="100">
                         <?php
                     }
                     ?>

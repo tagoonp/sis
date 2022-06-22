@@ -209,7 +209,7 @@ $page = 'home';
                                     <?php
                                 }
                                 ?>
-                                <div class="col-md-4 col-sm-6 kb-search-content">
+                                <div class="col-md-4 col-sm-6 kb-search-content dn">
                                     <?php 
                                     if($currentUser['LINELOGIN'] == null){
                                         ?>

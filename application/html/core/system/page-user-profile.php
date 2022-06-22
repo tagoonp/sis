@@ -148,6 +148,8 @@ $page = 'page-user-profile';
                         <?php 
                         if($role == 'student'){
                             require_once('./comp/student_profile.php');
+                        }else{
+                            require_once('./comp/staff_profile.php');
                         }
                         ?>
                     </div>
@@ -202,15 +204,6 @@ $page = 'page-user-profile';
                 </div>
                 <div class="modal-body">
                     <p class="card-text">Please choose your profile picture in .jpg, .jpeg or .png with 1:1 ratio (ex. 300 pixel x 300 pixel).</p>
-                    <!-- <form action="#" class="dropzone dropzone-area" id="dp-accept-files">
-                        <div class="dz-message">Drop Files Here To Upload</div>
-                    </form> -->
-
-                    <!-- <div action="#"  id="mydropzone_5" class="dropzone text-center  dropzone-previews" style="min-height: 50px !important;  background: transparent;border: dashed; border-radius: 10px; border-width: 1px; border-color: #888; ">
-                        <div class="fallback">
-                            <input name="file" type="file"  />
-                        </div>
-                    </div> -->
 
                     <form action="#" class="dropzone dropzone-area dropzone-previews" id="dpz-single-file">
                         <div class="dz-message">Drop Files Here To Upload</div>

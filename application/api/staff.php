@@ -100,7 +100,7 @@ if($stage == 'add_new_student'){
                        )
                        VALUES (
                         '$std_id', '$degree', '1', '$start_year', '$start_edu_date', 
-                        '$date', 'No', 'studying', '$std_id'
+                        '$date', 'No', '$status', '$std_id'
                        )
                       ";
             $resInsert3 = $db->insert($strSQL, false);

@@ -61,8 +61,8 @@ var staff = {
             start_year: $('#txtStartyear').val(),
             start_edu_date: $('#txtEdudate').val(),
         }
-        // console.log(param);
-        // return ;
+        console.log(param);
+        return ;
         preload.show()
 
 

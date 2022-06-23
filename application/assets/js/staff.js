@@ -35,6 +35,44 @@ var staff = {
                         }
                    })
     },
+    update_student_status(){
+        $check = 0;
+        $('.form-control').removeClass('is-invalid')
+        if($('#txtStatusTo').val() == ''){ $check++; $('#txtStatusTo').addClass('is-invalid') }
+        if($check != 0){ return ; }
+
+        var param = {
+            status: $('#txtStatusTo').val(),
+            student_id: $('#txtStatusId').val(),
+            uid: $('#txtUid').val()
+        }
+
+        preload.show()
+
+        var jxr = $.post(api + 'staff?stage=update_student_status', param, function(){}, 'json')
+                   .always(function(snap){
+                        preload.hide()
+                        console.log(snap);
+                        if(snap.status == 'Success'){
+                            // Swal.fire({
+                            //     icon: "success",
+                            //     title: 'Updated',
+                            //     text: "Status of " + $('#txtStatusId').val() + ' updated.',
+                            //     confirmButtonText: 'OK',
+                            //     confirmButtonClass: 'btn btn-success',
+                            // })
+                            $('#textStatus_' + $('#txtStatusId').val()).text($('#txtStatusTo').val())
+                        }else{
+                            Swal.fire({
+                                icon: "error",
+                                title: 'Error',
+                                text: "Can not update status.",
+                                confirmButtonText: 'Re-try',
+                                confirmButtonClass: 'btn btn-danger',
+                            })
+                        }
+                   })
+    },
     save_student(){
         $check = 0;
         $('.form-control').removeClass('is-invalid')

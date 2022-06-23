@@ -48,6 +48,31 @@ if($stage == 'check_before_add'){
     die();
 }
 
+if($stage == 'update_student_status'){
+    if(
+        (!isset($_REQUEST['student_id'])) ||
+        (!isset($_REQUEST['status'])) ||
+        (!isset($_REQUEST['uid']))
+      ){
+        $return['status'] = 'Fail';
+        $return['code'] = 'x1001';
+        echo json_encode($return);
+        mysqli_close($conn);
+        die();
+    }
+    $student_id = mysqli_real_escape_string($conn, $_POST['student_id']);
+    $status = mysqli_real_escape_string($conn, $_POST['status']);
+    $uid = mysqli_real_escape_string($conn, $_POST['uid']);
+
+    $strSQL = "UPDATE sis_student_info SET std_study_status = '$status' WHERE std_id = '$student_id'";
+    $res = $db->execute($strSQL);
+
+    $return['status'] = 'Success';
+    echo json_encode($return);
+    mysqli_close($conn);
+    die();
+}
+
 if($stage == 'add_new_student'){
     if(
         (!isset($_REQUEST['degree'])) ||

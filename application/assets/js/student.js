@@ -175,6 +175,7 @@ var student = {
         preload.show()
         var jxr = $.post(api + 'student?stage=get_note', {uid: $('#txtUid').val(), std_id: std_id}, function(){}, 'json')
                    .always(function(snap){
+                    console.log(snap);
                        if(snap.status == 'Success'){
                             $('#noteList').empty()
                             $i = 0;
@@ -244,7 +245,8 @@ var student = {
             std_id: $('#txtStudentId').val(),
             msg: $message
         }
-        console.log(param);
+        // console.log(param);
+        // return ;
         preload.show()
         var jxr = $.post(api + 'student?stage=save_note', param, function(){}, 'json')
                    .always(function(snap){

@@ -214,6 +214,7 @@ if($stage == 'save_note'){
     $res = $db->insert($strSQL, false);
     if($res){
         $return['status'] = 'Success';
+        $return['cmd'] = $strSQL;
     }else{
         $return['status'] = 'Fail';
     }

@@ -233,6 +233,18 @@ if(isset($_REQUEST['page_id'])){
                         if($page_id == '1'){
                             require_once('./comp/basic_info.php');
                         }
+
+                        switch ($i) {
+                            case "apple":
+                                require_once('./comp/basic_info.php');
+                                break;
+                            case "bar":
+                                require_once('./comp/contact_info.php');
+                                break;
+                            case "cake":
+                                require_once('./comp/contact_info.php');
+                                break;
+                        }
                         ?>
                     </div>
                 </div>

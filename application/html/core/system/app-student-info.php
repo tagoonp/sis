@@ -31,6 +31,13 @@ if(!$res){
     header('Location: ./app-student');
     die();
 }
+
+$std_basic_info = $res;
+
+$page_id = '1';
+if(isset($_REQUEST['page_id'])){
+    $page_id = mysqli_real_escape_string($conn, $_REQUEST['page_id']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -160,7 +167,7 @@ if(!$res){
                             <div class="sidebar-menu-list">
                                 <!-- sidebar menu  -->
                                 <div class="list-group list-group-messages">
-                                    <a href="javascript:void(0);" class="list-group-item active" id="inbox-menu">
+                                    <a href="app-student-info?id=<?php echo $id; ?>&page_id=1" class="list-group-item <?php if($page_id == '1'){ echo "active"; } ?>" id="inbox-menu">
                                         <div class="fonticon-wrap d-inline mr-25">
                                             <i class="livicon-evo" data-options="name: user.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
                                             </i>
@@ -168,50 +175,50 @@ if(!$res){
                                         Basic info.
                                         <span class="badge badge-light-primary badge-pill badge-round float-right mt-50">5</span>
                                     </a>
-                                    <a href="javascript:void(0);" class="list-group-item">
+                                    <a href="app-student-info?id=<?php echo $id; ?>&page_id=2" class="list-group-item <?php if($page_id == '2'){ echo "active"; } ?>">
                                         <div class="fonticon-wrap d-inline mr-25">
-                                            <i class="livicon-evo" data-options="name: paper-plane.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
+                                            <i class="livicon-evo" data-options="name: envelope-pull.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
                                             </i>
                                         </div>
                                         Contact
                                     </a>
-                                    <a href="javascript:void(0);" class="list-group-item">
+                                    <a href="app-student-info?id=<?php echo $id; ?>&page_id=3" class="list-group-item <?php if($page_id == '3'){ echo "active"; } ?>">
                                         <div class="fonticon-wrap d-inline mr-25">
                                             <i class="livicon-evo" data-options="name: pen.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
                                             </i>
                                         </div> Immigration
                                     </a>
-                                    <a href="javascript:void(0);" class="list-group-item">
+                                    <a href="app-student-info?id=<?php echo $id; ?>&page_id=4" class="list-group-item <?php if($page_id == '4'){ echo "active"; } ?>">
                                         <div class="fonticon-wrap d-inline mr-25">
-                                            <i class="livicon-evo" data-options="name: star.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
+                                            <i class="livicon-evo" data-options="name: piggybank.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
                                             </i>
                                         </div>
                                         Funding
                                     </a>
-                                    <a href="javascript:void(0);" class="list-group-item">
+                                    <a href="app-student-info?id=<?php echo $id; ?>&page_id=5" class="list-group-item <?php if($page_id == '5'){ echo "active"; } ?>">
                                         <div class="fonticon-wrap d-inline mr-25">
                                             <i class="livicon-evo" data-options="name: info-alt.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
                                             </i>
                                         </div>
                                         Advisor
                                     </a>
-                                    <a href="javascript:void(0);" class="list-group-item">
+                                    <a href="app-student-info?id=<?php echo $id; ?>&page_id=6" class="list-group-item <?php if($page_id == '6'){ echo "active"; } ?>">
                                         <div class="fonticon-wrap d-inline mr-25">
-                                            <i class="livicon-evo" data-options="name: trash.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
+                                            <i class="livicon-evo" data-options="name: hammer.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
                                             </i>
                                         </div>
                                         Progress
                                     </a>
-                                    <a href="javascript:void(0);" class="list-group-item">
+                                    <a href="app-student-info?id=<?php echo $id; ?>&page_id=7" class="list-group-item <?php if($page_id == '7'){ echo "active"; } ?>">
                                         <div class="fonticon-wrap d-inline mr-25">
-                                            <i class="livicon-evo" data-options="name: file.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
+                                            <i class="livicon-evo" data-options="name: notebook.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
                                             </i>
                                         </div>
                                         Note
                                     </a>
-                                    <a href="javascript:void(0);" class="list-group-item">
+                                    <a href="javascript:student.delete()" class="list-group-item text-danger">
                                         <div class="fonticon-wrap d-inline mr-25">
-                                            <i class="livicon-evo" data-options="name: trash.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
+                                            <i class="livicon-evo ext-danger" data-options="name: trash.svg; size: 24px; style: lines; strokeColor:red; eventOn:grandparent; duration:0.85;">
                                             </i>
                                         </div>
                                         Delete student
@@ -222,7 +229,11 @@ if(!$res){
                         </div>
                     </div>
                     <div class="col-12 col-sm-9">
-
+                        <?php 
+                        if($page_id == '1'){
+                            require_once('./comp/basic_info.php');
+                        }
+                        ?>
                     </div>
                 </div>
                 <!-- Knowledge base Jumbotron start -->
@@ -239,19 +250,6 @@ if(!$res){
                     </div>
                 </section>
                 <!-- Knowledge base Jumbotron ends -->
-                <!-- Knowledge base start -->
-                <section class="kb-content">
-                    <div class="row kb-search-content-info mx-0 mx-md-2">
-                        <?php 
-                        if($role == 'student'){
-                            require_once('./comp/student_profile.php');
-                        }else{
-                            require_once('./comp/staff_profile.php');
-                        }
-                        ?>
-                    </div>
-                </section>
-                <!-- Knowledge base ends -->
 
             </div>
         </div>

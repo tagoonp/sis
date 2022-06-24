@@ -175,30 +175,48 @@ var student = {
         preload.show()
         var jxr = $.post(api + 'student?stage=get_note', {uid: $('#txtUid').val(), std_id: std_id}, function(){}, 'json')
                    .always(function(snap){
-                    console.log(snap);
-                       if(snap.status == 'Success'){
+                        console.log(snap);
+                        console.log($('#txtRole').val());
+                        if(snap.status == 'Success'){
                             $('#noteList').empty()
                             $i = 0;
                             snap.data.forEach(i => {
+                                
                                 if($('#txtRole').val() == 'admin'){
+                                    console.log('a');
                                     $del = ''
                                     if(i.note_delete == 'Y'){
                                         $del = '<span class="badge badge-danger round ml-1">Deleted</span>'
                                     }
                                     $data = '<tr>' + 
+                                                '<td class="pt-0">' + i.note_datetime + '</td>' + 
+                                                '<td class="pt-1 pb-1">'+
+                                                    i.note_message + 
+                                                    '<div style="padding: 3px 0px 0px 0px; border: solid; border-width: 0px 0px 0px 0px; border-color: #ccc; font-size: 0.8em;">' + 
+                                                        '<span class="badge badge-secondary round">BY : ' + i.FNAME + ' ' + i.LNAME + '</span>' + $del + 
+                                                        '<a href="Javascript:student.deleteNote(\'' + i.note_id + '\'); " class="btn text-danger pl-0 btn-sm mr-1 float-right" style="padding: 5px 0px 7px 0px;"><i class="bx bx-trash"></i></a>' +
+                                                    '</div>' +
+                                                '</td>' +
+                                            '</tr>'
+                                    $('#noteList').append($data)
+                                    console.log($('#noteList').html());
+                                    $i++;
+                                }else{
+                                    console.log('b');
+                                    if(i.note_delete == 'N'){
+                                        $data = '<tr>' + 
                                             '<td class="pt-0">' + i.note_datetime + '</td>' + 
                                             '<td class="pt-1 pb-1">'+
                                                 i.note_message + 
                                                 '<div style="padding: 3px 0px 0px 0px; border: solid; border-width: 0px 0px 0px 0px; border-color: #ccc; font-size: 0.8em;">' + 
-                                                    '<span class="badge badge-secondary round">BY : ' + i.FNAME + ' ' + i.LNAME + '</span>' + $del + 
+                                                    '<span class="badge badge-secondary round">BY : ' + i.FNAME + ' ' + i.LNAME + '</span>' +
                                                     '<a href="Javascript:student.deleteNote(\'' + i.note_id + '\'); " class="btn text-danger pl-0 btn-sm mr-1 float-right" style="padding: 5px 0px 7px 0px;"><i class="bx bx-trash"></i></a>' +
                                                 '</div>' +
                                             '</td>' +
                                         '</tr>'
-                                    $('#noteList').append($data)
-                                }else{
-                                    
-                                    if(i.note_delete == 'N'){
+                                        $('#noteList').append($data)
+                                        $i++;
+                                    }else{
                                         $data = '<tr>' + 
                                             '<td class="pt-0">' + i.note_datetime + '</td>' + 
                                             '<td class="pt-1 pb-1">'+

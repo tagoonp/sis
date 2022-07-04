@@ -12,15 +12,19 @@
             <div class="col-12 col-sm-8">
                 <?php 
                 if(($std_basic_info['PHOTO'] != '') && ($std_basic_info['PHOTO'] != null)){
-                    if (@getimagesize($std_basic_info['PHOTO'])) {
-                        ?>
-                        <img class="round mb-1" src="<?php echo $std_basic_info['PHOTO']; ?>" alt="avatar" width="100">
-                        <?php
-                    }else{
-                        ?>
-                        <img class="round mb-1" src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" width="100">
+                    // if (@getimagesize($std_basic_info['PHOTO'])) {
+                    //     ?>
+                    <!-- //     <img class="round mb-1" src="<?php //echo $std_basic_info['PHOTO']; ?>" alt="avatar" width="100"> -->
+                         <?php
+                    // }else{
+                    //     ?>
+                    <!-- //     <img class="round mb-1" src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" width="100"> -->
                         <?php 
-                    }
+                    // }
+
+                    ?>
+                    <img class="round mb-1" src="<?php echo $std_basic_info['PHOTO']; ?>" alt="avatar" width="100">
+                    <?php
                 }else{
                     ?>
                     <img class="round mb-1" src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" width="100">

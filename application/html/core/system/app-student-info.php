@@ -379,7 +379,7 @@ if(isset($_REQUEST['page_id'])){
     <script>
         var editor_doclist = ''
         $(document).ready(function(){
-            preload.hide()
+            // preload.hide()
 
             if($('#txtNote').length){
                 editor_doclist = CKEDITOR.replace( 'txtNote', {

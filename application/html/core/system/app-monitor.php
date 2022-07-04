@@ -63,7 +63,11 @@ if(isset($_REQUEST['filter1'])){
 
 </head>
 <!-- END: Head-->
-
+<style>
+    .noteDiv > p {
+        margin-bottom: 0px;
+    }
+</style>
 <!-- BEGIN: Body-->
 
 <body class="vertical-layout vertical-menu-modern dark-layout 2-columns  navbar-sticky footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="2-columns" data-layout="dark-layout">
@@ -179,9 +183,14 @@ if(isset($_REQUEST['filter1'])){
                                             <tr>
                                                 <th style="width: 100px;">Student ID</th>
                                                 <th>Full name</th>
-                                                <th>Advisor</th>
-                                                <th>Progress</th>
-                                                <th>Monitor</th>
+                                                <th style="width: 100px;">Advisor</th>
+                                                <th style="width: 500px;">Progress</th>
+                                                <?php 
+                                                if($role == 'admin'){
+                                                    ?><th>Monitor</th><?php
+                                                }
+                                                ?>
+                                                
                                                 <th style="width: 200px;">edit</th>
                                             </tr>
                                         </thead>
@@ -218,29 +227,52 @@ if(isset($_REQUEST['filter1'])){
                                                     <tr>
                                                         <td><?php echo $row['USERNAME']; ?></td>
                                                         <td>
-                                                            <?php 
-                                                                if($row['PREFIX'] != 'NA'){
-                                                                    echo $row['PREFIX'].$row['FNAME'].' '.$row['MNAME'].' '.$row['LNAME']; 
-                                                                }else{
-                                                                    echo $row['FNAME'].' '.$row['MNAME'].' '.$row['LNAME']; 
-                                                                }
-                                                            ?>
-                                                            <div>
-                                                            <?php 
-                                                            if($row['dg_shorten'] == 'Ph.D.'){
-                                                                ?>
-                                                                <span class="badge badge-danger round">Ph.D.</span>
-                                                                <?php
-                                                            }else if($row['dg_shorten'] == 'M.Sc.'){
-                                                                ?>
-                                                                <span class="badge badge-warning round">M.Sc.</span>
-                                                                <?php
-                                                            }else{
-                                                                ?>
-                                                                <span class="badge badge-warning round">Short-course</span>
-                                                                <?php
-                                                            }
-                                                            ?>
+                                                            <div class="row">
+                                                                <div class="col-2">
+                                                                    <?php 
+                                                                    if(($row['PHOTO'] == '') || ($row['PHOTO'] == null)){
+                                                                        ?>
+                                                                        <div class="avatar avatar-lg bg-secondary mr-1" style="margin-top-: -4px;">
+                                                                            <div class="avatar-content" style="font-size: 1.2em; padding-top: 3px;">
+                                                                                <?php echo strtoupper(substr($row['FNAME'], 0, 1)) ?>
+                                                                            </div>
+                                                                        </div>
+                                                                        <?php
+                                                                    }else{
+                                                                        ?>
+                                                                        <div class="avatar mr-1 avatar-lg" style=";">
+                                                                            <img src="<?php echo $row['PHOTO']; ?>" alt="avtar img holder">
+                                                                        </div>
+                                                                        <?php
+                                                                    }
+                                                                    ?>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <?php 
+                                                                        if($row['PREFIX'] != 'NA'){
+                                                                            echo $row['PREFIX'].$row['FNAME'].' '.$row['MNAME'].' '.$row['LNAME']; 
+                                                                        }else{
+                                                                            echo $row['FNAME'].' '.$row['MNAME'].' '.$row['LNAME']; 
+                                                                        }
+                                                                    ?>
+                                                                    <div>
+                                                                    <?php 
+                                                                    if($row['dg_shorten'] == 'Ph.D.'){
+                                                                        ?>
+                                                                        <span class="badge badge-danger round">Ph.D.</span>
+                                                                        <?php
+                                                                    }else if($row['dg_shorten'] == 'M.Sc.'){
+                                                                        ?>
+                                                                        <span class="badge badge-warning round">M.Sc.</span>
+                                                                        <?php
+                                                                    }else{
+                                                                        ?>
+                                                                        <span class="badge badge-warning round">Short-course</span>
+                                                                        <?php
+                                                                    }
+                                                                    ?>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td>
@@ -275,13 +307,33 @@ if(isset($_REQUEST['filter1'])){
                                                             <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">PUB</a>
                                                             <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">TE</a>
                                                             <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">CE</a>
-                                                        </td>
-                                                        <td>
-                                                            <div class="custom-control custom-switch custom-control-inline mb-1 pt-1" onclick="student.unmonitor('<?php echo $row['USERNAME'];?>')">
-                                                                <input type="checkbox" class="custom-control-input" <?php if($row['std_mon_status'] == 'Y'){ echo "checked"; } ?> id="customSwitch1_<?php echo $row['USERNAME']; ?>">
-                                                                <label class="custom-control-label mr-1" for="customSwitch1_<?php echo $row['USERNAME']; ?>"></label>
+                                                            <div style="font-size: 0.8em; margin-top: 5px;" class="text-dark">Recent note : </div>
+                                                            <div id="noteDiv_<?php echo $row['USERNAME'];?>" class="noteDiv text-dark" style="padding: 5px 10px; border: dashed; border-width: 1px 1px 1px 1px; border-color: #ccc; margin-top: 2px; border-radius: 10px; font-size: 0.8em;">
+                                                                <?php 
+                                                                $strSQL = "SELECT note_message FROM sis_studynote WHERE note_student = '".$row['USERNAME']."' AND note_delete = 'N' ORDER BY note_id DESC LIMIT 1";
+                                                                $resMsg = $db->fetch($strSQL, false, false);
+                                                                if($resMsg){
+                                                                    echo $resMsg['note_message'];
+                                                                }else{
+                                                                    echo "-";
+                                                                }
+                                                                ?>
                                                             </div>
                                                         </td>
+
+                                                        <?php 
+                                                        if($role == 'admin'){
+                                                            ?>
+                                                            <td>
+                                                                <div class="custom-control custom-switch custom-control-inline mb-1 pt-1" onclick="student.unmonitor('<?php echo $row['USERNAME'];?>')">
+                                                                    <input type="checkbox" class="custom-control-input" <?php if($row['std_mon_status'] == 'Y'){ echo "checked"; } ?> id="customSwitch1_<?php echo $row['USERNAME']; ?>">
+                                                                    <label class="custom-control-label mr-1" for="customSwitch1_<?php echo $row['USERNAME']; ?>"></label>
+                                                                </div>
+                                                            </td>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                        
                                                         <td>
                                                             <a href="app-student-info?id=<?php echo $row['USERNAME'];?>" class="btn btn-sm mr-1" style="padding: 5px;"><i class="bx bx-search"></i></a>
                                                             <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-sm" style="padding: 5px;"  data-toggle="modal" data-target="#modalNote" onclick="setNoteOwner('<?php echo $row['USERNAME']; ?>', '<?php echo $row['FNAME'].' '.$row['LNAME']; ?>')" ><i class="bx bx-comment"></i></a>

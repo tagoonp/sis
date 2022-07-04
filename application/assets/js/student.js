@@ -209,6 +209,9 @@ var student = {
                                                 '</td>' +
                                             '</tr>'
                                     $('#noteList').append($data)
+
+                                    
+
                                     console.log($('#noteList').html());
                                     $i++;
                                 }else{
@@ -225,6 +228,11 @@ var student = {
                                             '</td>' +
                                         '</tr>'
                                         $('#noteList').append($data)
+
+                                        if($i == 0){
+                                            $('#noteDiv_' + std_id).html(i.note_message)
+                                        }
+
                                         $i++;
                                     }else{
 

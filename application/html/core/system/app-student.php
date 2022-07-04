@@ -199,11 +199,11 @@ if(isset($_REQUEST['filter3'])){
                                             <tr>
                                                 <th>Student ID</th>
                                                 <th>name</th>
-                                                <th>degree</th>
                                                 <th>year</th>
                                                 <th>study status</th>
                                                 <th>monitor</th>
                                                 <th>active</th>
+                                                <th>grad year</th>
                                                 <th style="width: 140px;"></th>
                                             </tr>
                                         </thead>
@@ -229,14 +229,55 @@ if(isset($_REQUEST['filter3'])){
                                                     ?>
                                                     <tr>
                                                         <td><?php echo $row['USERNAME']; ?></td>
-                                                        <td><?php 
-                                                                if($row['PREFIX'] != 'NA'){
-                                                                    echo $row['PREFIX'].$row['FNAME'].' '.$row['MNAME'].' '.$row['LNAME']; 
-                                                                }else{
-                                                                    echo $row['FNAME'].' '.$row['MNAME'].' '.$row['LNAME']; 
-                                                                }
-                                                            ?></td>
-                                                        <td><?php echo $row['dg_shorten'];?></td>
+                                                        <td>
+                                                        <div class="row">
+                                                                <div class="col-2">
+                                                                    <?php 
+                                                                    if(($row['PHOTO'] == '') || ($row['PHOTO'] == null)){
+                                                                        ?>
+                                                                        <div class="avatar avatar-lg bg-secondary mr-1" style="margin-top-: -4px;">
+                                                                            <div class="avatar-content" style="font-size: 1.2em; padding-top: 3px;">
+                                                                                <?php echo strtoupper(substr($row['FNAME'], 0, 1)) ?>
+                                                                            </div>
+                                                                        </div>
+                                                                        <?php
+                                                                    }else{
+                                                                        ?>
+                                                                        <div class="avatar mr-1 avatar-lg" style=";">
+                                                                            <img src="<?php echo $row['PHOTO']; ?>" alt="avtar img holder">
+                                                                        </div>
+                                                                        <?php
+                                                                    }
+                                                                    ?>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <?php 
+                                                                        if($row['PREFIX'] != 'NA'){
+                                                                            echo $row['PREFIX'].$row['FNAME'].' '.$row['MNAME'].' '.$row['LNAME']; 
+                                                                        }else{
+                                                                            echo $row['FNAME'].' '.$row['MNAME'].' '.$row['LNAME']; 
+                                                                        }
+                                                                    ?>
+                                                                    <div>
+                                                                    <?php 
+                                                                    if($row['dg_shorten'] == 'Ph.D.'){
+                                                                        ?>
+                                                                        <span class="badge badge-danger round">Ph.D.</span>
+                                                                        <?php
+                                                                    }else if($row['dg_shorten'] == 'M.Sc.'){
+                                                                        ?>
+                                                                        <span class="badge badge-warning round">M.Sc.</span>
+                                                                        <?php
+                                                                    }else{
+                                                                        ?>
+                                                                        <span class="badge badge-warning round">Short-course</span>
+                                                                        <?php
+                                                                    }
+                                                                    ?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
                                                         <td><?php echo $row['std_start_year']; ?></td>
                                                         <td>
                                                             <a href="Javascript:setStudyStatus('<?php echo $row['USERNAME'];?>', '<?php echo $row['std_study_status']; ?>')"><i class="bx bx-edit-alt"></i></a> <span id="textStatus_<?php echo $row['USERNAME']; ?>"><?php echo $row['std_study_status']; ?></span>
@@ -253,6 +294,7 @@ if(isset($_REQUEST['filter3'])){
                                                                 <label class="custom-control-label mr-1" for="customSwitch2_<?php echo $row['USERNAME']; ?>"></label>
                                                             </div>
                                                         </td>
+                                                        <td><?php echo $row['std_grad_year']; ?></td>
                                                         <td class="text-right">
                                                             <a href="Javascript:setStudentUpdateinfo('<?php echo $row['USERNAME']; ?>')" class="pr-1"><i class="bx bx-edit-alt"></i></a>
                                                             <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>" class="pr-1"><i class="bx bx-search"></i></a>

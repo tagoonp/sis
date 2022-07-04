@@ -159,13 +159,6 @@ $page = 'home';
                                     <p class=" mb-1">
                                         Manage your info, privacy, and security to make our department work better for you.
                                     </p>
-                                    <!-- <form>
-                                        <fieldset class="form-group position-relative w-50 mx-auto kb-search-width">
-                                            <input type="text" class="form-control form-control-lg round pl-2" id="searchbar" placeholder="Find from talk..">
-                                            <button class="btn btn-primary round position-absolute d-none d-sm-block" type="button">Search</button>
-                                            <button class="btn btn-primary round position-absolute d-block d-sm-none" type="button"><i class="bx bx-search"></i></button>
-                                        </fieldset>
-                                    </form> -->
                                 </div>
                             </div>
                         </div>
@@ -288,6 +281,8 @@ $page = 'home';
 
     <script src="../../../assets/js/core.js?v=<?php echo filemtime('../../../assets/js/core.js'); ?>"></script>
     <script src="../../../assets/js/authen.js?v=<?php echo filemtime('../../../assets/js/authen.js'); ?>"></script>
+    <script src="../../../assets/js/student.js?v=<?php echo filemtime('../../../assets/js/student.js'); ?>"></script>
+    <script src="../../../assets/js/staff.js?v=<?php echo filemtime('../../../assets/js/staff.js'); ?>"></script>
 
 </body>
 <!-- END: Body-->

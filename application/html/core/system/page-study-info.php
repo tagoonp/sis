@@ -160,6 +160,7 @@ $page = 'page-study-info';
 
     <?php 
     require('./comp/footer.php');
+    require('./comp/modal_addtype.php');
     ?>
 
     <div id="modalPasword" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

@@ -199,7 +199,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Issue date : </label>
+                        <label>Issue date : </label>    
                         <input type="date" id="txtCidIssue" class="form-control" name="txtCidIssue" placeholder="Your e-mail address" value="<?php echo $currentUser['std_idcard_issue']; ?>">
                     </div>
                 </div>

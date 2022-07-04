@@ -84,6 +84,13 @@ if(isset($_REQUEST['page_id'])){
 
 </head>
 <!-- END: Head-->
+<style>
+    .nadv{
+        /* padding: 20px; */
+        border: dashed;
+        border-width: 1px 1px 1px 1px;
+    }
+</style>
 
 <!-- BEGIN: Body-->
 
@@ -175,26 +182,7 @@ if(isset($_REQUEST['page_id'])){
                                         Basic info.
                                         <span class="badge badge-light-primary badge-pill badge-round float-right mt-50">5</span>
                                     </a>
-                                    <a href="app-student-info?id=<?php echo $id; ?>&page_id=2" class="list-group-item <?php if($page_id == '2'){ echo "active"; } ?>">
-                                        <div class="fonticon-wrap d-inline mr-25">
-                                            <i class="livicon-evo" data-options="name: envelope-pull.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
-                                            </i>
-                                        </div>
-                                        Contact
-                                    </a>
-                                    <a href="app-student-info?id=<?php echo $id; ?>&page_id=3" class="list-group-item <?php if($page_id == '3'){ echo "active"; } ?>">
-                                        <div class="fonticon-wrap d-inline mr-25">
-                                            <i class="livicon-evo" data-options="name: pen.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
-                                            </i>
-                                        </div> Immigration
-                                    </a>
-                                    <a href="app-student-info?id=<?php echo $id; ?>&page_id=4" class="list-group-item <?php if($page_id == '4'){ echo "active"; } ?>">
-                                        <div class="fonticon-wrap d-inline mr-25">
-                                            <i class="livicon-evo" data-options="name: piggybank.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
-                                            </i>
-                                        </div>
-                                        Funding
-                                    </a>
+
                                     <a href="app-student-info?id=<?php echo $id; ?>&page_id=5" class="list-group-item <?php if($page_id == '5'){ echo "active"; } ?>">
                                         <div class="fonticon-wrap d-inline mr-25">
                                             <i class="livicon-evo" data-options="name: info-alt.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
@@ -202,6 +190,31 @@ if(isset($_REQUEST['page_id'])){
                                         </div>
                                         Advisor
                                     </a>
+
+                                    <a href="app-student-info?id=<?php echo $id; ?>&page_id=4" class="list-group-item <?php if($page_id == '4'){ echo "active"; } ?>">
+                                        <div class="fonticon-wrap d-inline mr-25">
+                                            <i class="livicon-evo" data-options="name: piggybank.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
+                                            </i>
+                                        </div>
+                                        Funding
+                                    </a>
+
+                                    <a href="app-student-info?id=<?php echo $id; ?>&page_id=2" class="list-group-item <?php if($page_id == '2'){ echo "active"; } ?>">
+                                        <div class="fonticon-wrap d-inline mr-25">
+                                            <i class="livicon-evo" data-options="name: envelope-pull.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
+                                            </i>
+                                        </div>
+                                        Contact
+                                    </a>
+
+                                    <a href="app-student-info?id=<?php echo $id; ?>&page_id=3" class="list-group-item <?php if($page_id == '3'){ echo "active"; } ?>">
+                                        <div class="fonticon-wrap d-inline mr-25">
+                                            <i class="livicon-evo" data-options="name: pen.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
+                                            </i>
+                                        </div> Immigration
+                                    </a>
+                                    
+                                   
                                     <a href="app-student-info?id=<?php echo $id; ?>&page_id=6" class="list-group-item <?php if($page_id == '6'){ echo "active"; } ?>">
                                         <div class="fonticon-wrap d-inline mr-25">
                                             <i class="livicon-evo" data-options="name: hammer.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
@@ -230,19 +243,28 @@ if(isset($_REQUEST['page_id'])){
                     </div>
                     <div class="col-12 col-sm-9">
                         <?php 
-                        if($page_id == '1'){
-                            require_once('./comp/basic_info.php');
-                        }
 
-                        switch ($i) {
-                            case "apple":
+                        switch ($page_id) {
+                            case "1":
                                 require_once('./comp/basic_info.php');
                                 break;
-                            case "bar":
+                            case "2":
                                 require_once('./comp/contact_info.php');
                                 break;
-                            case "cake":
-                                require_once('./comp/contact_info.php');
+                            case "3":
+                                require_once('./comp/immigration_info.php');
+                                break;
+                            case "4":
+                                require_once('./comp/funding_info.php');
+                                break;
+                            case "5":
+                                require_once('./comp/advisor_info.php');
+                                break;
+                            case "6":
+                                require_once('./comp/progress_info.php');
+                                break;
+                            case "7":
+                                require_once('./comp/note.php');
                                 break;
                         }
                         ?>
@@ -273,6 +295,7 @@ if(isset($_REQUEST['page_id'])){
 
     <?php 
     require('./comp/footer.php');
+    require('./comp/modal_addtype.php');
     ?>
 
     <div id="modalPasword" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -354,9 +377,25 @@ if(isset($_REQUEST['page_id'])){
     <script src="../../../app-assets/js/scripts/extensions/dropzone.js?v=<?php echo filemtime('../../../app-assets/js/scripts/extensions/dropzone.js'); ?>"></script>
 
     <script>
+        var editor_doclist = ''
         $(document).ready(function(){
             preload.hide()
+
+            if($('#txtNote').length){
+                editor_doclist = CKEDITOR.replace( 'txtNote', {
+                    wordcount : {
+                    showCharCount : false,
+                    showWordCount : true,
+                    },
+                    height: '250px'
+                }); 
+            }
+            
+
+            student.getNote('<?php echo $id; ?>')
         })
+
+
     </script>
 
 </body>

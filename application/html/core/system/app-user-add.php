@@ -8,7 +8,7 @@ $conn = $db->conn();
 
 require('../../../config/user.php'); 
 
-$page = 'app-student';
+$page = 'app-user-add';
 
 $filter1 = ''; $filter2 = '';
 if(isset($_REQUEST['filter1'])){
@@ -127,7 +127,7 @@ if(isset($_REQUEST['filter1'])){
             <div class="content-header row">
                 <div class="content-header-left col-12 mb-2 mt-1">
                     <div class="breadcrumbs-top">
-                        <h5 class="content-header-title float-left pr-1 mb-0 text-dark">Create new students account</h5>
+                        <h5 class="content-header-title float-left pr-1 mb-0 text-dark">Create new user</h5>
                         <div class="breadcrumb-wrapper d-none d-sm-block">
                             <ol class="breadcrumb p-0 mb-0 pl-1">
                                 <li class="breadcrumb-item active"><a href="./"><i class="bx bx-home-alt"></i></a></li>
@@ -144,37 +144,23 @@ if(isset($_REQUEST['filter1'])){
                             <div class="card-body">
                                 <form>
                                     <div class="row mb-2">
-                                        <div class="col-12 col-sm-6 col-lg-3">
-                                            <label for="users-list-verified">Degree : <span class="text-danger">*</span></label>
-                                            <fieldset class="form-group">
-                                                <select class="form-control" id="txtDegree">
-                                                    <option value="">-- Select --</option>
-                                                    <option value="2">Ph.D.</option>
-                                                    <option value="1">M.Sc.</option>
-                                                    <option value="3">Short course</option>
-                                                </select>
-                                            </fieldset>
+                                        <div class="form-group col-12 col-sm-3">
+                                            <label for="">Type : <span class="text-danger">*</span></label>
+                                            <select name="txtType" id="txtType" class="form-control">
+                                                <option value="">-- Select --</option>
+                                                <option value="Internal">Internal faculty staff</option>
+                                                <option value="External">External faculty staff</option>
+                                            </select>
                                         </div>
-                                        <div class="col-12 col-sm-6 col-lg-3">
-                                            <label for="users-list-role">Status <span class="text-danger">*</span></label>
-                                            <fieldset class="form-group">
-                                                <select class="form-control" id="txtStatus">
-                                                    <option value="">-- Select --</option>
-                                                    <option value="studying">Studying</option>
-                                                    <option value="graduated">Graduated</option>
-                                                    <option value="retired">Retired</option>
-                                                </select>
-                                            </fieldset>
-                                        </div>
-                                        <div class="col-12 col-sm-6 col-lg-3">
-                                            
+                                        <div class="col-12 col-sm-6 col-lg-6">
                                             <div class="form-group">
-                                                <label for="users-list-role">Student ID <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="txtStudentId">
+                                                <label for="users-list-role">Staff ID <span class="text-danger">*</span> (eg.ใส่รหัสบุคคลากรสำหรับบุคลากรภายในคณะ / ใส่เลขบัตรประจำตัวประชาชนสำหรับบุคคลภายนอก)</label>
+                                                <input type="text" class="form-control" id="txtStaffId" placeholder="">
+                                                <div style="font-size: 0.8em; padding-left: 5px;padding-top: 3px;"></div>
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-center">
-                                            <button type="button" class="btn btn-secondary btn-block glow users-list-clear mb-0" onclick="staff.check_before_add('student')"><i class="bx bx-search"></i> Check</button>
+                                            <button type="button" class="btn btn-secondary btn-block glow users-list-clear mb-0" onclick="staff.check_before_add('staff')"><i class="bx bx-search"></i> Check</button>
                                         </div>
                                     </div>
 
@@ -189,7 +175,19 @@ if(isset($_REQUEST['filter1'])){
                                                         <select name="txtPrefix" id="txtPrefix" class="form-control">
                                                             <option value="">-- Select --</option>
                                                             <?php 
-                                                            $strSQL = "SELECT * FROM sis_prefix WHERE student_status = 'Yes'";
+                                                            $strSQL = "SELECT * FROM sis_prefix WHERE academic_status = 'Yes' ORDER BY academic_seq";
+                                                            $res = $db->fetch($strSQL, true, false);
+                                                            if(($res) && ($res['status'])){
+                                                                foreach ($res['data'] as $row) {
+                                                                    ?>
+                                                                    <option value="<?php echo $row['prefix']; ?>"><?php echo $row['prefix']; ?></option>
+                                                                    <?php
+                                                                }
+                                                            }
+                                                            ?>
+
+<?php 
+                                                            $strSQL = "SELECT * FROM sis_prefix WHERE academic_status = 'No' AND prefix != 'NA' ORDER BY academic_seq";
                                                             $res = $db->fetch($strSQL, true, false);
                                                             if(($res) && ($res['status'])){
                                                                 foreach ($res['data'] as $row) {
@@ -213,16 +211,19 @@ if(isset($_REQUEST['filter1'])){
                                                         <label for="">Last name : <span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="txtLname">
                                                     </div>
-                                                    <div class="form-group col-12 col-sm-3">
-                                                        <label for="">Start year : <span class="text-danger">*</span></label>
-                                                        <input type="number" class="form-control" id="txtStartyear">
+                                                    
+                                                    <div class="form-group col-12 col-sm-6">
+                                                        <label for="">E-mail address : <span class="text-danger">*</span></label>
+                                                        <input type="email" class="form-control" id="txtEmail">
                                                     </div>
-                                                    <div class="form-group col-12 col-sm-3">
-                                                        <label for="">Start education date : <span class="text-danger">*</span></label>
-                                                        <input type="date" class="form-control" id="txtEdudate">
+
+                                                    <div class="form-group col-12 col-sm-6">
+                                                        <label for="">Create password : <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="txtPassword">
                                                     </div>
+
                                                     <div class="form-group text-center col-12 pt-2">
-                                                        <button class="btn btn-success" type="button" onclick="staff.save_student()">Save</button>
+                                                        <button class="btn btn-success" type="button" onclick="staff.save_staff()">Save</button>
                                                     </div>
                                                 </div>
                                             </div>

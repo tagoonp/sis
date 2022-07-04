@@ -171,6 +171,18 @@ var student = {
             }
         })
     },
+    setNoteInfo(note_id){
+        preload.show()
+        var jxr = $.post(api + 'student?stage=get_note_info', {uid: $('#txtUid').val(), note_id: note_id}, function(){}, 'json')
+                   .always(function(snap){
+                        preload.hide()
+                        if(snap.status == 'Success'){
+
+                        }else{
+
+                        }
+                   })
+    },
     getNote(std_id){
         preload.show()
         var jxr = $.post(api + 'student?stage=get_note', {uid: $('#txtUid').val(), std_id: std_id}, function(){}, 'json')
@@ -183,8 +195,7 @@ var student = {
                             snap.data.forEach(i => {
                                 
                                 if($('#txtRole').val() == 'admin'){
-                                    console.log('a');
-                                    $del = ''
+                                    $del = '<a href="Javascript:student.deleteNote(\'' + i.note_id + '\'); " class="btn text-danger pl-0 btn-sm mr-1 float-right" style="padding: 5px 0px 7px 0px;"><i class="bx bx-trash"></i></a>'
                                     if(i.note_delete == 'Y'){
                                         $del = '<span class="badge badge-danger round ml-1">Deleted</span>'
                                     }
@@ -194,7 +205,6 @@ var student = {
                                                     i.note_message + 
                                                     '<div style="padding: 3px 0px 0px 0px; border: solid; border-width: 0px 0px 0px 0px; border-color: #ccc; font-size: 0.8em;">' + 
                                                         '<span class="badge badge-secondary round">BY : ' + i.FNAME + ' ' + i.LNAME + '</span>' + $del + 
-                                                        '<a href="Javascript:student.deleteNote(\'' + i.note_id + '\'); " class="btn text-danger pl-0 btn-sm mr-1 float-right" style="padding: 5px 0px 7px 0px;"><i class="bx bx-trash"></i></a>' +
                                                     '</div>' +
                                                 '</td>' +
                                             '</tr>'
@@ -217,17 +227,23 @@ var student = {
                                         $('#noteList').append($data)
                                         $i++;
                                     }else{
+
+                                        $del = '<a href="Javascript:student.deleteNote(\'' + i.note_id + '\'); " class="btn text-danger pl-0 btn-sm mr-1 float-right" style="padding: 5px 0px 7px 0px;"><i class="bx bx-trash"></i></a>'
+                                        if(i.note_delete == 'Y'){
+                                            $del = '<span class="badge badge-danger round ml-1">Deleted</span>'
+                                        }
+                                        
                                         $data = '<tr>' + 
                                             '<td class="pt-0">' + i.note_datetime + '</td>' + 
                                             '<td class="pt-1 pb-1">'+
                                                 i.note_message + 
                                                 '<div style="padding: 3px 0px 0px 0px; border: solid; border-width: 0px 0px 0px 0px; border-color: #ccc; font-size: 0.8em;">' + 
                                                     '<span class="badge badge-secondary round">BY : ' + i.FNAME + ' ' + i.LNAME + '</span>' +
-                                                    '<a href="Javascript:student.deleteNote(\'' + i.note_id + '\'); " class="btn text-danger pl-0 btn-sm mr-1 float-right" style="padding: 5px 0px 7px 0px;"><i class="bx bx-trash"></i></a>' +
+                                                    $del +
                                                 '</div>' +
                                             '</td>' +
                                         '</tr>'
-                                        $('#noteList').append($data)
+                                        // $('#noteList').append($data)
                                         $i++;
                                     }
                                 }
@@ -237,6 +253,10 @@ var student = {
                             if($i == 0){
                                 $('#noteList').empty()
                                 $('#noteList').html('<tr><td colspan="2">No record found.</td></tr>')
+                            }else{
+                                if($('#noteList').html() == ''){
+                                    $('#noteList').html('<tr><td colspan="2">No record found.</td></tr>')
+                                }
                             }
                        }else{
                            preload.hide()
@@ -270,8 +290,11 @@ var student = {
                    .always(function(snap){
                        console.log(snap);
                        if(snap.status == 'Success'){
-                        student.getNote($('#txtStudentId').val())
-                        editor_doclist.setData('')
+                            student.getNote($('#txtStudentId').val())
+                            editor_doclist.setData('')
+                            if($('#modalNoteDialog').length){
+                                $('#modalNoteDialog').modal('hide')
+                            }
                        }else{
                         preload.hide()
                         Swal.fire({

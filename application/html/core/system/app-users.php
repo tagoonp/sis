@@ -8,7 +8,7 @@ $conn = $db->conn();
 
 require('../../../config/user.php'); 
 
-$page = 'app-student';
+$page = 'app-users';
 
 $filter1 = ''; $filter1_cmd = ''; $filter2 = ''; $filter2_cmd = ''; $filter3 = ''; $filter3_cmd = '';
 
@@ -136,7 +136,7 @@ if(isset($_REQUEST['filter3'])){
             <div class="content-header row">
                 <div class="content-header-left col-12 mb-2 mt-1">
                     <div class="breadcrumbs-top">
-                        <h5 class="content-header-title float-left pr-1 mb-0 text-dark">Students</h5>
+                        <h5 class="content-header-title float-left pr-1 mb-0 text-dark">All users (not include student)</h5>
                         <div class="breadcrumb-wrapper d-none d-sm-block">
                             <ol class="breadcrumb p-0 mb-0 pl-1">
                                 <li class="breadcrumb-item active"><a href="./"><i class="bx bx-home-alt"></i></a></li>
@@ -152,24 +152,15 @@ if(isset($_REQUEST['filter3'])){
                         <form id="filterForm" onsubmit="return false;">
                             <div class="row border rounded py-2 mb-2">
                                 <div class="col-12 col-sm-6 col-lg-2">
-                                    <label for="users-list-verified">Degree</label>
-                                    <fieldset class="form-group">
-                                        <select class="form-control" id="users-degree">
-                                            <option value="">Any</option>
-                                            <option value="1" <?php if(($filter1 != '') && ($filter1 == '1')){ echo "selected"; } ?>>M.Sc.</option>
-                                            <option value="2" <?php if(($filter1 != '') && ($filter1 == '2')){ echo "selected"; } ?>>Ph.D.</option>
-                                            <option value="3" <?php if(($filter1 != '') && ($filter1 == '3')){ echo "selected"; } ?>>Short course</option>
-                                        </select>
-                                    </fieldset>
-                                </div>
-                                <div class="col-12 col-sm-6 col-lg-2">
-                                    <label for="users-list-role">Status</label>
+                                    <label for="users-list-role">Role</label>
                                     <fieldset class="form-group">
                                         <select class="form-control" id="users-status">
                                             <option value="">Any</option>
-                                            <option value="studying" <?php if(($filter2 != '') && ($filter2 == 'studying')){ echo "selected"; } ?>>Studying</option>
-                                            <option value="graduated" <?php if(($filter2 != '') && ($filter2 == 'graduated')){ echo "selected"; } ?>>Graduated</option>
-                                            <option value="retired" <?php if(($filter2 != '') && ($filter2 == 'retired')){ echo "selected"; } ?>>Retired</option>
+                                            <option value="ADMIN" <?php if(($filter2 != '') && ($filter2 == 'studying')){ echo "selected"; } ?>>Admin</option>
+                                            <option value="STAFF" <?php if(($filter2 != '') && ($filter2 == 'graduated')){ echo "selected"; } ?>>Staff</option>
+                                            <option value="LECTURER" <?php if(($filter2 != '') && ($filter2 == 'retired')){ echo "selected"; } ?>>Lecturer</option>
+                                            <option value="STUDENT" <?php if(($filter2 != '') && ($filter2 == 'retired')){ echo "selected"; } ?>>Student</option>
+                                            
                                         </select>
                                     </fieldset>
                                 </div>
@@ -183,11 +174,14 @@ if(isset($_REQUEST['filter3'])){
                                     <button type="submit" class="btn btn-primary btn-block glow users-list-clear mb-0" >Display</button>
                                 </div>
                                 <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-center">
-                                    <button type="button" class="btn btn-secondary btn-block glow users-list-clear mb-0" onclick="window.location = 'app-student-add'"><i class="bx bx-plus"></i> Add new student</button>
+                                    <button type="button" class="btn btn-secondary btn-block glow users-list-clear mb-0" data-toggle="modal" data-target="#modalType"><i class="bx bx-plus"></i> Add new user</button>
                                 </div>
                             </div>
                         </form>
                     </div>
+
+                    
+
                     <div class="btn btn-outline-primary toast-light-toggler dn">Toast Light</div>
                     <div class="users-list-table">
                         <div class="card">
@@ -197,67 +191,75 @@ if(isset($_REQUEST['filter3'])){
                                     <table id="users-list-datatable" class="table zero-configuration">
                                         <thead>
                                             <tr>
-                                                <th>Student ID</th>
-                                                <th>name</th>
-                                                <th>degree</th>
-                                                <th>year</th>
-                                                <th>study status</th>
-                                                <th>monitor</th>
-                                                <th>active</th>
-                                                <th style="width: 140px;"></th>
+                                                <th>Full name</th>
+                                                <th>Type</th>
+                                                <th>Admin</th>
+                                                <th>Lecturer</th>
+                                                <th>Staff</th>
+                                                <th>Student</th>
+                                                <th>Active</th>
+                                                <th style="width: 70px;"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php 
                                             $strSQL = "SELECT * FROM sis_account a INNER JOIN sis_userinfo b ON a.USERNAME = b.USERNAME 
-                                                       LEFT JOIN sis_student_info c ON a.USERNAME = c.std_id
-                                                       LEFT JOIN sis_degree d ON c.std_degree = d.dg_id
                                                        WHERE 
-                                                       a.ROLE_STUDENT = 'Y' 
+                                                       (a.ROLE_LECTURER = 'Y' OR a.ROLE_STAFF = 'Y' OR a.ROLE_ADMIN = 'Y')
                                                        AND a.DELETE_STATUS = 'N' 
                                                        AND b.USE_STATUS = 'Y'
-                                                       $filter1_cmd 
-                                                       $filter2_cmd 
-                                                       $filter3_cmd  
-                                                       AND c.std_delete = 'N'
                                                        ";
-                                                    //    echo $strSQL;
                                             $res = $db->fetch($strSQL, true, false);
                                             if(($res) && ($res['status'])){
                                                 $c = 1;
                                                 foreach ($res['data'] as $row) {
                                                     ?>
                                                     <tr>
-                                                        <td><?php echo $row['USERNAME']; ?></td>
-                                                        <td><?php 
+                                                        <td>
+                                                            <div class="pb-1"><span class="badge badge-sm badge-success round"><?php echo $row['USERNAME']; ?></span></div>
+                                                            <?php 
                                                                 if($row['PREFIX'] != 'NA'){
                                                                     echo $row['PREFIX'].$row['FNAME'].' '.$row['MNAME'].' '.$row['LNAME']; 
                                                                 }else{
                                                                     echo $row['FNAME'].' '.$row['MNAME'].' '.$row['LNAME']; 
                                                                 }
                                                             ?></td>
-                                                        <td><?php echo $row['dg_shorten'];?></td>
-                                                        <td><?php echo $row['std_start_year']; ?></td>
                                                         <td>
-                                                            <a href="Javascript:setStudyStatus('<?php echo $row['USERNAME'];?>', '<?php echo $row['std_study_status']; ?>')"><i class="bx bx-edit-alt"></i></a> <span id="textStatus_<?php echo $row['USERNAME']; ?>"><?php echo $row['std_study_status']; ?></span>
+                                                            <?php echo $row['STAFF_TYPE']; ?>
                                                         </td>
                                                         <td>
-                                                            <div class="custom-control custom-switch custom-control-inline mb-1 pt-1" onclick="student.setmonitor('<?php echo $row['USERNAME'];?>')">
-                                                                <input type="checkbox" class="custom-control-input" <?php if($row['std_mon_status'] == 'Y'){ echo "checked"; } ?> id="customSwitch1_<?php echo $row['USERNAME']; ?>">
-                                                                <label class="custom-control-label mr-1" for="customSwitch1_<?php echo $row['USERNAME']; ?>"></label>
+                                                            <div class="custom-control custom-switch custom-control-inline mb-1 pt-1">
+                                                                <input type="checkbox" class="custom-control-input" <?php if($row['ROLE_ADMIN'] == 'Y'){ echo "checked"; } ?> id="customSwitch2_admin_<?php echo $row['USERNAME']; ?>" onclick="staff.toggle_role('ADMIN', '<?php echo $row['USERNAME']; ?>')">
+                                                                <label class="custom-control-label mr-1" for="customSwitch2_admin_<?php echo $row['USERNAME']; ?>"></label>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="custom-control custom-switch custom-control-inline mb-1 pt-1">
+                                                                <input type="checkbox" class="custom-control-input"  <?php if($row['ROLE_LECTURER'] == 'Y'){ echo "checked"; } ?> id="customSwitch2_lecturer_<?php echo $row['USERNAME']; ?>" onclick="staff.toggle_role('LECTURER', '<?php echo $row['USERNAME']; ?>')">
+                                                                <label class="custom-control-label mr-1" for="customSwitch2_lecturer_<?php echo $row['USERNAME']; ?>"></label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="custom-control custom-switch custom-control-inline mb-1 pt-1">
+                                                                <input type="checkbox" class="custom-control-input"  <?php if($row['ROLE_STAFF'] == 'Y'){ echo "checked"; } ?> id="customSwitch2_staff_<?php echo $row['USERNAME']; ?>" onclick="staff.toggle_role('STAFF', '<?php echo $row['USERNAME']; ?>')">
+                                                                <label class="custom-control-label mr-1" for="customSwitch2_staff_<?php echo $row['USERNAME']; ?>"></label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="custom-control custom-switch custom-control-inline mb-1 pt-1">
+                                                                <input type="checkbox" class="custom-control-input"  <?php if($row['ROLE_STUDENT'] == 'Y'){ echo "checked"; } ?> id="customSwitch2_student_<?php echo $row['USERNAME']; ?>" onclick="staff.toggle_role('STUDENT', '<?php echo $row['USERNAME']; ?>')">
+                                                                <label class="custom-control-label mr-1" for="customSwitch2_student_<?php echo $row['USERNAME']; ?>"></label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="custom-control custom-switch custom-switch-danger custom-control-inline mb-1 pt-1">
                                                                 <input type="checkbox" class="custom-control-input"  <?php if($row['ACTIVE_STATUS'] == 'Y'){ echo "checked"; } ?> id="customSwitch2_<?php echo $row['USERNAME']; ?>">
                                                                 <label class="custom-control-label mr-1" for="customSwitch2_<?php echo $row['USERNAME']; ?>"></label>
                                                             </div>
                                                         </td>
                                                         <td class="text-right">
-                                                            <a href="Javascript:setStudentUpdateinfo('<?php echo $row['USERNAME']; ?>')" class="pr-1"><i class="bx bx-edit-alt"></i></a>
                                                             <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>" class="pr-1"><i class="bx bx-search"></i></a>
-                                                            <a href="Javascript:void(0);" class="pr-1" data-toggle="modal" data-target="#modalNote" onclick="setNoteOwner('<?php echo $row['USERNAME']; ?>', '<?php echo $row['FNAME'].' '.$row['LNAME']; ?>')" ><i class="bx bx-comment"></i></a>
-                                                            <a href="Javascript:staff.deleteUser('<?php echo $row['USERNAME']; ?>', 'student')" class="text-danger"><i class="bx bx-trash"></i></a>
+                                                            <a href="Javascript:staff.deleteUser('<?php echo $row['USERNAME']; ?>', 'staff')" class="text-danger"><i class="bx bx-trash"></i></a>
                                                         </td>
                                                     </tr>
                                                     <?php

@@ -8,14 +8,23 @@ $conn = $db->conn();
 
 require('../../../config/user.php'); 
 
-$page = 'app-student';
+$page = 'app-staff';
 
-$filter1 = ''; $filter2 = '';
+$filter1 = ''; $filter1_cmd = ''; $filter2 = ''; $filter2_cmd = ''; $filter3 = ''; $filter3_cmd = '';
+
 if(isset($_REQUEST['filter1'])){
     $filter1 = mysqli_real_escape_string($conn, $_REQUEST['filter1']);
+    if($filter1 != '')
+    $filter1_cmd = " AND c.std_degree = '$filter1' ";
 }
-if(isset($_REQUEST['filter1'])){
+if(isset($_REQUEST['filter2'])){
     $filter2 = mysqli_real_escape_string($conn, $_REQUEST['filter2']);
+    if($filter2 != '')
+    $filter2_cmd = " AND c.std_study_status = '$filter2' ";
+}
+if(isset($_REQUEST['filter3'])){
+    $filter3 = mysqli_real_escape_string($conn, $_REQUEST['filter3']);
+    $filter3_cmd = " AND a.USERNAME LIKE '$filter3%' OR b.FNAME LIKE '$filter3%' OR b.LNAME LIKE '$filter3%' ";
 }
 
 ?>
@@ -127,7 +136,7 @@ if(isset($_REQUEST['filter1'])){
             <div class="content-header row">
                 <div class="content-header-left col-12 mb-2 mt-1">
                     <div class="breadcrumbs-top">
-                        <h5 class="content-header-title float-left pr-1 mb-0 text-dark">Create new students account</h5>
+                        <h5 class="content-header-title float-left pr-1 mb-0 text-dark">Lecturers</h5>
                         <div class="breadcrumb-wrapper d-none d-sm-block">
                             <ol class="breadcrumb p-0 mb-0 pl-1">
                                 <li class="breadcrumb-item active"><a href="./"><i class="bx bx-home-alt"></i></a></li>
@@ -142,93 +151,83 @@ if(isset($_REQUEST['filter1'])){
                     <div class="users-list-table">
                         <div class="card">
                             <div class="card-body">
-                                <form>
-                                    <div class="row mb-2">
-                                        <div class="col-12 col-sm-6 col-lg-3">
-                                            <label for="users-list-verified">Degree : <span class="text-danger">*</span></label>
-                                            <fieldset class="form-group">
-                                                <select class="form-control" id="txtDegree">
-                                                    <option value="">-- Select --</option>
-                                                    <option value="2">Ph.D.</option>
-                                                    <option value="1">M.Sc.</option>
-                                                    <option value="3">Short course</option>
-                                                </select>
-                                            </fieldset>
-                                        </div>
-                                        <div class="col-12 col-sm-6 col-lg-3">
-                                            <label for="users-list-role">Status <span class="text-danger">*</span></label>
-                                            <fieldset class="form-group">
-                                                <select class="form-control" id="txtStatus">
-                                                    <option value="">-- Select --</option>
-                                                    <option value="studying">Studying</option>
-                                                    <option value="graduated">Graduated</option>
-                                                    <option value="retired">Retired</option>
-                                                </select>
-                                            </fieldset>
-                                        </div>
-                                        <div class="col-12 col-sm-6 col-lg-3">
-                                            
-                                            <div class="form-group">
-                                                <label for="users-list-role">Student ID <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="txtStudentId">
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-center">
-                                            <button type="button" class="btn btn-secondary btn-block glow users-list-clear mb-0" onclick="staff.check_before_add('student')"><i class="bx bx-search"></i> Check</button>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="addform dn">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <hr>
-                                                <div class="row pt-1">
-                                                    <div class="form-group col-12 col-sm-3">
-                                                        <label for="">Prefix : <span class="text-danger">*</span></label>
-                                                        <select name="txtPrefix" id="txtPrefix" class="form-control">
-                                                            <option value="">-- Select --</option>
-                                                            <?php 
-                                                            $strSQL = "SELECT * FROM sis_prefix WHERE student_status = 'Yes'";
-                                                            $res = $db->fetch($strSQL, true, false);
-                                                            if(($res) && ($res['status'])){
-                                                                foreach ($res['data'] as $row) {
-                                                                    ?>
-                                                                    <option value="<?php echo $row['prefix']; ?>"><?php echo $row['prefix']; ?></option>
-                                                                    <?php
+                                <!-- datatable start -->
+                                <div class="table-responsive">
+                                    <table id="users-list-datatable" class="table zero-configuration">
+                                        <thead>
+                                            <tr>
+                                                <th>Student ID</th>
+                                                <th>name</th>
+                                                <th>degree</th>
+                                                <th>year</th>
+                                                <th>study status</th>
+                                                <th>monitor</th>
+                                                <th>active</th>
+                                                <th style="width: 140px;"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php 
+                                            $strSQL = "SELECT * FROM sis_account a INNER JOIN sis_userinfo b ON a.USERNAME = b.USERNAME 
+                                                       LEFT JOIN sis_student_info c ON a.USERNAME = c.std_id
+                                                       LEFT JOIN sis_degree d ON c.std_degree = d.dg_id
+                                                       WHERE 
+                                                       a.ROLE_STUDENT = 'Y' 
+                                                       AND a.DELETE_STATUS = 'N' 
+                                                       AND b.USE_STATUS = 'Y'
+                                                       $filter1_cmd 
+                                                       $filter2_cmd 
+                                                       $filter3_cmd  
+                                                       AND c.std_delete = 'N'
+                                                       ";
+                                                    //    echo $strSQL;
+                                            $res = $db->fetch($strSQL, true, false);
+                                            if(($res) && ($res['status'])){
+                                                $c = 1;
+                                                foreach ($res['data'] as $row) {
+                                                    ?>
+                                                    <tr>
+                                                        <td><?php echo $row['USERNAME']; ?></td>
+                                                        <td><?php 
+                                                                if($row['PREFIX'] != 'NA'){
+                                                                    echo $row['PREFIX'].$row['FNAME'].' '.$row['MNAME'].' '.$row['LNAME']; 
+                                                                }else{
+                                                                    echo $row['FNAME'].' '.$row['MNAME'].' '.$row['LNAME']; 
                                                                 }
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group col-12 col-sm-3">
-                                                        <label for="">First name : <span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="txtFname">
-                                                    </div>
-                                                    <div class="form-group col-12 col-sm-3">
-                                                        <label for="">Middle name :</label>
-                                                        <input type="text" class="form-control" id="txtMname">
-                                                    </div>
-                                                    <div class="form-group col-12 col-sm-3">
-                                                        <label for="">Last name : <span class="text-danger">*</span></label>
-                                                        <input type="text" class="form-control" id="txtLname">
-                                                    </div>
-                                                    <div class="form-group col-12 col-sm-3">
-                                                        <label for="">Start year : <span class="text-danger">*</span></label>
-                                                        <input type="number" class="form-control" id="txtStartyear">
-                                                    </div>
-                                                    <div class="form-group col-12 col-sm-3">
-                                                        <label for="">Start education date : <span class="text-danger">*</span></label>
-                                                        <input type="date" class="form-control" id="txtEdudate">
-                                                    </div>
-                                                    <div class="form-group text-center col-12 pt-2">
-                                                        <button class="btn btn-success" type="button" onclick="staff.save_student()">Save</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
+                                                            ?></td>
+                                                        <td><?php echo $row['dg_shorten'];?></td>
+                                                        <td><?php echo $row['std_start_year']; ?></td>
+                                                        <td>
+                                                            <a href="Javascript:setStudyStatus('<?php echo $row['USERNAME'];?>', '<?php echo $row['std_study_status']; ?>')"><i class="bx bx-edit-alt"></i></a> <span id="textStatus_<?php echo $row['USERNAME']; ?>"><?php echo $row['std_study_status']; ?></span>
+                                                        </td>
+                                                        <td>
+                                                            <div class="custom-control custom-switch custom-control-inline mb-1 pt-1" onclick="student.setmonitor('<?php echo $row['USERNAME'];?>')">
+                                                                <input type="checkbox" class="custom-control-input" <?php if($row['std_mon_status'] == 'Y'){ echo "checked"; } ?> id="customSwitch1_<?php echo $row['USERNAME']; ?>">
+                                                                <label class="custom-control-label mr-1" for="customSwitch1_<?php echo $row['USERNAME']; ?>"></label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="custom-control custom-switch custom-control-inline mb-1 pt-1">
+                                                                <input type="checkbox" class="custom-control-input"  <?php if($row['ACTIVE_STATUS'] == 'Y'){ echo "checked"; } ?> id="customSwitch2_<?php echo $row['USERNAME']; ?>">
+                                                                <label class="custom-control-label mr-1" for="customSwitch2_<?php echo $row['USERNAME']; ?>"></label>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-right">
+                                                            <a href="Javascript:setStudentUpdateinfo('<?php echo $row['USERNAME']; ?>')" class="pr-1"><i class="bx bx-edit-alt"></i></a>
+                                                            <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>" class="pr-1"><i class="bx bx-search"></i></a>
+                                                            <a href="Javascript:void(0);" class="pr-1" data-toggle="modal" data-target="#modalNote" onclick="setNoteOwner('<?php echo $row['USERNAME']; ?>', '<?php echo $row['FNAME'].' '.$row['LNAME']; ?>')" ><i class="bx bx-comment"></i></a>
+                                                            <a href="Javascript:staff.deleteStudent('<?php echo $row['USERNAME']; ?>')" class="text-danger"><i class="bx bx-trash"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                                    $c++;
+                                                }
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- datatable ends -->
                             </div>
                         </div>
                     </div>
@@ -259,6 +258,90 @@ if(isset($_REQUEST['filter1'])){
             <!-- Basic Toast ends -->
         </div>
     </div>
+
+    <div class="modal fade text-left" id="modalNote" tabindex="-1" role="dialog" aria-labelledby="myModalLabel150" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-full modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-danger white">
+                    <span class="modal-title" id="myModalLabel150">Student note</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="bx bx-x"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 col-sm-5">
+                            <div class="row">
+                                <div class="col-12 col-sm-5">
+                                    <div class="form-group">
+                                        <label for="">Student ID : </label>
+                                        <input type="text" class="form-control" id="txtStudentId" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                    <div class="form-group">
+                                        <label for="">Fullname : </label>
+                                        <input type="text" class="form-control" id="txtStudentFullname" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Note : <span class="text-danger">*</span></label>
+                                <textarea name="txtNote" id="txtNote" cols="30" rows="5" class="form-control"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary btn-block" onclick="student.save_note()">Save</button>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-7">
+                            <div class="table-responsive" style="max-height: 500px;">
+                                <table class="table table-striped table-sm-">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 200px;" class="text-dark">Date - time</th>
+                                            <th class="text-dark">Note</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="noteList">
+                                        <tr><td colspan="2">Note record found.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalUpdatestatus" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body pb-2">
+                    <h3 class="text-dark text-left pt-2">Update status</h3>
+                    <div class="form-group pt-2">
+                        <label for="">Update status to : <span class="text-danger">*</span></label>
+                        <select name="txtStatusTo" id="txtStatusTo" class="form-control">
+                            <option value="">-- Choose status --</option>
+                            <option value="studying">Studying</option>
+                            <option value="graduated">Graduated</option>
+                            <option value="retired">Retired</option>
+                        </select>
+                    </div>
+                    <div class="form-group dn">
+                        <label for=""></label>
+                        <input type="text" class="form-control" id="txtStatusId" placeholder="" readonly>
+                    </div>
+                    <div class="text-right pt-1 pb-2">
+                        <button class="btn btn-success btn-block btn-lg" data-dismiss="modal" onclick="staff.update_student_status()">Update</button>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
 
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
@@ -303,10 +386,11 @@ if(isset($_REQUEST['filter1'])){
 
     <script src="../../../assets/js/core.js?v=<?php echo filemtime('../../../assets/js/core.js'); ?>"></script>
     <script src="../../../assets/js/authen.js?v=<?php echo filemtime('../../../assets/js/authen.js'); ?>"></script>
-    <script src="../../../assets/js/staff.js?v=<?php echo filemtime('../../../assets/js/staff.js'); ?>"></script>
     <script src="../../../assets/js/student.js?v=<?php echo filemtime('../../../assets/js/student.js'); ?>"></script>
+    <script src="../../../assets/js/staff.js?v=<?php echo filemtime('../../../assets/js/staff.js'); ?>"></script>
 
     <script>
+        var editor_doclist = ''
         $(document).ready(function(){
             preload.hide()
             $('.zero-configuration').DataTable();
@@ -314,7 +398,40 @@ if(isset($_REQUEST['filter1'])){
             $('.toast-light-toggler').on('click', function () {
                 $('.toast-basic').toast('show');
             });
+
+            editor_doclist = CKEDITOR.replace( 'txtNote', {
+                wordcount : {
+                showCharCount : false,
+                showWordCount : true,
+                },
+                height: '250px'
+            });
         })
+
+        $(function(){
+            $('#filterForm').submit(function(){
+                student.reload_student_list()
+            })
+        })
+
+        function setStudyStatus(id, current_status){
+            $('#modalUpdatestatus').modal()
+            $('#txtStatusTo').val(current_status)
+            $('#txtStatusId').val(id)
+        }
+
+        function setStudentUpdateinfo(std_id){
+
+        }
+
+        function setNoteOwner(id, fname){
+            student.getNote(id)
+            $('#txtStudentId').val(id)
+            $('#txtStudentFullname').val(fname)
+            setTimeout(() => {
+                $('#txtNote').focus()
+            }, 1000);
+        }
     </script>
 
 </body>

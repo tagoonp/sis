@@ -260,6 +260,7 @@ $page = 'home';
 
     <?php 
     require('./comp/footer.php');
+    require('./comp/modal_addtype.php');
     ?>
 
 

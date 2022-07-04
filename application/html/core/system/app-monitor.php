@@ -178,9 +178,10 @@ if(isset($_REQUEST['filter1'])){
                                         <thead>
                                             <tr>
                                                 <th style="width: 100px;">Student ID</th>
-                                                <th>name</th>
+                                                <th>Full name</th>
+                                                <th>Advisor</th>
                                                 <th>Progress</th>
-                                                <th>monitor</th>
+                                                <th>Monitor</th>
                                                 <th style="width: 200px;">edit</th>
                                             </tr>
                                         </thead>
@@ -188,12 +189,12 @@ if(isset($_REQUEST['filter1'])){
                                             <?php 
                                             $filter_msg_1 = '';
                                             if($filter1 != ''){
-                                                $filter_msg_1 = "AND c.std_degree = '$filter1'";
+                                                $filter_msg_1 = "AND c.std_degree = '$filter1' ";
                                             }
 
                                             $filter_msg_2 = '';
                                             if($filter2 != ''){
-                                                $filter_msg_2 = "AND c.std_study_status = '$filter2'";
+                                                $filter_msg_2 = "AND c.std_study_status = '$filter2' ";
                                             }
                                             $strSQL = "SELECT * FROM sis_account a INNER JOIN sis_userinfo b ON a.USERNAME = b.USERNAME 
                                                        LEFT JOIN sis_student_info c ON a.USERNAME = c.std_id
@@ -205,9 +206,11 @@ if(isset($_REQUEST['filter1'])){
                                                        AND c.std_delete = 'N'
                                                        AND c.std_mon_status = 'Y'
                                                        $filter_msg_1 
-                                                       $filter_msg_2
+                                                       $filter_msg_2 
+                                                       ORDER BY a.USERNAME
                                                        ";
                                             $res = $db->fetch($strSQL, true, false);
+                                            // echo $strSQL;
                                             if(($res) && ($res['status'])){
                                                 $c = 1;
                                                 foreach ($res['data'] as $row) {
@@ -239,6 +242,30 @@ if(isset($_REQUEST['filter1'])){
                                                             }
                                                             ?>
                                                             </div>
+                                                        </td>
+                                                        <td>
+                                                            <?php 
+                                                            $strSQL = "SELECT * FROM sis_advisor a INNER JOIN sis_userinfo b ON a.adv_username = b.USERNAME
+                                                                       WHERE adv_delete = '0' AND adv_std_id = '".$row['USERNAME']."' AND adv_type = 'main' AND b.USE_STATUS = 'Y'";
+                                                            $resMain = $db->fetch($strSQL, false, false);
+                                                            if($resMain){
+                                                                echo "[".strtoupper(substr($resMain['FNAME'], 0, 1)).strtoupper(substr($resMain['LNAME'], 0, 1))."] ";
+                                                                $strSQL = "SELECT * FROM sis_advisor a INNER JOIN sis_userinfo b ON a.adv_username = b.USERNAME
+                                                                        WHERE adv_delete = '0' AND adv_std_id = '".$row['USERNAME']."' AND adv_type != 'main' AND b.USE_STATUS = 'Y'";
+                                                                $resCo = $db->fetch($strSQL, true, false);
+
+                                                                if(($resCo) && ($resCo['status'])){
+                                                                    // echo sizeof($resCo['data']);
+                                                                    foreach ($resCo['data'] as $rowx) {
+                                                                        echo "[".strtoupper(substr($rowx['FNAME'], 0, 1)).strtoupper(substr($rowx['LNAME'], 0, 1))."] ";
+                                                                    }
+                                                                }
+                                                            }else{
+                                                                echo "-";
+                                                            }
+
+                                                            
+                                                            ?>
                                                         </td>
                                                         <td>
                                                             <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">PE</a>
@@ -289,7 +316,7 @@ if(isset($_REQUEST['filter1'])){
                                                                                         <label for="">Note : <span class="text-danger">*</span></label>
                                                                                         <textarea name="txtNote" id="txtNote" cols="30" rows="5" class="form-control"></textarea>
                                                                                     </div>
-                                                                                    <div class="form-group">
+                                                                                    <div class="form-group" id="btnSaveNoteZone">
                                                                                         <button class="btn btn-primary btn-block" onclick="student.save_note()">Save</button>
                                                                                     </div>
                                                                                 </div>
@@ -341,6 +368,7 @@ if(isset($_REQUEST['filter1'])){
 
     <?php 
     require('./comp/footer.php');
+    require('./comp/modal_addtype.php');
     ?>
 
 

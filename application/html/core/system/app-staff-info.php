@@ -8,7 +8,34 @@ $conn = $db->conn();
 
 require('../../../config/user.php'); 
 
-$page = 'page-user-profile';
+$page = 'app-staff';
+
+if(!(isset($_REQUEST['id']))){
+    header('Location: ./app-users');
+    die();
+}
+
+$id = mysqli_real_escape_string($conn, $_REQUEST['id']);
+
+$strSQL = "SELECT * FROM sis_account a INNER JOIN sis_userinfo b ON a.USERNAME = b.USERNAME 
+               WHERE 
+                a.ACTIVE_STATUS = 'Y' 
+                AND a.DELETE_STATUS = 'N' 
+                AND b.USE_STATUS = 'Y' 
+                AND a.USERNAME = '$id'
+               ";
+$res = $db->fetch($strSQL, false, false);
+if(!$res){
+    header('Location: ./app-users');
+    die();
+}
+
+$std_basic_info = $res;
+
+$page_id = '1';
+if(isset($_REQUEST['page_id'])){
+    $page_id = mysqli_real_escape_string($conn, $_REQUEST['page_id']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -55,6 +82,13 @@ $page = 'page-user-profile';
 
 </head>
 <!-- END: Head-->
+<style>
+    .nadv{
+        /* padding: 20px; */
+        border: dashed;
+        border-width: 1px 1px 1px 1px;
+    }
+</style>
 
 <!-- BEGIN: Body-->
 
@@ -118,7 +152,7 @@ $page = 'page-user-profile';
             <div class="content-header row">
                 <div class="content-header-left col-12 mb-2 mt-1">
                     <div class="breadcrumbs-top">
-                        <h5 class="content-header-title float-left pr-1 mb-0 text-dark  d-none d-sm-block">DOE Student information system</h5>
+                        <h5 class="content-header-title float-left pr-1 mb-0 text-dark  d-none d-sm-block">Student information</h5>
                         <div class="breadcrumb-wrapper d-none d-sm-block">
                             <ol class="breadcrumb p-0 mb-0 pl-1">
                                 <li class="breadcrumb-item active"><a href="index.php"><i class="bx bx-home-alt"></i></a></li>
@@ -128,6 +162,112 @@ $page = 'page-user-profile';
                 </div>
             </div>
             <div class="content-body">
+                <div class="row">
+                    <div class="col-12 pb-2">
+                        <h1 class=" mb-0 kb-title text-dark pt-0 pb-0 ">Personal info</h1>
+                        <h3 class=" mb-0 kb-title text-dark pt-0 pb-0 ">Student ID : <?php echo $id; ?></h3>
+                    </div>
+                    <div class="col-12 col-sm-3">
+                        <div class="email-app-menu">
+                            <div class="sidebar-menu-list">
+                                <!-- sidebar menu  -->
+                                <div class="list-group list-group-messages">
+                                    <a href="app-student-info?id=<?php echo $id; ?>&page_id=1" class="list-group-item <?php if($page_id == '1'){ echo "active"; } ?>" id="inbox-menu">
+                                        <div class="fonticon-wrap d-inline mr-25">
+                                            <i class="livicon-evo" data-options="name: user.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
+                                            </i>
+                                        </div>
+                                        Basic info.
+                                        <span class="badge badge-light-primary badge-pill badge-round float-right mt-50">5</span>
+                                    </a>
+
+                                    <a href="app-student-info?id=<?php echo $id; ?>&page_id=5" class="list-group-item <?php if($page_id == '5'){ echo "active"; } ?>">
+                                        <div class="fonticon-wrap d-inline mr-25">
+                                            <i class="livicon-evo" data-options="name: info-alt.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
+                                            </i>
+                                        </div>
+                                        Advisor
+                                    </a>
+
+                                    <a href="app-student-info?id=<?php echo $id; ?>&page_id=4" class="list-group-item <?php if($page_id == '4'){ echo "active"; } ?>">
+                                        <div class="fonticon-wrap d-inline mr-25">
+                                            <i class="livicon-evo" data-options="name: piggybank.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
+                                            </i>
+                                        </div>
+                                        Funding
+                                    </a>
+
+                                    <a href="app-student-info?id=<?php echo $id; ?>&page_id=2" class="list-group-item <?php if($page_id == '2'){ echo "active"; } ?>">
+                                        <div class="fonticon-wrap d-inline mr-25">
+                                            <i class="livicon-evo" data-options="name: envelope-pull.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
+                                            </i>
+                                        </div>
+                                        Contact
+                                    </a>
+
+                                    <a href="app-student-info?id=<?php echo $id; ?>&page_id=3" class="list-group-item <?php if($page_id == '3'){ echo "active"; } ?>">
+                                        <div class="fonticon-wrap d-inline mr-25">
+                                            <i class="livicon-evo" data-options="name: pen.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
+                                            </i>
+                                        </div> Immigration
+                                    </a>
+                                    
+                                   
+                                    <a href="app-student-info?id=<?php echo $id; ?>&page_id=6" class="list-group-item <?php if($page_id == '6'){ echo "active"; } ?>">
+                                        <div class="fonticon-wrap d-inline mr-25">
+                                            <i class="livicon-evo" data-options="name: hammer.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
+                                            </i>
+                                        </div>
+                                        Progress
+                                    </a>
+                                    <a href="app-student-info?id=<?php echo $id; ?>&page_id=7" class="list-group-item <?php if($page_id == '7'){ echo "active"; } ?>">
+                                        <div class="fonticon-wrap d-inline mr-25">
+                                            <i class="livicon-evo" data-options="name: notebook.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
+                                            </i>
+                                        </div>
+                                        Note
+                                    </a>
+                                    <a href="javascript:student.delete()" class="list-group-item text-danger">
+                                        <div class="fonticon-wrap d-inline mr-25">
+                                            <i class="livicon-evo ext-danger" data-options="name: trash.svg; size: 24px; style: lines; strokeColor:red; eventOn:grandparent; duration:0.85;">
+                                            </i>
+                                        </div>
+                                        Delete student
+                                    </a>
+                                </div>
+                                <!-- sidebar menu  end-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-9">
+                        <?php 
+
+                        switch ($page_id) {
+                            case "1":
+                                require_once('./comp/basic_info.php');
+                                break;
+                            case "2":
+                                require_once('./comp/contact_info.php');
+                                break;
+                            case "3":
+                                require_once('./comp/immigration_info.php');
+                                break;
+                            case "4":
+                                require_once('./comp/funding_info.php');
+                                break;
+                            case "5":
+                                require_once('./comp/advisor_info.php');
+                                break;
+                            case "6":
+                                require_once('./comp/progress_info.php');
+                                break;
+                            case "7":
+                                require_once('./comp/note.php');
+                                break;
+                        }
+                        ?>
+                    </div>
+                </div>
                 <!-- Knowledge base Jumbotron start -->
                 <section class="kb-search">
                     <div class="" id="previewImg"></div>
@@ -135,26 +275,13 @@ $page = 'page-user-profile';
                         <div class="col-12">
                             <div class="card bg-transparent shadow-none kb-header-">
                                 <div class="card-body text-center pb-0 pt-0">
-                                    <h1 class=" mb-0 kb-title text-dark pt-0 pb-0 ">Personal info</h1>
+                                    
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
                 <!-- Knowledge base Jumbotron ends -->
-                <!-- Knowledge base start -->
-                <section class="kb-content">
-                    <div class="row kb-search-content-info mx-0 mx-md-2">
-                        <?php 
-                        if($role == 'student'){
-                            require_once('./comp/student_profile.php');
-                        }else{
-                            require_once('./comp/staff_profile.php');
-                        }
-                        ?>
-                    </div>
-                </section>
-                <!-- Knowledge base ends -->
 
             </div>
         </div>
@@ -248,9 +375,22 @@ $page = 'page-user-profile';
     <script src="../../../app-assets/js/scripts/extensions/dropzone.js?v=<?php echo filemtime('../../../app-assets/js/scripts/extensions/dropzone.js'); ?>"></script>
 
     <script>
+        var editor_doclist = ''
         $(document).ready(function(){
             preload.hide()
+
+            editor_doclist = CKEDITOR.replace( 'txtNote', {
+                wordcount : {
+                showCharCount : false,
+                showWordCount : true,
+                },
+                height: '250px'
+            });
+
+            student.getNote('<?php echo $id; ?>')
         })
+
+
     </script>
 
 </body>

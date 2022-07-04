@@ -41,7 +41,14 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Degree : <span class="text-danger">*</span></label>
-                            <input type="text" id="txtDegree" class="form-control" name="txtDegree" readonly placeholder="First Name" value="<?php if($std_basic_info['std_degree'] == '1'){ echo "M.Sc."; }else if($std_basic_info['std_degree'] == '2'){ echo "Ph.D."; }else{ echo "Short-course"; }; ?>">
+                            <fieldset class="form-group">
+                                <select class="form-control" id="users-degree">
+                                    <option value="">-- Select --</option>
+                                    <option value="1" <?php if($std_basic_info['std_degree'] == '1'){ echo "selected"; } ?>>M.Sc.</option>
+                                    <option value="2" <?php if($std_basic_info['std_degree'] == '2'){ echo "selected"; } ?>>Ph.D.</option>
+                                    <option value="3" <?php if($std_basic_info['std_degree'] == '3'){ echo "selected"; } ?>>Short course</option>
+                                </select>
+                            </fieldset>
                         </div>
                     </div>
 
@@ -101,6 +108,39 @@
                         <div class="form-group">
                             <label>Last Name : <span class="text-danger">*</span></label>
                             <input type="text" id="txtLname" class="form-control" name="txtLname" placeholder="Last Name" value="<?php echo $std_basic_info['LNAME']; ?>">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Start year : <span class="text-danger">*</span></label>
+                            <input type="text" id="txtStartyear" class="form-control" name="txtStartyear" placeholder="Start year" value="<?php echo $std_basic_info['std_start_year']; ?>">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>First academic date : <span class="text-danger">*</span></label>
+                            <input type="date" id="txtFirstacademicdate" class="form-control" name="txtFirstacademicdate" placeholder="First academic date" value="<?php echo $std_basic_info['std_start_edu_date']; ?>">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Study status : <span class="text-danger">*</span></label>
+                            <select class="form-control" id="txtStudystatus">
+                                <option value="">-- Select --</option>
+                                <option value="studying" <?php if($std_basic_info['std_study_status'] == 'studying'){ echo "selected"; } ?>>Studying</option>
+                                <option value="graduated" <?php if($std_basic_info['std_study_status'] == 'graduated'){ echo "selected"; } ?>>Graduated</option>
+                                <option value="retired" <?php if($std_basic_info['std_study_status'] == 'retired'){ echo "selected"; } ?>>Retired</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Graduate date : </label>
+                            <input type="date" id="txtGraduatedate" class="form-control" name="txtGraduatedate" placeholder="Graduate date" value="<?php echo $std_basic_info['std_grad_date']; ?>">
                         </div>
                     </div>
                     

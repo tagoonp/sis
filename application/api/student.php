@@ -157,7 +157,8 @@ if($stage == 'get_note'){
     $uid = mysqli_real_escape_string($conn, $_POST['uid']);
     $std_id = mysqli_real_escape_string($conn, $_POST['std_id']);
 
-    $strSQL = "SELECT a.*, b.FNAME, b.LNAME FROM sis_studynote a INNER JOIN sis_userinfo b ON a.note_taker = b.USERNAME WHERE a.note_student = '$std_id' ORDER BY a.note_datetime DESC";
+    $strSQL = "SELECT a.*, b.FNAME, b.LNAME FROM sis_studynote a INNER JOIN sis_userinfo b ON a.note_taker = b.USERNAME 
+               WHERE a.note_student = '$std_id' AND b.USE_STATUS = 'Y' ORDER BY a.note_datetime DESC";
     $res = $db->fetch($strSQL, true, true);
     if(($res) && ($res['count'] > 0)){
         $return['status'] = 'Success';

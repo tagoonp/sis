@@ -167,7 +167,8 @@ if(isset($_REQUEST['page_id'])){
                 <div class="row">
                     <div class="col-12 pb-2">
                         <h1 class=" mb-0 kb-title text-dark pt-0 pb-0 ">Personal info</h1>
-                        <h3 class=" mb-0 kb-title text-dark pt-0 pb-0 ">Student ID : <?php echo $id; ?></h3>
+                        <h3 class=" mb-0 kb-title text-dark pt-0 pb-0 "><?php echo $std_basic_info['FNAME']. " " . $std_basic_info['LNAME'];?>  | Student ID : <?php echo $id; ?></h3>
+                        <span class="badge badge-success round"><h6 class="text-white mb-0"><?php echo $std_basic_info['std_study_status'];?></h6></span>
                     </div>
                     <div class="col-12 col-sm-3">
                         <div class="email-app-menu">
@@ -180,7 +181,7 @@ if(isset($_REQUEST['page_id'])){
                                             </i>
                                         </div>
                                         Basic info.
-                                        <span class="badge badge-light-primary badge-pill badge-round float-right mt-50">5</span>
+                                        <!-- <span class="badge badge-light-primary badge-pill badge-round float-right mt-50">5</span> -->
                                     </a>
 
                                     <a href="app-student-info?id=<?php echo $id; ?>&page_id=5" class="list-group-item <?php if($page_id == '5'){ echo "active"; } ?>">
@@ -222,6 +223,13 @@ if(isset($_REQUEST['page_id'])){
                                         </div>
                                         Progress
                                     </a>
+                                    <a href="app-student-info?id=<?php echo $id; ?>&page_id=8" class="list-group-item <?php if($page_id == '8'){ echo "active"; } ?>">
+                                        <div class="fonticon-wrap d-inline mr-25">
+                                            <i class="livicon-evo" data-options="name: star.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
+                                            </i>
+                                        </div>
+                                        Graduate info.
+                                    </a>
                                     <a href="app-student-info?id=<?php echo $id; ?>&page_id=7" class="list-group-item <?php if($page_id == '7'){ echo "active"; } ?>">
                                         <div class="fonticon-wrap d-inline mr-25">
                                             <i class="livicon-evo" data-options="name: notebook.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
@@ -262,6 +270,9 @@ if(isset($_REQUEST['page_id'])){
                                 break;
                             case "6":
                                 require_once('./comp/progress_info.php');
+                                break;
+                            case "8":
+                                require_once('./comp/graduate_info.php');
                                 break;
                             case "7":
                                 require_once('./comp/note.php');

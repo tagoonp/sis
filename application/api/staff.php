@@ -240,6 +240,45 @@ if($stage == 'delete_adv'){
     die();
 }
 
+if($stage == 'update_student_profile'){
+    if(
+        (!isset($_REQUEST['uid'])) ||
+        (!isset($_REQUEST['username'])) ||
+        (!isset($_REQUEST['contry'])) ||
+        (!isset($_REQUEST['fname'])) ||
+        (!isset($_REQUEST['lname'])) ||
+        (!isset($_REQUEST['syear'])) ||
+        (!isset($_REQUEST['ssdate'])) ||
+        (!isset($_REQUEST['prefix'])) 
+      ){
+        $return['status'] = 'Fail';
+        $return['error_message'] = 'Error x1001';
+        echo json_encode($return);
+        mysqli_close($conn);
+        die();
+    }
+    $uid = mysqli_real_escape_string($conn, $_POST['uid']);
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $fname = mysqli_real_escape_string($conn, $_POST['fname']);
+    $mname = mysqli_real_escape_string($conn, $_POST['mname']);
+    $lname = mysqli_real_escape_string($conn, $_POST['lname']);
+    $country = mysqli_real_escape_string($conn, $_POST['contry']);
+    $prefix = mysqli_real_escape_string($conn, $_POST['prefix']);
+    $syear = mysqli_real_escape_string($conn, $_POST['syear']);
+    $ssdate = mysqli_real_escape_string($conn, $_POST['ssdate']);
+
+    $strSQL = "UPDATE sis_student_info SET std_country = '$country', std_start_year = '$syear', std_start_edu_date = '$ssdate', std_set_start_year = '$ssdate' WHERE std_id = '$username'";
+    $resUpdate = $db->execute($strSQL);
+
+    $strSQL = "UPDATE sis_userinfo SET PREFIX = '$prefix', FNAME = '$fname', MNAME = '$mname', LNAME = '$lname' WHERE USERNAME = '$username'";
+    $resUpdate = $db->execute($strSQL);
+
+    $return['status'] = 'Success';
+    echo json_encode($return);
+    mysqli_close($conn);
+    die();
+}
+
 if($stage == 'add_new_staff'){
     if(
         (!isset($_REQUEST['staff_type'])) ||

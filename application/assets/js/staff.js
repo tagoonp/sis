@@ -1,4 +1,54 @@
 var staff = {
+    update_student_profile(username){
+        $check = 0; $('.form-control').removeClass('is-invalid')
+
+        if($('#txtCountry').val() == ''){ $check++; $('#txtCountry').addClass('is-invalid'); }
+        if($('#txtFname').val() == ''){ $check++; $('#txtFname').addClass('is-invalid'); }
+        if($('#txtLname').val() == ''){ $check++; $('#txtLname').addClass('is-invalid'); }
+        if($('#txtTitle').val() == ''){ $check++; $('#txtTitle').addClass('is-invalid'); }
+        if($('#txtStartyear').val() == ''){ $check++; $('#txtStartyear').addClass('is-invalid'); }
+        if($('#txtFirstacademicdate').val() == ''){ $check++; $('#txtFirstacademicdate').addClass('is-invalid'); }
+
+        if($check != 0){ return ;}
+
+        var param = {
+            username: username,
+            contry: $('#txtCountry').val(),
+            fname: $('#txtFname').val(),
+            mname: $('#txtMname').val(),
+            lname: $('#txtLname').val(),
+            prefix: $('#txtTitle').val(),
+            syear: $('#txtStartyear').val(),
+            ssdate: $('#txtFirstacademicdate').val(),
+            uid: $('#txtUid').val()
+        }
+
+        console.log(param);
+
+        preload.show()
+        var jxr = $.post(api + 'staff?stage=update_student_profile', param, function(){}, 'json')
+                   .always(function(snap){
+                        preload.hide()
+                        console.log(snap);
+                        if(snap.status == 'Success'){
+                            Swal.fire({
+                                icon: "success",
+                                title: 'Success',
+                                text: "Profile update success",
+                                confirmButtonText: 'OK',
+                                confirmButtonClass: 'btn btn-success',
+                            })
+                        }else{
+                            Swal.fire({
+                                icon: "error",
+                                title: 'Error',
+                                text: "Can not update",
+                                confirmButtonText: 'Re-try',
+                                confirmButtonClass: 'btn btn-danger',
+                            })
+                        }
+                   })
+    },
     check_before_add(role){
         $check = 0;
         $('.form-control').removeClass('is-invalid')

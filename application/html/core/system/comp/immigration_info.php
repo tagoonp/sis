@@ -9,19 +9,19 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Identification number : </label>
-                        <input type="text" id="txtCid" class="form-control" name="txtCid" placeholder="Your e-mail address" value="<?php echo base64_decode($std_basic_info['std_idcard']); ?>">
+                        <input type="text" id="txtCid" class="form-control" name="txtCid" placeholder="Identification number" value="<?php if($std_basic_info['std_idcard'] != null) echo base64_decode($std_basic_info['std_idcard']); ?>">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Issue date : </label>    
-                        <input type="date" id="txtCidIssue" class="form-control" name="txtCidIssue" placeholder="Your e-mail address" value="<?php echo $std_basic_info['std_idcard_issue']; ?>">
+                        <input type="date" id="txtCidIssue" class="form-control" name="txtCidIssue" placeholder="Issue date" value="<?php echo $std_basic_info['std_idcard_issue']; ?>">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Expire date : </label>
-                        <input type="date" id="txtCidExp" class="form-control" name="txtCidExp" placeholder="Your e-mail address" value="<?php echo $std_basic_info['std_idcard_expire']; ?>">
+                        <input type="date" id="txtCidExp" class="form-control" name="txtCidExp" placeholder="Expire date" value="<?php echo $std_basic_info['std_idcard_expire']; ?>">
                     </div>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>VISA number : </label>
-                        <input type="text" id="txtVisa" class="form-control" name="txtVisa" placeholder="Your VISA number" value="<?php echo base64_decode($std_basic_info['std_visa_id']); ?>">
+                        <input type="text" id="txtVisa" class="form-control" name="txtVisa" placeholder="Your VISA number" value="<?php if($std_basic_info['std_visa_id'] != null) echo base64_decode($std_basic_info['std_visa_id']); ?>">
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -59,19 +59,19 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Passport number : </label>
-                        <input type="text" id="txtPassport" class="form-control" name="txtPassport" placeholder="Your passport number" value="<?php echo base64_decode($std_basic_info['std_visa_id']); ?>">
+                        <input type="text" id="txtPassport" class="form-control" name="txtPassport" placeholder="Your passport number" value="<?php if($std_basic_info['std_passport_id'] != null) echo base64_decode($std_basic_info['std_passport_id']); ?>">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Issue date : </label>
-                        <input type="date" id="txtPassportIssue" class="form-control" name="txtPassportIssue" placeholder="Your e-mail address" value="<?php echo $std_basic_info['std_visa_issue']; ?>">
+                        <input type="date" id="txtPassportIssue" class="form-control" name="txtPassportIssue" placeholder="Your e-mail address" value="<?php echo $std_basic_info['std_passport_issue']; ?>">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Expire date : </label>
-                        <input type="date" id="txtPassportExp" class="form-control" name="txtPassportExp" placeholder="Your e-mail address" value="<?php echo $std_basic_info['std_visa_expire']; ?>">
+                        <input type="date" id="txtPassportExp" class="form-control" name="txtPassportExp" placeholder="Your e-mail address" value="<?php echo $std_basic_info['std_passport_expire']; ?>">
                     </div>
                 </div>
                 <div class="col-sm-12 text-center pt-2">

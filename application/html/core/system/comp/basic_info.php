@@ -23,7 +23,7 @@
                     // }
 
                     ?>
-                    <img class="round mb-1" src="<?php echo $std_basic_info['PHOTO']; ?>" alt="avatar" width="100">
+                    <a href="Javascript:window.open('<?php echo $std_basic_info['PHOTO']; ?>', '_blank')"><img class="round mb-1" src="<?php echo $std_basic_info['PHOTO']; ?>" alt="avatar" width="100"></a>
                     <?php
                 }else{
                     ?>
@@ -128,28 +128,9 @@
                             <input type="date" id="txtFirstacademicdate" class="form-control" name="txtFirstacademicdate" placeholder="First academic date" value="<?php echo $std_basic_info['std_start_edu_date']; ?>">
                         </div>
                     </div>
-
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Study status : <span class="text-danger">*</span></label>
-                            <select class="form-control" id="txtStudystatus">
-                                <option value="">-- Select --</option>
-                                <option value="studying" <?php if($std_basic_info['std_study_status'] == 'studying'){ echo "selected"; } ?>>Studying</option>
-                                <option value="graduated" <?php if($std_basic_info['std_study_status'] == 'graduated'){ echo "selected"; } ?>>Graduated</option>
-                                <option value="retired" <?php if($std_basic_info['std_study_status'] == 'retired'){ echo "selected"; } ?>>Retired</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Graduate date : </label>
-                            <input type="date" id="txtGraduatedate" class="form-control" name="txtGraduatedate" placeholder="Graduate date" value="<?php echo $std_basic_info['std_grad_date']; ?>">
-                        </div>
-                    </div>
                     
                     <div class="col-sm-12 text-center pt-2">
-                        <button type="button" class="btn btn-primary mr-1" onclick="student.update_profile('<?php echo $std_basic_info['USERNAME']; ?>')">Update record</button>
+                        <button type="button" class="btn btn-primary mr-1" onclick="staff.update_student_profile('<?php echo $std_basic_info['USERNAME']; ?>')">Update record</button>
                     </div>
                 </div>
             </div>

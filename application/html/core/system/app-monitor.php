@@ -182,9 +182,9 @@ if(isset($_REQUEST['filter1'])){
                                         <thead>
                                             <tr>
                                                 <th style="width: 100px;">Student ID</th>
-                                                <th>Full name</th>
+                                                <th style="width: 450px;">Full name</th>
                                                 <th style="width: 100px;">Advisor</th>
-                                                <th style="width: 500px;">Progress</th>
+                                                <th>Progress</th>
                                                 <?php 
                                                 if($role == 'admin'){
                                                     ?><th>Monitor</th><?php
@@ -241,7 +241,7 @@ if(isset($_REQUEST['filter1'])){
                                                                     }else{
                                                                         ?>
                                                                         <div class="avatar mr-1 avatar-lg" style=";">
-                                                                            <img src="<?php echo $row['PHOTO']; ?>" alt="avtar img holder">
+                                                                            <img src="<?php echo $row['PHOTO']; ?>" alt="avtar img holder" onclick="window.open('<?php echo $row['PHOTO']; ?>', '_blank')">
                                                                         </div>
                                                                         <?php
                                                                     }
@@ -295,8 +295,6 @@ if(isset($_REQUEST['filter1'])){
                                                             }else{
                                                                 echo "-";
                                                             }
-
-                                                            
                                                             ?>
                                                         </td>
                                                         <td>

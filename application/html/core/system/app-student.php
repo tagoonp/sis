@@ -199,7 +199,8 @@ if(isset($_REQUEST['filter3'])){
                                             <tr>
                                                 <th>Student ID</th>
                                                 <th>name</th>
-                                                <th>year</th>
+                                                <!-- <th>advisor</th> -->
+                                                <!-- <th>year</th> -->
                                                 <th>study status</th>
                                                 <th>monitor</th>
                                                 <th>active</th>
@@ -220,6 +221,7 @@ if(isset($_REQUEST['filter3'])){
                                                        $filter2_cmd 
                                                        $filter3_cmd  
                                                        AND c.std_delete = 'N'
+                                                       ORDER BY a.USERNAME DESC
                                                        ";
                                                     //    echo $strSQL;
                                             $res = $db->fetch($strSQL, true, false);
@@ -229,7 +231,7 @@ if(isset($_REQUEST['filter3'])){
                                                     ?>
                                                     <tr>
                                                         <td><?php echo $row['USERNAME']; ?></td>
-                                                        <td>
+                                                        <td style="width: 320px;">
                                                         <div class="row">
                                                                 <div class="col-2 pl-0">
                                                                     <?php 
@@ -250,7 +252,7 @@ if(isset($_REQUEST['filter3'])){
                                                                     }
                                                                     ?>
                                                                 </div>
-                                                                <div class="col pl-2">
+                                                                <div class="col pl-3">
                                                                     <?php 
                                                                         if($row['PREFIX'] != 'NA'){
                                                                             echo $row['PREFIX'].$row['FNAME'].' '.$row['MNAME'].' '.$row['LNAME']; 
@@ -274,11 +276,34 @@ if(isset($_REQUEST['filter3'])){
                                                                         <?php
                                                                     }
                                                                     ?>
+
+                                                                    <span class="badge badge-secondary round"><?php echo $row['std_start_year']; ?></span>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                        <td><?php echo $row['std_start_year']; ?></td>
+                                                        <!-- <td> -->
+                                                        <?php 
+                                                            // $strSQL = "SELECT * FROM sis_advisor a INNER JOIN sis_userinfo b ON a.adv_username = b.USERNAME
+                                                            //            WHERE adv_delete = '0' AND adv_std_id = '".$row['USERNAME']."' AND adv_type = 'main' AND b.USE_STATUS = 'Y'";
+                                                            // $resMain = $db->fetch($strSQL, false, false);
+                                                            // if($resMain){
+                                                            //     echo "[".strtoupper(substr($resMain['FNAME'], 0, 1)).strtoupper(substr($resMain['LNAME'], 0, 1))."] ";
+                                                            //     $strSQL = "SELECT * FROM sis_advisor a INNER JOIN sis_userinfo b ON a.adv_username = b.USERNAME
+                                                            //             WHERE adv_delete = '0' AND adv_std_id = '".$row['USERNAME']."' AND adv_type != 'main' AND b.USE_STATUS = 'Y'";
+                                                            //     $resCo = $db->fetch($strSQL, true, false);
+
+                                                            //     if(($resCo) && ($resCo['status'])){
+                                                            //         // echo sizeof($resCo['data']);
+                                                            //         foreach ($resCo['data'] as $rowx) {
+                                                            //             echo "[".strtoupper(substr($rowx['FNAME'], 0, 1)).strtoupper(substr($rowx['LNAME'], 0, 1))."] ";
+                                                            //         }
+                                                            //     }
+                                                            // }else{
+                                                            //     echo "-";
+                                                            // }
+                                                        ?>    
+                                                        <!-- </td> -->
                                                         <td>
                                                             <a href="Javascript:setStudyStatus('<?php echo $row['USERNAME'];?>', '<?php echo $row['std_study_status']; ?>')"><i class="bx bx-edit-alt"></i></a> <span id="textStatus_<?php echo $row['USERNAME']; ?>"><?php echo $row['std_study_status']; ?></span>
                                                         </td>
@@ -295,11 +320,11 @@ if(isset($_REQUEST['filter3'])){
                                                             </div>
                                                         </td>
                                                         <td><?php echo $row['std_grad_year']; ?></td>
-                                                        <td class="text-right">
-                                                            <a href="Javascript:setStudentUpdateinfo('<?php echo $row['USERNAME']; ?>')" class="pr-1"><i class="bx bx-edit-alt"></i></a>
+                                                        <td class="text-right" style="width: 120px;">
+                                                            <!-- <a href="Javascript:setStudentUpdateinfo('<?php echo $row['USERNAME']; ?>')" class="pr-1"><i class="bx bx-edit-alt"></i></a> -->
                                                             <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>" class="pr-1"><i class="bx bx-search"></i></a>
                                                             <a href="Javascript:void(0);" class="pr-1" data-toggle="modal" data-target="#modalNote" onclick="setNoteOwner('<?php echo $row['USERNAME']; ?>', '<?php echo $row['FNAME'].' '.$row['LNAME']; ?>')" ><i class="bx bx-comment"></i></a>
-                                                            <a href="Javascript:staff.deleteUser('<?php echo $row['USERNAME']; ?>', 'student')" class="text-danger"><i class="bx bx-trash"></i></a>
+                                                            <!-- <a href="Javascript:staff.deleteUser('<?php //echo $row['USERNAME']; ?>', 'student')" class="text-danger"><i class="bx bx-trash"></i></a> -->
                                                         </td>
                                                     </tr>
                                                     <?php
@@ -476,7 +501,9 @@ if(isset($_REQUEST['filter3'])){
         var editor_doclist = ''
         $(document).ready(function(){
             preload.hide()
-            $('.zero-configuration').DataTable();
+            $('.zero-configuration').DataTable( {
+                "ordering": false
+                } );
 
             $('.toast-light-toggler').on('click', function () {
                 $('.toast-basic').toast('show');

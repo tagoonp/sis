@@ -298,13 +298,58 @@ if(isset($_REQUEST['filter1'])){
                                                             ?>
                                                         </td>
                                                         <td>
-                                                            <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">PE</a>
-                                                            <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">ENG</a>
-                                                            <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">QE</a>
-                                                            <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">EC</a>
-                                                            <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">PUB</a>
-                                                            <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">TE</a>
-                                                            <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">CE</a>
+                                                            <?php 
+                                                            $strSQL = "SELECT * FROM sis_student_progress WHERE sp_std_id = '".$row['USERNAME']."'";
+                                                            $resProgress = $db->fetch($strSQL, false, false);
+                                                            if($resProgress){
+                                                                $btn_remark = 'btn-outline-secondary'; if($resProgress['sp_pe'] == 'pass'){    $btn_remark = 'btn-success';}
+                                                                ?>
+                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn <?php echo $btn_remark; ?> btn-sm" style="padding: 5px 5px 3px 5px;">PE</a>
+                                                                
+                                                                <?php
+                                                                $btn_remark = 'btn-outline-secondary'; if($resProgress['sp_eng'] == 'pass'){    $btn_remark = 'btn-success';}
+                                                                ?>
+                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn <?php echo $btn_remark; ?> btn-sm" style="padding: 5px 5px 3px 5px;">ENG</a>
+                                                                <?php
+
+                                                                $btn_remark = 'btn-outline-secondary'; if($resProgress['sp_qe'] == 'pass'){    $btn_remark = 'btn-success';}
+                                                                ?>
+                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn <?php echo $btn_remark; ?> btn-sm" style="padding: 5px 5px 3px 5px;">QE</a>
+                                                                <?php
+
+                                                                $btn_remark = 'btn-outline-secondary'; if($resProgress['sp_ec'] == 'pass'){    $btn_remark = 'btn-success';}
+                                                                ?>
+                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn <?php echo $btn_remark; ?> btn-sm" style="padding: 5px 5px 3px 5px;">EC</a>
+                                                                <?php
+
+                                                                $btn_remark = 'btn-outline-secondary'; if($resProgress['sp_pub'] == 'pass'){    $btn_remark = 'btn-success';}
+                                                                ?>
+                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn <?php echo $btn_remark; ?> btn-sm" style="padding: 5px 5px 3px 5px;">PUB</a>
+                                                                <?php
+
+                                                                $btn_remark = 'btn-outline-secondary'; if($resProgress['sp_te'] == 'pass'){    $btn_remark = 'btn-success';}
+                                                                ?>
+                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn <?php echo $btn_remark; ?> btn-sm" style="padding: 5px 5px 3px 5px;">TE</a>
+                                                                <?php
+
+                                                                $btn_remark = 'btn-outline-secondary'; if($resProgress['sp_ce'] == 'pass'){    $btn_remark = 'btn-success';}
+                                                                ?>
+                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn <?php echo $btn_remark; ?> btn-sm" style="padding: 5px 5px 3px 5px;">CE</a>
+                                                                <?php
+
+                                                            }else{
+                                                                ?>
+                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">PE</a>
+                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">ENG</a>
+                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">QE</a>
+                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">EC</a>
+                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">PUB</a>
+                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">TE</a>
+                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">CE</a>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                            
                                                             <div style="font-size: 0.8em; margin-top: 5px;" class="text-dark">Recent note : </div>
                                                             <div id="noteDiv_<?php echo $row['USERNAME'];?>" class="noteDiv text-dark" style="padding: 5px 10px; border: dashed; border-width: 1px 1px 1px 1px; border-color: #ccc; margin-top: 2px; border-radius: 10px; font-size: 0.8em;">
                                                                 <?php 

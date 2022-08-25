@@ -14,7 +14,11 @@
   // * Pick-a-date Picker *//
   // ************************//
   // Basic date
-  $('.pickadate').pickadate();
+  $('.pickadate').pickadate({
+    formatLabel: 'dd/mm/yyyy',
+    formatSubmit: 'dd/mm/yyyy',
+    format: 'yyyy-mm-dd',
+  });
 
   // Format Date Picker
   $('.format-picker').pickadate({
@@ -80,7 +84,11 @@
   // * Pick a Time Picker *//
   // ************************//
   // Basic time
-  $('.pickatime').pickatime();
+  $('.pickatime').pickatime({
+    formatLabel: 'HH:i ',
+    formatSubmit: 'HH:i ',
+    format: 'HH:i',
+  });
 
   // Format options
   $('.pickatime-format').pickatime({
@@ -288,10 +296,10 @@
   });
 
   // To remain picker opened after date range applied
-  picker.data('daterangepicker').hide = function () {};
+  // picker.data('daterangepicker').hide = function () {};
 
   // show picker on load
-  picker.data('daterangepicker').show();
+  // picker.data('daterangepicker').show();
 
 
 })(window, document, jQuery);

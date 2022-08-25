@@ -45,6 +45,7 @@ if(isset($_REQUEST['page_id'])){
 <!-- BEGIN: Head-->
 <input type="hidden" id="txtUid" value="<?php echo $uid; ?>" class="form-control">
 <input type="hidden" id="txtRole" value="<?php echo $resUser['ROLE']; ?>" class="form-control">
+<input type="hidden" id="txtStudentId" value="<?php echo $id; ?>" class="form-control">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -61,6 +62,8 @@ if(isset($_REQUEST['page_id'])){
     <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/vendors.min.css">
     <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/ui/prism.min.css">
     <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/file-uploaders/dropzone.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/pickadate/pickadate.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/daterange/daterangepicker.css">
     <!-- END: Vendor CSS-->
 
     <!-- BEGIN: Theme CSS-->
@@ -375,16 +378,23 @@ if(isset($_REQUEST['page_id'])){
     <script src="../../../app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
     <script src="../../../app-assets/vendors/preload.js/dist/js/preload.js"></script>
     <script src="../../../app-assets/vendors/ckeditor_lite/ckeditor.js"></script>
+    <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.js"></script>
+    <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.date.js"></script>
+    <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.time.js"></script>
+    <script src="../../../app-assets/vendors/js/pickers/pickadate/legacy.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/moment.min.js"></script>
+    <script src="../../../app-assets/vendors/js/pickers/daterange/daterangepicker.js"></script>
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Page JS-->
     
     <!-- END: Page JS-->
-
+    <script src="../../../app-assets/js/scripts/pickers/dateTime/pick-a-datetime.js"></script>
     <script src="../../../assets/js/core.js?v=<?php echo filemtime('../../../assets/js/core.js'); ?>"></script>
     <script src="../../../assets/js/authen.js?v=<?php echo filemtime('../../../assets/js/authen.js'); ?>"></script>
     <script src="../../../assets/js/student.js?v=<?php echo filemtime('../../../assets/js/student.js'); ?>"></script>
     <script src="../../../assets/js/staff.js?v=<?php echo filemtime('../../../assets/js/staff.js'); ?>"></script>
+    <script src="../../../assets/js/progress.js?v=<?php echo filemtime('../../../assets/js/progress.js'); ?>"></script>
     <script src="../../../app-assets/js/scripts/extensions/dropzone.js?v=<?php echo filemtime('../../../app-assets/js/scripts/extensions/dropzone.js'); ?>"></script>
 
     <script>

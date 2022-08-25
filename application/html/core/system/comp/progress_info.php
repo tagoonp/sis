@@ -93,11 +93,13 @@ $resProgress = $db->fetch($strSQL, false, false);
                             </p>
                         </div>
                         <div class="tab-pane" id="qe-fill" role="tabpanel" aria-labelledby="qe-tab-fill">
-                            <h4 class="text-dark">Qualification examination</h4>
+                            <!-- <h4 class="text-dark">Qualification examination</h4>
                             <p>
                                 Biscuit powder jelly beans. Lollipop candy canes croissant icing chocolate cake. Cake fruitcake powder
                                 pudding pastry.
-                            </p>
+                            </p> -->
+                            <?php  require_once('./comp/progress_qe.php'); ?>
+
                         </div>
                         <div class="tab-pane" id="ec-fill" role="tabpanel" aria-labelledby="ec-tab-fill">
                             <h4 class="text-dark">Ethics</h4>
@@ -108,12 +110,14 @@ $resProgress = $db->fetch($strSQL, false, false);
                             </p>
                         </div>
                         <div class="tab-pane" id="pub-fill" role="tabpanel" aria-labelledby="pub-tab-fill">
-                            <h4 class="text-dark">Publications</h4>
+                            <!-- <h4 class="text-dark">Publications</h4>
                             <p>
                                 Tootsie roll oat cake I love bear claw I love caramels caramels halvah chocolate bar. Cotton candy
                                 gummi bears pudding pie apple pie cookie. Cheesecake jujubes lemon drops danish dessert I love
                                 caramels powder.
-                            </p>
+                            </p> -->
+                            <?php  require_once('./comp/progress_pub.php'); ?>
+
                         </div>
                         <div class="tab-pane" id="te-fill" role="tabpanel" aria-labelledby="te-tab-fill">
                             <h4 class="text-dark">Thesis examination</h4>

@@ -105,7 +105,7 @@
                 </div>
                 <div class="form-group">
                     <label for="">Title : <span class="text-danger">*</span></label>
-                    <textarea name="txtTitleU" id="txtPeTitleU" cols="30" rows="3" class="form-control"></textarea>
+                    <textarea name="txtQeTitleU" id="txtQeTitleU" cols="30" rows="3" class="form-control"></textarea>
                 </div>
 
                 <div class="row">
@@ -187,7 +187,7 @@
                         }
                         ?>
                         <div class="pt-1">
-                            <a href="Javascript:update_pe_setup('<?php echo $row['qe_id'] ; ?>', '<?php echo $row['qe_title'] ; ?>', '<?php echo $row['qe_exam_schedule_date'] ; ?>', '<?php echo $row['qe_exam_time_start'] ; ?>', '<?php echo $row['qe_exam_time_end'] ; ?>')" style="font-size: 0.8em;"><i class="bx bx-pencil"></i> Update info.</a> | <a href="Javascript:progress.delete_progress('<?php echo $row['qe_id']; ?>', 'qe')" style="font-size: 0.8em;" class="text-danger" ><i class="bx bx-trash"></i> Delete</a>
+                            <a href="Javascript:update_qe_setup('<?php echo $row['qe_id'] ; ?>', '<?php echo $row['qe_title'] ; ?>', '<?php echo $row['qe_exam_schedule_date'] ; ?>', '<?php echo $row['qe_exam_time_start'] ; ?>', '<?php echo $row['qe_exam_time_end'] ; ?>')" style="font-size: 0.8em;"><i class="bx bx-pencil"></i> Update info.</a> | <a href="Javascript:progress.delete_progress('<?php echo $row['qe_id']; ?>', 'qe')" style="font-size: 0.8em;" class="text-danger" ><i class="bx bx-trash"></i> Delete</a>
                         </div>
                     </td>
                     <td><?php echo $row['qe_udatetime'];?></td>

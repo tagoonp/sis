@@ -256,6 +256,54 @@ var progress = {
                         }
                    })
     },
+    update_qe(){
+        $check = 0;
+        $('.form-control').removeClass('is-invalid')
+        if($('#txtQeTitleU').val() == ''){
+            $('#txtQeTitleU').addClass('is-invalid'); $check++;
+        }
+
+        if($('#txtQeExamDateU').val() != ''){
+            if($('#txtQeExamStartU').val() == ''){
+                $('#txtQeExamStartU').addClass('is-invalid'); $check++;
+            }
+
+            if($('#txtQeExamEndU').val() == ''){
+                $('#txtQeExamEndU').addClass('is-invalid'); $check++;
+            }
+        }
+        
+        if($check != 0){ return ;}
+        var param = {
+            uid: $('#txtUid').val(),
+            std_id: $('#txtStudentId').val(),
+            progress_id: $('#txtQeId').val(),
+            title: $('#txtQeTitleU').val(),
+            exam_date: $('#txtQeExamDateU').val(),
+            exam_start: $('#txtQeExamStartU').val(),
+            exam_end: $('#txtQeExamEndU').val()
+        }
+        console.log(param);
+        preload.show();
+        // return ;
+
+        var jxr = $.post(api + 'progress?stage=update_qe', param, function(){}, 'json')
+                   .always(function(snap){
+                        console.log(snap);
+                        if(snap.status == 'Success'){
+                            window.location.reload()
+                        }else{
+                            preload.hide()
+                            Swal.fire({
+                                icon: "error",
+                                title: 'Error',
+                                text: "Can not add record",
+                                confirmButtonText: 'Re-try',
+                                confirmButtonClass: 'btn btn-danger',
+                            })
+                        }
+                   })
+    },
     update_pe(){
         $check = 0;
         $('.form-control').removeClass('is-invalid')
@@ -355,5 +403,17 @@ function update_pe_setup(id, title, d, s, e){
         $('#txtPeExamStartU').val(s.slice(0, -3))
         $('#txtPeExamEndU').val(e.slice(0, -3))
     }
-    
+}
+
+function update_qe_setup(id, title, d, s, e){
+    $('#modalQeUpdaterecord').modal('show')
+    $('#txtQeId').val(id)
+    $('#txtQeTitleU').val(title)
+
+    $('#txtQeExamDateU').val(d)
+    if(d != ''){
+        console.log(s.slice(0, -3));
+        $('#txtQeExamStartU').val(s.slice(0, -3))
+        $('#txtQeExamEndU').val(e.slice(0, -3))
+    }
 }

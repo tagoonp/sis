@@ -109,7 +109,27 @@ if($stage == 'update_student_status'){
     $status = mysqli_real_escape_string($conn, $_POST['status']);
     $uid = mysqli_real_escape_string($conn, $_POST['uid']);
 
-    $strSQL = "UPDATE sis_student_info SET std_study_status = '$status' WHERE std_id = '$student_id'";
+    $academic_year = mysqli_real_escape_string($conn, $_POST['academic_year']);
+    $s_date = mysqli_real_escape_string($conn, $_POST['s_date']);
+    $s_month = mysqli_real_escape_string($conn, $_POST['s_month']);
+    $s_year = mysqli_real_escape_string($conn, $_POST['s_year']);
+
+    if($s_date < 10){ $s_date = "0".$s_date; };
+    if($s_month < 10){ $s_month = "0".$s_month; };
+
+    $set_date = $s_year . "-" . $s_month . "-" . $s_date;
+
+    $strSQL = "UPDATE sis_student_info SET std_study_status = '$status', std_grad_year = NULL, std_grad_date = NULL, std_retired_date = NULL WHERE std_id = '$student_id'";
+
+    if($status == 'graduated'){
+        $strSQL = "UPDATE sis_student_info SET std_study_status = '$status', std_grad_year = '$academic_year', std_grad_date = '$set_date', std_retired_date = NULL WHERE std_id = '$student_id'";
+    }
+
+    if($status == 'retired'){
+        $strSQL = "UPDATE sis_student_info SET std_study_status = '$status', std_grad_year = NULL, std_retired_year = '$academic_year', std_retired_date = '$set_date', std_grad_date = NULL WHERE std_id = '$student_id'";
+    }
+
+    // $strSQL = "UPDATE sis_student_info SET std_study_status = '$status',  WHERE std_id = '$student_id'";
     $res = $db->execute($strSQL);
 
     $return['status'] = 'Success';

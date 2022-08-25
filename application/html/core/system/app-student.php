@@ -14,15 +14,19 @@ $filter1 = ''; $filter1_cmd = ''; $filter2 = ''; $filter2_cmd = ''; $filter3 = '
 
 if(isset($_REQUEST['filter1'])){
     $filter1 = mysqli_real_escape_string($conn, $_REQUEST['filter1']);
-    if($filter1 != '')
-    $filter1_cmd = " AND c.std_degree = '$filter1' ";
+    if($filter1 != ''){
+        $filter1_cmd = " AND c.std_degree = '$filter1' ";
+    }
+    
 }
 if(isset($_REQUEST['filter2'])){
     $filter2 = mysqli_real_escape_string($conn, $_REQUEST['filter2']);
-    if($filter2 != '')
-    $filter2_cmd = " AND c.std_study_status = '$filter2' ";
+    if($filter2 != ''){
+        $filter2_cmd = " AND c.std_study_status = '$filter2' ";
+    }
+    
 }
-if(isset($_REQUEST['filter3'])){
+if((isset($_REQUEST['filter3'])) && ($_REQUEST['filter3'] != '')){
     $filter3 = mysqli_real_escape_string($conn, $_REQUEST['filter3']);
     $filter3_cmd = " AND a.USERNAME LIKE '$filter3%' OR b.FNAME LIKE '$filter3%' OR b.LNAME LIKE '$filter3%' ";
 }
@@ -51,6 +55,8 @@ if(isset($_REQUEST['filter3'])){
     <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/tables/datatable/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/tables/datatable/responsive.bootstrap4.min.css">
     <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/pickadate/pickadate.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/daterange/daterangepicker.css">
     <!-- END: Vendor CSS-->
 
     <!-- BEGIN: Theme CSS-->
@@ -197,6 +203,7 @@ if(isset($_REQUEST['filter3'])){
                                     <table id="users-list-datatable" class="table zero-configuration">
                                         <thead>
                                             <tr>
+                                                <th>#</th>
                                                 <th>Student ID</th>
                                                 <th>name</th>
                                                 <!-- <th>advisor</th> -->
@@ -230,6 +237,7 @@ if(isset($_REQUEST['filter3'])){
                                                 foreach ($res['data'] as $row) {
                                                     ?>
                                                     <tr>
+                                                        <td><?php echo $c; ?></td>
                                                         <td><?php echo $row['USERNAME']; ?></td>
                                                         <td style="width: 320px;">
                                                         <div class="row">
@@ -306,6 +314,12 @@ if(isset($_REQUEST['filter3'])){
                                                         <!-- </td> -->
                                                         <td>
                                                             <a href="Javascript:setStudyStatus('<?php echo $row['USERNAME'];?>', '<?php echo $row['std_study_status']; ?>')"><i class="bx bx-edit-alt"></i></a> <span id="textStatus_<?php echo $row['USERNAME']; ?>"><?php echo $row['std_study_status']; ?></span>
+                                                            <div id="status_<?php echo $row['USERNAME'];?>">
+                                                                <?php 
+                                                                if($row['std_study_status'] == 'graduated'){ echo '<span class="badge badge-light-success round">'.$row['std_grad_year'].'</span>'; }
+                                                                if($row['std_study_status'] == 'retired'){ echo '<span class="badge badge-light-danger round">'.$row['std_retired_year'].'</span>'; }
+                                                                ?>
+                                                            </div>
                                                         </td>
                                                         <td>
                                                             <div class="custom-control custom-switch custom-control-inline mb-1 pt-1" onclick="student.setmonitor('<?php echo $row['USERNAME'];?>')">
@@ -321,10 +335,8 @@ if(isset($_REQUEST['filter3'])){
                                                         </td>
                                                         <td><?php echo $row['std_grad_year']; ?></td>
                                                         <td class="text-right" style="width: 120px;">
-                                                            <!-- <a href="Javascript:setStudentUpdateinfo('<?php echo $row['USERNAME']; ?>')" class="pr-1"><i class="bx bx-edit-alt"></i></a> -->
                                                             <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>" class="pr-1"><i class="bx bx-search"></i></a>
                                                             <a href="Javascript:void(0);" class="pr-1" data-toggle="modal" data-target="#modalNote" onclick="setNoteOwner('<?php echo $row['USERNAME']; ?>', '<?php echo $row['FNAME'].' '.$row['LNAME']; ?>')" ><i class="bx bx-comment"></i></a>
-                                                            <!-- <a href="Javascript:staff.deleteUser('<?php //echo $row['USERNAME']; ?>', 'student')" class="text-danger"><i class="bx bx-trash"></i></a> -->
                                                         </td>
                                                     </tr>
                                                     <?php
@@ -436,12 +448,30 @@ if(isset($_REQUEST['filter3'])){
                             <option value="retired">Retired</option>
                         </select>
                     </div>
+                    <div class="form-group pt-0">
+                        <label for="">Academic year : <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" placeholder="Enter academic year ex. 2022.." id="txtSettedYear">
+                    </div>
+                    <div class="form-group pt-0">
+                        <label for="">Graduated / Retired date : <span class="text-danger">*</span></label>
+                        <div class="row">
+                            <div class="col-4">
+                                <input type="number" class="form-control" placeholder="Date 01-31 ex. 05" id="txtSettedGdate" min="1" max="31">
+                            </div>
+                            <div class="col-4">
+                                <input type="number" class="form-control" placeholder="Month 01-12 ex. 02 " id="txtSettedGmonth" min="1" max="12">
+                            </div>
+                            <div class="col-4">
+                                <input type="number" class="form-control" placeholder="Year ex. 2021" id="txtSettedGyear" min="1900" max="31">
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group dn">
                         <label for=""></label>
                         <input type="text" class="form-control" id="txtStatusId" placeholder="" readonly>
                     </div>
                     <div class="text-right pt-1 pb-2">
-                        <button class="btn btn-success btn-block btn-lg" data-dismiss="modal" onclick="staff.update_student_status()">Update</button>
+                        <button class="btn btn-success btn-block btn-lg" onclick="staff.update_student_status()">Update</button>
                     </div>
                 </div>
             </div>
@@ -490,6 +520,13 @@ if(isset($_REQUEST['filter3'])){
     <script src="../../../app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
     <script src="../../../app-assets/vendors/preload.js/dist/js/preload.js"></script>
     <script src="../../../app-assets/vendors/ckeditor_lite/ckeditor.js"></script>
+    <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.js"></script>
+    <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.date.js"></script>
+    <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.time.js"></script>
+    <script src="../../../app-assets/vendors/js/pickers/pickadate/legacy.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/moment.min.js"></script>
+    <script src="../../../app-assets/vendors/js/pickers/daterange/daterangepicker.js"></script>
+    <script src="../../../app-assets/js/scripts/pickers/dateTime/pick-a-datetime.js"></script>
     <!-- END: Page JS-->
 
     <script src="../../../assets/js/core.js?v=<?php echo filemtime('../../../assets/js/core.js'); ?>"></script>

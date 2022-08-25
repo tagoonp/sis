@@ -316,27 +316,51 @@ var staff = {
         if($('#txtStatusTo').val() == ''){ $check++; $('#txtStatusTo').addClass('is-invalid') }
         if($check != 0){ return ; }
 
+        if($('#txtStatusTo').val() != 'studying'){ 
+            if($('#txtSettedYear').val() == ''){ $check++; $('#txtSettedYear').addClass('is-invalid') }
+            if($('#txtSettedGdate').val() == ''){ $check++; $('#txtSettedGdate').addClass('is-invalid') }
+            if($('#txtSettedGmonth').val() == ''){ $check++; $('#txtSettedGmonth').addClass('is-invalid') }
+            if($('#txtSettedGyear').val() == ''){ $check++; $('#txtSettedGyear').addClass('is-invalid') }
+        }
+
+        if($check != 0){ return ; }
+
         var param = {
             status: $('#txtStatusTo').val(),
             student_id: $('#txtStatusId').val(),
+            academic_year: $('#txtSettedYear').val(),
+            s_date: $('#txtSettedGdate').val(),
+            s_month: $('#txtSettedGmonth').val(),
+            s_year: $('#txtSettedGyear').val(),
             uid: $('#txtUid').val()
         }
 
         preload.show()
+        console.log(param);
+        // return ;
 
         var jxr = $.post(api + 'staff?stage=update_student_status', param, function(){}, 'json')
                    .always(function(snap){
                         preload.hide()
                         console.log(snap);
                         if(snap.status == 'Success'){
-                            // Swal.fire({
-                            //     icon: "success",
-                            //     title: 'Updated',
-                            //     text: "Status of " + $('#txtStatusId').val() + ' updated.',
-                            //     confirmButtonText: 'OK',
-                            //     confirmButtonClass: 'btn btn-success',
-                            // })
                             $('#textStatus_' + $('#txtStatusId').val()).text($('#txtStatusTo').val())
+
+                            if($('#txtStatusTo').val() == 'retired'){
+                                $('#status_' + $('#txtStatusId').val()).html('<span class="badge badge-light-danger round">' + $('#txtSettedYear').val() + '</span>')
+                            }else if($('#txtStatusTo').val() == 'graduated'){
+                                $('#status_' + $('#txtStatusId').val()).html('<span class="badge badge-light-success round">' + $('#txtSettedYear').val() + '</span>')
+                            }else{
+                                $('#status_' + $('#txtStatusId').val()).html('')
+                            }
+
+                            $('.form-control').removeClass('is-invalid')
+                            $('#txtSettedYear').val('')
+                            $('#txtSettedGdate').val('')
+                            $('#txtSettedGmonth').val('')
+                            $('#txtSettedGyear').val('')
+                            $('#modalUpdatestatus').modal('hide')
+                            
                         }else{
                             Swal.fire({
                                 icon: "error",

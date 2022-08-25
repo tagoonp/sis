@@ -254,6 +254,63 @@ if($stage == 'update_pe'){
     die();
 }
 
+if($stage == 'update_qe'){
+    if(
+        (!isset($_REQUEST['uid'])) ||
+        (!isset($_REQUEST['std_id'])) ||
+        (!isset($_REQUEST['progress_id'])) ||
+        (!isset($_REQUEST['title'])) ||
+        (!isset($_REQUEST['exam_date'])) ||
+        (!isset($_REQUEST['exam_start'])) ||
+        (!isset($_REQUEST['exam_end']))
+      ){
+        $return['status'] = 'Fail';
+        $return['error_message'] = 'Error x1001';
+        echo json_encode($return);
+        mysqli_close($conn);
+        die();
+    }
+
+    $uid = mysqli_real_escape_string($conn, $_POST['uid']);
+    $std_id = mysqli_real_escape_string($conn, $_POST['std_id']);
+    $progress_id = mysqli_real_escape_string($conn, $_POST['progress_id']);
+    $title = mysqli_real_escape_string($conn, $_POST['title']);
+    $exam_date = mysqli_real_escape_string($conn, $_POST['exam_date']);
+    $exam_start = mysqli_real_escape_string($conn, $_POST['exam_start']);
+    $exam_end = mysqli_real_escape_string($conn, $_POST['exam_end']);
+
+    if($exam_date != ''){
+        $exam_start = $exam_start.":00";
+        $exam_end = $exam_end.":00";
+    }
+
+    $strSQL = "UPDATE sis_qe SET qe_title = '$title', qe_udatetime = '$datetime', qe_by_username = '$uid', qe_exam_schedule_date = '$exam_date', qe_exam_time_start = '$exam_start', qe_exam_time_end = '$exam_end' WHERE qe_id = '$progress_id'";
+
+    if($exam_date == ''){
+        $strSQL = "UPDATE sis_qe SET qe_title = '$title', qe_udatetime = '$datetime', qe_by_username = '$uid', qpe_exam_schedule_date = NULL, qe_exam_time_start = NULL, qe_exam_time_end = NULL WHERE qe_id = '$progress_id'";
+    }
+
+    $resInsert = $db->execute($strSQL);
+    if($resInsert){
+
+        $strSQL = "SELECT * FROM sis_student_progress WHERE sp_std_id = '$std_id'";
+        $resCheck = $db->fetch($strSQL, false, false);
+        if($resCheck){
+        }else{
+            $strSQL = "INSERT INTO sis_student_progress (`sp_std_id`, `sp_qe`, `sp_udatetime`) VALUES ('$std_id', 'waiting', '$datetime')";
+            $db->insert($strSQL, false);
+        }
+
+        $return['status'] = 'Success';
+    }else{
+        $return['status'] = 'Fail';
+        $return['error_message'] = 'Error x1002';
+    }
+    echo json_encode($return);
+    mysqli_close($conn);
+    die();
+}
+
 if($stage == 'delete_progress'){
     if(
         (!isset($_REQUEST['uid'])) ||

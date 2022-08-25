@@ -128,12 +128,13 @@ $resProgress = $db->fetch($strSQL, false, false);
                             </p>
                         </div>
                         <div class="tab-pane" id="ce-fill" role="tabpanel" aria-labelledby="ce-tab-fill">
-                            <h4 class="text-dark">Complehensive examination</h4>
+                            <!-- <h4 class="text-dark">Complehensive examination</h4>
                             <p>
                                 Tootsie roll oat cake I love bear claw I love caramels caramels halvah chocolate bar. Cotton candy
                                 gummi bears pudding pie apple pie cookie. Cheesecake jujubes lemon drops danish dessert I love
                                 caramels powder.
-                            </p>
+                            </p> -->
+                            <?php  require_once('./comp/progress_ce.php'); ?>
                         </div>
                     </div>
                 </div>

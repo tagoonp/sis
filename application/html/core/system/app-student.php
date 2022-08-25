@@ -538,9 +538,17 @@ if((isset($_REQUEST['filter3'])) && ($_REQUEST['filter3'] != '')){
         var editor_doclist = ''
         $(document).ready(function(){
             preload.hide()
+            // $('.zero-configuration').DataTable( {
+            //     "ordering": false
+            // } );
+
             $('.zero-configuration').DataTable( {
-                "ordering": false
-                } );
+                "columnDefs": [
+                    { "orderable": false, "targets": [0, 3, 4, 5, 6, 7] },
+                ]
+            } );
+
+            
 
             $('.toast-light-toggler').on('click', function () {
                 $('.toast-basic').toast('show');

@@ -182,6 +182,16 @@ if((isset($_REQUEST['filter3'])) && ($_REQUEST['filter3'] != '')){
                                 <div class="col-12 col-sm-6 col-lg-2">
                                     <label for="users-list-role">Keyword</label>
                                     <fieldset class="form-group">
+                                        <select name="txtKey" id="txtKey" class="form-control">
+                                            <option value="" selected>By student ID / Name or Surname</option>
+                                            <option value="start" selected>Start year</option>
+                                            <option value="grad" selected>Graduate year</option>
+                                        </select>
+                                    </fieldset>
+                                </div>
+                                <div class="col-12 col-sm-6 col-lg-2">
+                                    <label for="users-list-role">Keyword</label>
+                                    <fieldset class="form-group">
                                         <input type="text" class="form-control" id="txtKeyword" value="<?php if($filter3 != ''){ echo $filter3; } ?>">
                                     </fieldset>
                                 </div>

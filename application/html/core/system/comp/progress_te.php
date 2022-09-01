@@ -1,6 +1,6 @@
 <div class="row">
-    <div class="col-8" style="padding-top: 5px;"><h4 class="text-dark">Complehensive examination</h4></div>
-    <div class="col-4 text-right"><h6 class="btn  btn-icon text-dark mb-0"  data-toggle="modal" data-target="#modalCeStatus"><i class="bx bx-pencil"></i></h6></div>
+    <div class="col-8" style="padding-top: 5px;"><h4 class="text-dark">Thesis examination</h4></div>
+    <div class="col-4 text-right"><h6 class="btn  btn-icon text-dark mb-0"  data-toggle="modal" data-target="#modalTeStatus"><i class="bx bx-pencil"></i></h6></div>
 </div>
 <table class="table table-bordered table-sm">
     <tbody>
@@ -9,12 +9,12 @@
             <td>
                 <?php 
                 if($resProgress){
-                    if($resProgress['sp_ce'] == 'pass'){
+                    if($resProgress['sp_te'] == 'pass'){
                         ?>
-                        <span class="badge badge-success round"><?php echo ucwords($resProgress['sp_ce']); ?></span>
+                        <span class="badge badge-success round"><?php echo ucwords($resProgress['sp_te']); ?></span>
                         <?php
                     }else{
-                        echo ucwords($resProgress['sp_ce']);
+                        echo ucwords($resProgress['sp_te']);
                     }
                 }else{
                     echo "N/A";
@@ -26,8 +26,8 @@
             <td style="width: 200px;">Pass date : </td>
             <td>
                 <?php 
-                if(($resProgress) && ($resProgress['sp_ce_passdate'] != null)){
-                    echo $resProgress['sp_ce_passdate'];
+                if(($resProgress) && ($resProgress['sp_te_passdate'] != null)){
+                    echo $resProgress['sp_te_passdate'];
                 }else{
                     echo "-";
                 }
@@ -38,14 +38,14 @@
 </table>
 
 <div class="row pt-2">
-    <div class="col-12" style="padding-top: 5px;"><h4 class="text-dark">Complehensive exam record</h4></div>
+    <div class="col-12" style="padding-top: 5px;"><h4 class="text-dark">Thesis exam record</h4></div>
     <div class="col-12 text-right">
         <!-- <button class="btn btn-danger btn-icon pb-1" data-toggle="modal" data-target="#modalAddrecord"><i class="bx bx-plus"></i></button> -->
     </div>
     <div class="col-12">
         <div class="form-group">
             <label for="">Title : <span class="text-danger">*</span></label>
-            <textarea name="txtCeTitle" id="txtCeTitle" cols="30" rows="3" class="form-control"></textarea>
+            <textarea name="txtTeTitle" id="txtTeTitle" cols="30" rows="3" class="form-control"></textarea>
         </div>
 
         <div class="row">
@@ -53,7 +53,7 @@
                 <div class="form-group">
                     <label for="">Exam date :</label>
                     <fieldset class="form-group position-relative has-icon-left">
-                        <input type="text" id="txtCeExamDate" class="form-control pickadate" placeholder="Select Date">
+                        <input type="text" id="txtTeExamDate" class="form-control pickadate" placeholder="Select Date">
                         <div class="form-control-position">
                             <i class='bx bx-calendar' style="margin-top: 6px;"></i>
                         </div>
@@ -64,7 +64,7 @@
                 <div class="form-group">
                     <label for="">Start time :</label>
                     <fieldset class="form-group position-relative has-icon-left">
-                        <input type="text"  id="txtCeExamStart" class="form-control pickatime" placeholder="Select Time">
+                        <input type="text"  id="txtTeExamStart" class="form-control pickatime" placeholder="Select Time">
                         <div class="form-control-position">
                             <i class='bx bx-history' style="margin-top: 6px;"></i>
                         </div>
@@ -75,7 +75,7 @@
                 <div class="form-group">
                     <label for="">End time :</label>
                     <fieldset class="form-group position-relative has-icon-left">
-                        <input type="text"  id="txtCeExamEnd" class="form-control pickatime" placeholder="Select Time">
+                        <input type="text"  id="txtTeExamEnd" class="form-control pickatime" placeholder="Select Time">
                         <div class="form-control-position">
                             <i class='bx bx-history' style="margin-top: 6px;"></i>
                         </div>
@@ -83,7 +83,7 @@
                 </div>
             </div>
             <div class="col-12 text-left pb-2">
-                <button class="btn btn-danger" type="button" onclick="progress.save_ce()" >Save</button>
+                <button class="btn btn-danger" type="button" onclick="progress.save_te()" >Save</button>
             </div>
         </div>
     </div>
@@ -101,11 +101,11 @@
             <div class="modal-body">
                 <div class="form-group dn">
                     <label for="">ID : <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="txtCeId">
+                    <input type="text" class="form-control" id="txtTeId">
                 </div>
                 <div class="form-group">
                     <label for="">Title : <span class="text-danger">*</span></label>
-                    <textarea name="txtCeTitleU" id="txtCeTitleU" cols="30" rows="3" class="form-control"></textarea>
+                    <textarea name="txtTeTitleU" id="txtTeTitleU" cols="30" rows="3" class="form-control"></textarea>
                 </div>
 
                 <div class="row">
@@ -113,7 +113,7 @@
                         <div class="form-group">
                             <label for="">Exam date :</label>
                             <fieldset class="form-group position-relative has-icon-left">
-                                <input type="text" id="txtCeExamDateU" class="form-control pickadate" placeholder="Select Date">
+                                <input type="text" id="txtTeExamDateU" class="form-control pickadate" placeholder="Select Date">
                                 <div class="form-control-position">
                                     <i class='bx bx-calendar' style="margin-top: 6px;"></i>
                                 </div>
@@ -124,7 +124,7 @@
                         <div class="form-group">
                             <label for="">Start time :</label>
                             <fieldset class="form-group position-relative has-icon-left">
-                                        <input type="text"  id="txtCeExamStartU" class="form-control pickatime" placeholder="Select Time">
+                                        <input type="text"  id="txtTeExamStartU" class="form-control pickatime" placeholder="Select Time">
                                         <div class="form-control-position">
                                             <i class='bx bx-history' style="margin-top: 6px;"></i>
                                         </div>
@@ -135,7 +135,7 @@
                         <div class="form-group">
                             <label for="">End time :</label>
                             <fieldset class="form-group position-relative has-icon-left">
-                                        <input type="text"  id="txtCeExamEndU" class="form-control pickatime" placeholder="Select Time">
+                                        <input type="text"  id="txtTeExamEndU" class="form-control pickatime" placeholder="Select Time">
                                         <div class="form-control-position">
                                             <i class='bx bx-history' style="margin-top: 6px;"></i>
                                         </div>
@@ -151,7 +151,7 @@
                 </button>
                 <button type="button" class="btn btn-primary ml-1">
                     <i class="bx bx-check d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block"  onclick="progress.update_ce()">Save</span>
+                    <span class="d-none d-sm-block"  onclick="progress.update_te()">Save</span>
                 </button>
             </div>
         </div>
@@ -169,7 +169,7 @@
     </thead>
     <tbody>
         <?php 
-        $strSQL = "SELECT * FROM sis_ce WHERE ce_student_username = '$id' AND ce_status = 'Y'";
+        $strSQL = "SELECT * FROM sis_te WHERE te_student_username = '$id' AND te_status = 'Y'";
         $resPE = $db->fetch($strSQL, true, true);
         if(($resPE) && ($resPE['status'])){
             $c = 1;
@@ -178,19 +178,19 @@
                 <tr>
                     <td><?php echo $c; ?></td>
                     <td>
-                        <a href="#" class="text-dark"><?php echo $row['ce_title'];?></a>
+                        <a href="#" class="text-dark"><?php echo $row['te_title'];?></a>
                         <?php 
-                        if($row['ce_exam_schedule_date'] != null){
+                        if($row['te_exam_schedule_date'] != null){
                             ?>
-                            <div><small>Exam schedule > <?php echo $row['ce_exam_schedule_date'] . "  ". $row['ce_exam_time_start'] . " - " . $row['ce_exam_time_end']; ?></small></div>  
+                            <div><small>Exam schedule > <?php echo $row['te_exam_schedule_date'] . "  ". $row['te_exam_time_start'] . " - " . $row['te_exam_time_end']; ?></small></div>  
                             <?php
                         }
                         ?>
                         <div class="pt-1">
-                            <a href="Javascript:update_ce_setup('<?php echo $row['ce_id'] ; ?>', '<?php echo $row['ce_title'] ; ?>', '<?php echo $row['ce_exam_schedule_date'] ; ?>', '<?php echo $row['ce_exam_time_start'] ; ?>', '<?php echo $row['ce_exam_time_end'] ; ?>')" style="font-size: 0.8em;"><i class="bx bx-pencil"></i> Update info.</a> | <a href="Javascript:progress.delete_progress('<?php echo $row['ce_id']; ?>', 'ce')" style="font-size: 0.8em;" class="text-danger" ><i class="bx bx-trash"></i> Delete</a>
+                            <a href="Javascript:update_te_setup('<?php echo $row['te_id'] ; ?>', '<?php echo $row['te_title'] ; ?>', '<?php echo $row['te_exam_schedule_date'] ; ?>', '<?php echo $row['te_exam_time_start'] ; ?>', '<?php echo $row['te_exam_time_end'] ; ?>')" style="font-size: 0.8em;"><i class="bx bx-pencil"></i> Update info.</a> | <a href="Javascript:progress.delete_progress('<?php echo $row['te_id']; ?>', 'ce')" style="font-size: 0.8em;" class="text-danger" ><i class="bx bx-trash"></i> Delete</a>
                         </div>
                     </td>
-                    <td><?php echo $row['ce_udatetime'];?></td>
+                    <td><?php echo $row['te_udatetime'];?></td>
                 </tr>
                 <?php
                 $c++;
@@ -208,11 +208,11 @@
 </table>
 
 
-<div class="modal fade" id="modalCeStatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="modalTeStatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-danger">
-                <h5 class="modal-title text-white" id="exampleModalCenterTitle">Complehensive exam status</h5>
+                <h5 class="modal-title text-white" id="exampleModalCenterTitle">Thesis exam status</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i class="bx bx-x"></i>
                 </button>
@@ -220,7 +220,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="">Status : <span class="text-danger">*</span></label>
-                    <select name="txtCeStatus" id="txtCeStatus" class="form-control">
+                    <select name="txtTeStatus" id="txtTeStatus" class="form-control">
                         <option value="">-- Select --</option>
                         <option value="waiting">Waiting</option>
                         <option value="un-monitor">Un-monitor</option>
@@ -232,7 +232,7 @@
                 <div class="form-group">
                     <label for="">Pass date : </label>
                     <fieldset class="form-group position-relative has-icon-left">
-                        <input type="text" id="txtCePassDate" class="form-control pickadate" placeholder="Select Date">
+                        <input type="text" id="txtTePassDate" class="form-control pickadate" placeholder="Select Date">
                         <div class="form-control-position">
                             <i class='bx bx-calendar' style="margin-top: 6px;"></i>
                         </div>
@@ -244,7 +244,7 @@
                     <i class="bx bx-x d-block d-sm-none"></i>
                     <span class="d-none d-sm-block">Close</span>
                 </button>
-                <button type="button" class="btn btn-danger ml-1" onclick="progress.update_ce_status()">
+                <button type="button" class="btn btn-danger ml-1" onclick="progress.update_te_status()">
                     <i class="bx bx-check d-block d-sm-none"></i>
                     <span class="d-none d-sm-block">Save</span>
                 </button>

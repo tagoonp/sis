@@ -136,6 +136,128 @@ if($stage == 'add_pe'){
     die();
 }
 
+if($stage == 'add_ce'){
+    if(
+        (!isset($_REQUEST['uid'])) ||
+        (!isset($_REQUEST['std_id'])) ||
+        (!isset($_REQUEST['title'])) ||
+        (!isset($_REQUEST['exam_date'])) ||
+        (!isset($_REQUEST['exam_start'])) ||
+        (!isset($_REQUEST['exam_end']))
+      ){
+        $return['status'] = 'Fail';
+        $return['error_message'] = 'Error x1001';
+        echo json_encode($return);
+        mysqli_close($conn);
+        die();
+    }
+
+    $uid = mysqli_real_escape_string($conn, $_POST['uid']);
+    $std_id = mysqli_real_escape_string($conn, $_POST['std_id']);
+    $title = mysqli_real_escape_string($conn, $_POST['title']);
+    $exam_date = mysqli_real_escape_string($conn, $_POST['exam_date']);
+    $exam_start = mysqli_real_escape_string($conn, $_POST['exam_start']);
+    $exam_end = mysqli_real_escape_string($conn, $_POST['exam_end']);
+
+    if($exam_date != ''){
+        $exam_start = $exam_start.":00";
+        $exam_end = $exam_end.":00";
+    }
+
+    $strSQL = "INSERT INTO sis_ce 
+              (`ce_title`, `ce_udatetime`, `ce_by_username`, `ce_exam_schedule_date`, `ce_exam_time_start`, 
+              `ce_exam_time_end`, `ce_student_username`) 
+              VALUES 
+              ( '$title', '$datetime', '$uid', '$exam_date', '$exam_start',  '$exam_end', '$std_id')";
+    if($exam_date == ''){
+        $strSQL = "INSERT INTO sis_ce 
+              (`ce_title`, `ce_udatetime`, `ce_by_username`, `ce_student_username`) 
+              VALUES 
+              ( '$title', '$datetime', '$uid', '$std_id')";
+    }
+
+    $resInsert = $db->insert($strSQL, false);
+    if($resInsert){
+
+        $strSQL = "SELECT * FROM sis_student_progress WHERE sp_std_id = '$std_id'";
+        $resCheck = $db->fetch($strSQL, false, false);
+        if($resCheck){
+        }else{
+            $strSQL = "INSERT INTO sis_student_progress (`sp_std_id`, `sp_ce`, `sp_udatetime`) VALUES ('$std_id', 'waiting', '$datetime')";
+            $db->insert($strSQL, false);
+        }
+
+        $return['status'] = 'Success';
+    }else{
+        $return['status'] = 'Fail';
+        $return['error_message'] = 'Error x1002';
+    }
+    echo json_encode($return);
+    mysqli_close($conn);
+    die();
+}
+
+if($stage == 'add_te'){
+    if(
+        (!isset($_REQUEST['uid'])) ||
+        (!isset($_REQUEST['std_id'])) ||
+        (!isset($_REQUEST['title'])) ||
+        (!isset($_REQUEST['exam_date'])) ||
+        (!isset($_REQUEST['exam_start'])) ||
+        (!isset($_REQUEST['exam_end']))
+      ){
+        $return['status'] = 'Fail';
+        $return['error_message'] = 'Error x1001';
+        echo json_encode($return);
+        mysqli_close($conn);
+        die();
+    }
+
+    $uid = mysqli_real_escape_string($conn, $_POST['uid']);
+    $std_id = mysqli_real_escape_string($conn, $_POST['std_id']);
+    $title = mysqli_real_escape_string($conn, $_POST['title']);
+    $exam_date = mysqli_real_escape_string($conn, $_POST['exam_date']);
+    $exam_start = mysqli_real_escape_string($conn, $_POST['exam_start']);
+    $exam_end = mysqli_real_escape_string($conn, $_POST['exam_end']);
+
+    if($exam_date != ''){
+        $exam_start = $exam_start.":00";
+        $exam_end = $exam_end.":00";
+    }
+
+    $strSQL = "INSERT INTO sis_te 
+              (`te_title`, `te_udatetime`, `te_by_username`, `te_exam_schedule_date`, `te_exam_time_start`, 
+              `te_exam_time_end`, `te_student_username`) 
+              VALUES 
+              ( '$title', '$datetime', '$uid', '$exam_date', '$exam_start',  '$exam_end', '$std_id')";
+    if($exam_date == ''){
+        $strSQL = "INSERT INTO sis_te 
+              (`te_title`, `te_udatetime`, `te_by_username`, `te_student_username`) 
+              VALUES 
+              ( '$title', '$datetime', '$uid', '$std_id')";
+    }
+
+    $resInsert = $db->insert($strSQL, false);
+    if($resInsert){
+
+        $strSQL = "SELECT * FROM sis_student_progress WHERE sp_std_id = '$std_id'";
+        $resCheck = $db->fetch($strSQL, false, false);
+        if($resCheck){
+        }else{
+            $strSQL = "INSERT INTO sis_student_progress (`sp_std_id`, `sp_te`, `sp_udatetime`) VALUES ('$std_id', 'waiting', '$datetime')";
+            $db->insert($strSQL, false);
+        }
+
+        $return['status'] = 'Success';
+    }else{
+        $return['status'] = 'Fail';
+        $return['error_message'] = 'Error x1002';
+    }
+    echo json_encode($return);
+    mysqli_close($conn);
+    die();
+}
+
 if($stage == 'add_qe'){
     if(
         (!isset($_REQUEST['uid'])) ||
@@ -197,6 +319,55 @@ if($stage == 'add_qe'){
     die();
 }
 
+if($stage == 'add_eng'){
+    if(
+        (!isset($_REQUEST['uid'])) ||
+        (!isset($_REQUEST['std_id'])) ||
+        (!isset($_REQUEST['exam_info'])) ||
+        (!isset($_REQUEST['exam_name'])) ||
+        (!isset($_REQUEST['exam_date']))
+      ){
+        $return['status'] = 'Fail';
+        $return['error_message'] = 'Error x1001';
+        echo json_encode($return);
+        mysqli_close($conn);
+        die();
+    }
+
+    $uid = mysqli_real_escape_string($conn, $_POST['uid']);
+    $std_id = mysqli_real_escape_string($conn, $_POST['std_id']);
+    $exam_info = mysqli_real_escape_string($conn, $_POST['exam_info']);
+    $exam_name = mysqli_real_escape_string($conn, $_POST['exam_name']);
+    $exam_date = mysqli_real_escape_string($conn, $_POST['exam_date']);
+
+    $strSQL = "INSERT INTO sis_eng (`eng_title`, `eng_info`, `eng_udatetime`, `eng_by_username`, `eng_exam_date`, `eng_student_username`) 
+              VALUES 
+              ( '$exam_name', '$exam_info', '$datetime', '$uid', '$exam_date', '$std_id')";
+    if($exam_date == ''){
+        $strSQL = "INSERT INTO sis_eng (`eng_title`, `eng_info`, `eng_udatetime`, `eng_by_username`,  `eng_student_username`)   VALUES ( '$exam_name', '$exam_info', '$datetime', '$uid', '$std_id')";
+    }
+
+    $resInsert = $db->insert($strSQL, false);
+    if($resInsert){
+
+        $strSQL = "SELECT * FROM sis_student_progress WHERE sp_std_id = '$std_id'";
+        $resCheck = $db->fetch($strSQL, false, false);
+        if($resCheck){
+        }else{
+            $strSQL = "INSERT INTO sis_student_progress (`sp_std_id`, `sp_eng`, `sp_udatetime`) VALUES ('$std_id', 'waiting', '$datetime')";
+            $db->insert($strSQL, false);
+        }
+
+        $return['status'] = 'Success';
+    }else{
+        $return['status'] = 'Fail';
+        $return['error_message'] = 'Error x1002';
+    }
+    echo json_encode($return);
+    mysqli_close($conn);
+    die();
+}
+
 if($stage == 'update_pe'){
     if(
         (!isset($_REQUEST['uid'])) ||
@@ -241,6 +412,113 @@ if($stage == 'update_pe'){
         if($resCheck){
         }else{
             $strSQL = "INSERT INTO sis_student_progress (`sp_std_id`, `sp_pe`, `sp_udatetime`) VALUES ('$std_id', 'waiting', '$datetime')";
+            $db->insert($strSQL, false);
+        }
+
+        $return['status'] = 'Success';
+    }else{
+        $return['status'] = 'Fail';
+        $return['error_message'] = 'Error x1002';
+    }
+    echo json_encode($return);
+    mysqli_close($conn);
+    die();
+}
+
+if($stage == 'update_pub'){
+    if(
+        (!isset($_REQUEST['uid'])) ||
+        (!isset($_REQUEST['std_id'])) ||
+        (!isset($_REQUEST['progress_id'])) ||
+        (!isset($_REQUEST['title'])) ||
+        (!isset($_REQUEST['pub_date'])) ||
+        (!isset($_REQUEST['author'])) ||
+        (!isset($_REQUEST['publisher']))
+      ){
+        $return['status'] = 'Fail';
+        $return['error_message'] = 'Error x1001';
+        echo json_encode($return);
+        mysqli_close($conn);
+        die();
+    }
+
+    $uid = mysqli_real_escape_string($conn, $_POST['uid']);
+    $std_id = mysqli_real_escape_string($conn, $_POST['std_id']);
+    $progress_id = mysqli_real_escape_string($conn, $_POST['progress_id']);
+    $title = mysqli_real_escape_string($conn, $_POST['title']);
+    $pub_date = mysqli_real_escape_string($conn, $_POST['pub_date']);
+    $author = mysqli_real_escape_string($conn, $_POST['author']);
+    $publisher = mysqli_real_escape_string($conn, $_POST['publisher']);
+
+
+    $strSQL = "UPDATE sis_pub SET pub_title = '$title', pub_publish_date = '$pub_date', pub_publisher = '$publisher', pub_author = '$author', pub_by_username = '$uid'  WHERE pub_id = '$progress_id'";
+
+
+    $resInsert = $db->execute($strSQL);
+    if($resInsert){
+
+        $strSQL = "SELECT * FROM sis_student_progress WHERE sp_std_id = '$std_id'";
+        $resCheck = $db->fetch($strSQL, false, false);
+        if($resCheck){
+        }else{
+            $strSQL = "INSERT INTO sis_student_progress (`sp_std_id`, `sp_pub`, `sp_udatetime`) VALUES ('$std_id', 'waiting', '$datetime')";
+            $db->insert($strSQL, false);
+        }
+
+        $return['status'] = 'Success';
+    }else{
+        $return['status'] = 'Fail';
+        $return['error_message'] = 'Error x1002';
+    }
+    echo json_encode($return);
+    mysqli_close($conn);
+    die();
+}
+
+if($stage == 'update_ce'){
+    if(
+        (!isset($_REQUEST['uid'])) ||
+        (!isset($_REQUEST['std_id'])) ||
+        (!isset($_REQUEST['progress_id'])) ||
+        (!isset($_REQUEST['title'])) ||
+        (!isset($_REQUEST['exam_date'])) ||
+        (!isset($_REQUEST['exam_start'])) ||
+        (!isset($_REQUEST['exam_end']))
+      ){
+        $return['status'] = 'Fail';
+        $return['error_message'] = 'Error x1001';
+        echo json_encode($return);
+        mysqli_close($conn);
+        die();
+    }
+
+    $uid = mysqli_real_escape_string($conn, $_POST['uid']);
+    $std_id = mysqli_real_escape_string($conn, $_POST['std_id']);
+    $progress_id = mysqli_real_escape_string($conn, $_POST['progress_id']);
+    $title = mysqli_real_escape_string($conn, $_POST['title']);
+    $exam_date = mysqli_real_escape_string($conn, $_POST['exam_date']);
+    $exam_start = mysqli_real_escape_string($conn, $_POST['exam_start']);
+    $exam_end = mysqli_real_escape_string($conn, $_POST['exam_end']);
+
+    if($exam_date != ''){
+        $exam_start = $exam_start.":00";
+        $exam_end = $exam_end.":00";
+    }
+
+    $strSQL = "UPDATE sis_ce SET ce_title = '$title', ce_udatetime = '$datetime', ce_by_username = '$uid', ce_exam_schedule_date = '$exam_date', ce_exam_time_start = '$exam_start', ce_exam_time_end = '$exam_end' WHERE ce_id = '$progress_id'";
+
+    if($exam_date == ''){
+        $strSQL = "UPDATE sis_ce SET ce_title = '$title', ce_udatetime = '$datetime', ce_by_username = '$uid', ce_exam_schedule_date = NULL, ce_exam_time_start = NULL, ce_exam_time_end = NULL WHERE ce_id = '$progress_id'";
+    }
+
+    $resInsert = $db->execute($strSQL);
+    if($resInsert){
+
+        $strSQL = "SELECT * FROM sis_student_progress WHERE sp_std_id = '$std_id'";
+        $resCheck = $db->fetch($strSQL, false, false);
+        if($resCheck){
+        }else{
+            $strSQL = "INSERT INTO sis_student_progress (`sp_std_id`, `sp_ce`, `sp_udatetime`) VALUES ('$std_id', 'waiting', '$datetime')";
             $db->insert($strSQL, false);
         }
 
@@ -340,8 +618,20 @@ if($stage == 'delete_progress'){
         $return['status'] = 'Success';
     }
 
+    if($progress == 'eng'){
+        $strSQL = "UPDATE sis_eng SET eng_status = 'N' WHERE eng_id = '$progress_id'";
+        $resUpdate = $db->execute($strSQL);
+        $return['status'] = 'Success';
+    }
+
     if($progress == 'pub'){
         $strSQL = "UPDATE sis_pub SET pub_status = 'N' WHERE pub_id = '$progress_id'";
+        $resUpdate = $db->execute($strSQL);
+        $return['status'] = 'Success';
+    }
+
+    if($progress == 'ce'){
+        $strSQL = "UPDATE sis_ce SET ce_status = 'N' WHERE ce_id = '$progress_id'";
         $resUpdate = $db->execute($strSQL);
         $return['status'] = 'Success';
     }
@@ -437,6 +727,70 @@ if($stage == 'update_status'){
         }
     }
 
+    if($progress == 'eng'){
+        
+        $strSQL = "SELECT * FROM sis_student_progress WHERE sp_std_id = '$std_id'";
+        $resCheck = $db->fetch($strSQL, false, false);
+        if($resCheck){
+            $strSQL = "UPDATE sis_student_progress SET sp_eng = '$status', sp_udatetime = '$datetime' WHERE sp_std_id = '$std_id'";
+            $db->execute($strSQL);
+
+            if($status == 'pass'){
+                $strSQL = "UPDATE sis_student_progress SET sp_eng_passdate = '$pass_date', sp_udatetime = '$datetime' WHERE sp_std_id = '$std_id'";
+                $db->execute($strSQL);
+            }else{
+                $strSQL = "UPDATE sis_student_progress SET sp_eng_passdate = NULL, sp_udatetime = '$datetime' WHERE sp_std_id = '$std_id'";
+                $db->execute($strSQL);
+            }
+
+            $return['status'] = 'Success';
+        }else{
+            $strSQL = "INSERT INTO sis_student_progress (`sp_std_id`, `sp_eng`, `sp_udatetime`) VALUES ('$std_id', '$status', '$datetime')";
+            $db->insert($strSQL, false);
+
+            if($status == 'pass'){
+                $strSQL = "UPDATE sis_student_progress SET sp_eng_passdate = '$pass_date', sp_udatetime = '$datetime' WHERE sp_std_id = '$std_id'";
+                $db->execute($strSQL);
+            }else{
+                $strSQL = "UPDATE sis_student_progress SET sp_eng_passdate = NULL, sp_udatetime = '$datetime' WHERE sp_std_id = '$std_id'";
+                $db->execute($strSQL);
+            }
+            $return['status'] = 'Success';
+        }
+    }
+
+    if($progress == 'ce'){
+        
+        $strSQL = "SELECT * FROM sis_student_progress WHERE sp_std_id = '$std_id'";
+        $resCheck = $db->fetch($strSQL, false, false);
+        if($resCheck){
+            $strSQL = "UPDATE sis_student_progress SET sp_ce = '$status', sp_udatetime = '$datetime' WHERE sp_std_id = '$std_id'";
+            $db->execute($strSQL);
+
+            if($status == 'pass'){
+                $strSQL = "UPDATE sis_student_progress SET sp_ce_passdate = '$pass_date', sp_udatetime = '$datetime' WHERE sp_std_id = '$std_id'";
+                $db->execute($strSQL);
+            }else{
+                $strSQL = "UPDATE sis_student_progress SET sp_ce_passdate = NULL, sp_udatetime = '$datetime' WHERE sp_std_id = '$std_id'";
+                $db->execute($strSQL);
+            }
+
+            $return['status'] = 'Success';
+        }else{
+            $strSQL = "INSERT INTO sis_student_progress (`sp_std_id`, `sp_ce`, `sp_udatetime`) VALUES ('$std_id', '$status', '$datetime')";
+            $db->insert($strSQL, false);
+
+            if($status == 'pass'){
+                $strSQL = "UPDATE sis_student_progress SET sp_ce_passdate = '$pass_date', sp_udatetime = '$datetime' WHERE sp_std_id = '$std_id'";
+                $db->execute($strSQL);
+            }else{
+                $strSQL = "UPDATE sis_student_progress SET sp_ce_passdate = NULL, sp_udatetime = '$datetime' WHERE sp_std_id = '$std_id'";
+                $db->execute($strSQL);
+            }
+            $return['status'] = 'Success';
+        }
+    }
+
 
     if($progress == 'pub'){
         
@@ -464,6 +818,38 @@ if($stage == 'update_status'){
                 $db->execute($strSQL);
             }else{
                 $strSQL = "UPDATE sis_student_progress SET sp_pub_passdate = NULL, sp_udatetime = '$datetime' WHERE sp_std_id = '$std_id'";
+                $db->execute($strSQL);
+            }
+            $return['status'] = 'Success';
+        }
+    }
+
+    if($progress == 'te'){
+        
+        $strSQL = "SELECT * FROM sis_student_progress WHERE sp_std_id = '$std_id'";
+        $resCheck = $db->fetch($strSQL, false, false);
+        if($resCheck){
+            $strSQL = "UPDATE sis_student_progress SET sp_te = '$status', sp_udatetime = '$datetime' WHERE sp_std_id = '$std_id'";
+            $db->execute($strSQL);
+
+            if($status == 'pass'){
+                $strSQL = "UPDATE sis_student_progress SET sp_te_passdate = '$pass_date', sp_udatetime = '$datetime' WHERE sp_std_id = '$std_id'";
+                $db->execute($strSQL);
+            }else{
+                $strSQL = "UPDATE sis_student_progress SET sp_te_passdate = NULL, sp_udatetime = '$datetime' WHERE sp_std_id = '$std_id'";
+                $db->execute($strSQL);
+            }
+
+            $return['status'] = 'Success';
+        }else{
+            $strSQL = "INSERT INTO sis_student_progress (`sp_std_id`, `sp_te`, `sp_udatetime`) VALUES ('$std_id', '$status', '$datetime')";
+            $db->insert($strSQL, false);
+
+            if($status == 'pass'){
+                $strSQL = "UPDATE sis_student_progress SET sp_te_passdate = '$pass_date', sp_udatetime = '$datetime' WHERE sp_std_id = '$std_id'";
+                $db->execute($strSQL);
+            }else{
+                $strSQL = "UPDATE sis_student_progress SET sp_te_passdate = NULL, sp_udatetime = '$datetime' WHERE sp_std_id = '$std_id'";
                 $db->execute($strSQL);
             }
             $return['status'] = 'Success';

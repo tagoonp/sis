@@ -39,6 +39,126 @@ var progress = {
                         }
                    })
     },
+    update_eng_status(){
+        $check = 0;
+        $('.form-control').removeClass('is-invalid')
+        if($('#txtEngStatus').val() == ''){
+            $('#txtEngStatus').addClass('is-invalid'); $check++;
+        }
+
+        if($('#txtEngStatus').val() == 'pass'){
+            if($('#txtEngPassDate').val() == ''){
+                $('#txtEngPassDate').addClass('is-invalid'); $check++;
+            }
+        }
+        
+        if($check != 0){ return ;}
+        var param = {
+            uid: $('#txtUid').val(),
+            std_id: $('#txtStudentId').val(),
+            status: $('#txtEngStatus').val(),
+            pass_date: $('#txtEngPassDate').val(),
+            progress: 'eng'
+        }
+        console.log(param);
+        preload.show()
+        var jxr = $.post(api + 'progress?stage=update_status', param, function(){}, 'json')
+                   .always(function(snap){
+                        console.log(snap);
+                        if(snap.status == 'Success'){
+                            window.location.reload()
+                        }else{
+                            preload.hide()
+                            Swal.fire({
+                                icon: "error",
+                                title: 'Error',
+                                text: "Can not update progress status",
+                                confirmButtonText: 'Re-try',
+                                confirmButtonClass: 'btn btn-danger',
+                            })
+                        }
+                   })
+    },
+    update_ce_status(){
+        $check = 0;
+        $('.form-control').removeClass('is-invalid')
+        if($('#txtCeStatus').val() == ''){
+            $('#txtCeStatus').addClass('is-invalid'); $check++;
+        }
+
+        if($('#txtEngStatus').val() == 'pass'){
+            if($('#txtCePassDate').val() == ''){
+                $('#txtCePassDate').addClass('is-invalid'); $check++;
+            }
+        }
+        
+        if($check != 0){ return ;}
+        var param = {
+            uid: $('#txtUid').val(),
+            std_id: $('#txtStudentId').val(),
+            status: $('#txtCeStatus').val(),
+            pass_date: $('#txtCePassDate').val(),
+            progress: 'ce'
+        }
+        console.log(param);
+        preload.show()
+        var jxr = $.post(api + 'progress?stage=update_status', param, function(){}, 'json')
+                   .always(function(snap){
+                        console.log(snap);
+                        if(snap.status == 'Success'){
+                            window.location.reload()
+                        }else{
+                            preload.hide()
+                            Swal.fire({
+                                icon: "error",
+                                title: 'Error',
+                                text: "Can not update progress status",
+                                confirmButtonText: 'Re-try',
+                                confirmButtonClass: 'btn btn-danger',
+                            })
+                        }
+                   })
+    },
+    update_te_status(){
+        $check = 0;
+        $('.form-control').removeClass('is-invalid')
+        if($('#txtTeStatus').val() == ''){
+            $('#txtTeStatus').addClass('is-invalid'); $check++;
+        }
+
+        if($('#txtTeEngStatus').val() == 'pass'){
+            if($('#txtTePassDate').val() == ''){
+                $('#txtTePassDate').addClass('is-invalid'); $check++;
+            }
+        }
+        
+        if($check != 0){ return ;}
+        var param = {
+            uid: $('#txtUid').val(),
+            std_id: $('#txtStudentId').val(),
+            status: $('#txtTeStatus').val(),
+            pass_date: $('#txtTePassDate').val(),
+            progress: 'te'
+        }
+        console.log(param);
+        preload.show()
+        var jxr = $.post(api + 'progress?stage=update_status', param, function(){}, 'json')
+                   .always(function(snap){
+                        console.log(snap);
+                        if(snap.status == 'Success'){
+                            window.location.reload()
+                        }else{
+                            preload.hide()
+                            Swal.fire({
+                                icon: "error",
+                                title: 'Error',
+                                text: "Can not update progress status",
+                                confirmButtonText: 'Re-try',
+                                confirmButtonClass: 'btn btn-danger',
+                            })
+                        }
+                   })
+    },
     update_qe_status(){
         $check = 0;
         $('.form-control').removeClass('is-invalid')
@@ -166,6 +286,53 @@ var progress = {
                         }
                    })
     },
+    update_pub(){
+        $check = 0;
+        $('.form-control').removeClass('is-invalid')
+        if($('#txtPubTitleU').val() == ''){
+            $('#txtPubTitleU').addClass('is-invalid'); $check++;
+        }
+
+        if($('#txtPubAuthorU').val() == ''){
+            $('#txtPubAuthorU').addClass('is-invalid'); $check++;
+        }
+
+        if($('#txtPubPublisherU').val() == ''){
+            $('#txtPubPublisherU').addClass('is-invalid'); $check++;
+        }
+
+        if($('#txtPubDateU').val() == ''){
+            $('#txtPubDateU').addClass('is-invalid'); $check++;
+        }
+
+        if($check != 0){ return ;}
+        var param = {
+            uid: $('#txtUid').val(),
+            std_id: $('#txtStudentId').val(),
+            progress_id: $('#txtPubId').val(),
+            title: $('#txtPubTitleU').val(),
+            pub_date: $('#txtPubDateU').val(),
+            author: $('#txtPubAuthorU').val(),
+            publisher: $('#txtPubPublisherU').val()
+        }
+
+        var jxr = $.post(api + 'progress?stage=update_pub', param, function(){}, 'json')
+                   .always(function(snap){
+                        console.log(snap);
+                        if(snap.status == 'Success'){
+                            window.location.reload()
+                        }else{
+                            preload.hide()
+                            Swal.fire({
+                                icon: "error",
+                                title: 'Error',
+                                text: "Can not add record",
+                                confirmButtonText: 'Re-try',
+                                confirmButtonClass: 'btn btn-danger',
+                            })
+                        }
+                   })
+    },
     save_pe(){
         $check = 0;
         $('.form-control').removeClass('is-invalid')
@@ -195,6 +362,135 @@ var progress = {
         console.log(param);
         preload.show()
         var jxr = $.post(api + 'progress?stage=add_pe', param, function(){}, 'json')
+                   .always(function(snap){
+                        console.log(snap);
+                        if(snap.status == 'Success'){
+                            window.location.reload()
+                        }else{
+                            preload.hide()
+                            Swal.fire({
+                                icon: "error",
+                                title: 'Error',
+                                text: "Can not add record",
+                                confirmButtonText: 'Re-try',
+                                confirmButtonClass: 'btn btn-danger',
+                            })
+                        }
+                   })
+    },
+    save_ce(){
+        $check = 0;
+        console.log('asd');
+        $('.form-control').removeClass('is-invalid')
+        if($('#txtCeTitle').val() == ''){
+            $('#txCetTitle').addClass('is-invalid'); $check++;
+        }
+
+        if($('#txtCeExamDate').val() != ''){
+            if($('#txtCeExamStart').val() == ''){
+                $('#txtCeExamStart').addClass('is-invalid'); $check++;
+            }
+
+            if($('#txtCeExamEnd').val() == ''){
+                $('#txtCeExamEnd').addClass('is-invalid'); $check++;
+            }
+        }
+        
+        if($check != 0){ return ;}
+        var param = {
+            uid: $('#txtUid').val(),
+            std_id: $('#txtStudentId').val(),
+            title: $('#txtCeTitle').val(),
+            exam_date: $('#txtCeExamDate').val(),
+            exam_start: $('#txtCeExamStart').val(),
+            exam_end: $('#txtCeExamEnd').val()
+        }
+        console.log(param);
+        preload.show()
+        var jxr = $.post(api + 'progress?stage=add_ce', param, function(){}, 'json')
+                   .always(function(snap){
+                        console.log(snap);
+                        if(snap.status == 'Success'){
+                            window.location.reload()
+                        }else{
+                            preload.hide()
+                            Swal.fire({
+                                icon: "error",
+                                title: 'Error',
+                                text: "Can not add record",
+                                confirmButtonText: 'Re-try',
+                                confirmButtonClass: 'btn btn-danger',
+                            })
+                        }
+                   })
+    },
+    save_te(){
+        $check = 0;
+        $('.form-control').removeClass('is-invalid')
+        if($('#txtTeTitle').val() == ''){
+            $('#txtTeTitle').addClass('is-invalid'); $check++;
+        }
+
+        if($('#txtTeExamDate').val() != ''){
+            if($('#txtTeExamStart').val() == ''){
+                $('#txtTeExamStart').addClass('is-invalid'); $check++;
+            }
+
+            if($('#txtTeExamEnd').val() == ''){
+                $('#txtTeExamEnd').addClass('is-invalid'); $check++;
+            }
+        }
+        
+        if($check != 0){ return ;}
+        var param = {
+            uid: $('#txtUid').val(),
+            std_id: $('#txtStudentId').val(),
+            title: $('#txtTeTitle').val(),
+            exam_date: $('#txtTeExamDate').val(),
+            exam_start: $('#txtTeExamStart').val(),
+            exam_end: $('#txtTeExamEnd').val()
+        }
+        console.log(param);
+        preload.show()
+        var jxr = $.post(api + 'progress?stage=add_te', param, function(){}, 'json')
+                   .always(function(snap){
+                        console.log(snap);
+                        if(snap.status == 'Success'){
+                            window.location.reload()
+                        }else{
+                            preload.hide()
+                            Swal.fire({
+                                icon: "error",
+                                title: 'Error',
+                                text: "Can not add record",
+                                confirmButtonText: 'Re-try',
+                                confirmButtonClass: 'btn btn-danger',
+                            })
+                        }
+                   })
+    },
+    save_eng(){
+        $check = 0;
+        $('.form-control').removeClass('is-invalid')
+        if($('#txtEngTitle').val() == ''){
+            $('#txtEngTitle').addClass('is-invalid'); $check++;
+        }
+
+        if($('#txtEngExamname').val() == ''){
+            $('#txtEngExamname').addClass('is-invalid'); $check++;
+        }
+        
+        if($check != 0){ return ;}
+        var param = {
+            uid: $('#txtUid').val(),
+            std_id: $('#txtStudentId').val(),
+            exam_info: $('#txtEngTitle').val(),
+            exam_name: $('#txtEngExamname').val(),
+            exam_date: $('#txtEngExamDate').val()
+        }
+        console.log(param);
+        preload.show()
+        var jxr = $.post(api + 'progress?stage=add_eng', param, function(){}, 'json')
                    .always(function(snap){
                         console.log(snap);
                         if(snap.status == 'Success'){
@@ -351,6 +647,53 @@ var progress = {
                         }
                    })
     },
+    update_ce(){
+        $check = 0;
+        $('.form-control').removeClass('is-invalid')
+        if($('#txtCeTitleU').val() == ''){
+            $('#txtCeTitleU').addClass('is-invalid'); $check++;
+        }
+
+        if($('#txtCeExamDateU').val() != ''){
+            if($('#txtCeExamStartU').val() == ''){
+                $('#txtCeExamStartU').addClass('is-invalid'); $check++;
+            }
+
+            if($('#txtCeExamEndU').val() == ''){
+                $('#txtCeExamEndU').addClass('is-invalid'); $check++;
+            }
+        }
+        
+        if($check != 0){ return ;}
+        var param = {
+            uid: $('#txtUid').val(),
+            std_id: $('#txtStudentId').val(),
+            progress_id: $('#txtCeId').val(),
+            title: $('#txtCeTitleU').val(),
+            exam_date: $('#txtCeExamDateU').val(),
+            exam_start: $('#txtCeExamStartU').val(),
+            exam_end: $('#txtCeExamEndU').val()
+        }
+        console.log(param);
+        // return ;
+        preload.show()
+        var jxr = $.post(api + 'progress?stage=update_ce', param, function(){}, 'json')
+                   .always(function(snap){
+                        console.log(snap);
+                        if(snap.status == 'Success'){
+                            window.location.reload()
+                        }else{
+                            preload.hide()
+                            Swal.fire({
+                                icon: "error",
+                                title: 'Error',
+                                text: "Can not add record",
+                                confirmButtonText: 'Re-try',
+                                confirmButtonClass: 'btn btn-danger',
+                            })
+                        }
+                   })
+    },
     delete_progress(id, progress){
         Swal.fire({
             title: 'Warning',
@@ -399,9 +742,38 @@ function update_pe_setup(id, title, d, s, e){
 
     $('#txtPeExamDateU').val(d)
     if(d != ''){
-        console.log(s.slice(0, -3));
         $('#txtPeExamStartU').val(s.slice(0, -3))
         $('#txtPeExamEndU').val(e.slice(0, -3))
+    }
+}
+
+function update_pub_setup(id, title, d, s, e){
+    $('#modalPubUpdaterecord').modal('show')
+    $('#txtPubId').val(id)
+    $('#txtPubTitleU').val(title)
+    $('#txtPubAuthorU').val(e)
+    $('#txtPubPublisherU').val(s)
+    $('#txtPubDateU').val(d)
+
+
+    // $('#txtPeExamDateU').val(d)
+    // if(d != ''){
+    //     console.log(s.slice(0, -3));
+    //     $('#txtPeExamStartU').val(s.slice(0, -3))
+    //     $('#txtPeExamEndU').val(e.slice(0, -3))
+    // }
+}
+
+function update_ce_setup(id, title, d, s, e){
+    $('#modalCeUpdaterecord').modal('show')
+    $('#txtCeId').val(id)
+    $('#txtCeTitleU').val(title)
+
+    $('#txtCeExamDateU').val(d)
+    if(d != ''){
+        console.log(s.slice(0, -3));
+        $('#txtCeExamStartU').val(s.slice(0, -3))
+        $('#txtCeExamEndU').val(e.slice(0, -3))
     }
 }
 

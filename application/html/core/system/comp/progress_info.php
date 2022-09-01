@@ -84,13 +84,14 @@ $resProgress = $db->fetch($strSQL, false, false);
                             <?php  require_once('./comp/progress_pe.php'); ?>
                         </div>
                         <div class="tab-pane" id="eng-fill" role="tabpanel" aria-labelledby="eng-tab-fill">
-                            <h4 class="text-dark">English examination</h4>
+                            <!-- <h4 class="text-dark">English examination</h4>
                             <p>
                                 Tootsie roll oat cake I love bear claw I love caramels caramels halvah chocolate bar. Cotton candy
                                 gummi
                                 bears pudding pie apple pie cookie. Cheesecake jujubes lemon drops danish dessert I love caramels
                                 powder.
-                            </p>
+                            </p> -->
+                            <?php  require_once('./comp/progress_eng.php'); ?>
                         </div>
                         <div class="tab-pane" id="qe-fill" role="tabpanel" aria-labelledby="qe-tab-fill">
                             <!-- <h4 class="text-dark">Qualification examination</h4>
@@ -120,12 +121,13 @@ $resProgress = $db->fetch($strSQL, false, false);
 
                         </div>
                         <div class="tab-pane" id="te-fill" role="tabpanel" aria-labelledby="te-tab-fill">
-                            <h4 class="text-dark">Thesis examination</h4>
+                            <!-- <h4 class="text-dark">Thesis examination</h4>
                             <p>
                                 Tootsie roll oat cake I love bear claw I love caramels caramels halvah chocolate bar. Cotton candy
                                 gummi bears pudding pie apple pie cookie. Cheesecake jujubes lemon drops danish dessert I love
                                 caramels powder.
-                            </p>
+                            </p> -->
+                            <?php  require_once('./comp/progress_te.php'); ?>
                         </div>
                         <div class="tab-pane" id="ce-fill" role="tabpanel" aria-labelledby="ce-tab-fill">
                             <!-- <h4 class="text-dark">Complehensive examination</h4>

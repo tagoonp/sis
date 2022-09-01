@@ -12,6 +12,8 @@ $page = 'app-student';
 
 $filter1 = ''; $filter1_cmd = ''; $filter2 = ''; $filter2_cmd = ''; $filter3 = ''; $filter3_cmd = '';
 
+$key = '';
+
 if(isset($_REQUEST['filter1'])){
     $filter1 = mysqli_real_escape_string($conn, $_REQUEST['filter1']);
     if($filter1 != ''){
@@ -29,6 +31,16 @@ if(isset($_REQUEST['filter2'])){
 if((isset($_REQUEST['filter3'])) && ($_REQUEST['filter3'] != '')){
     $filter3 = mysqli_real_escape_string($conn, $_REQUEST['filter3']);
     $filter3_cmd = " AND a.USERNAME LIKE '$filter3%' OR b.FNAME LIKE '$filter3%' OR b.LNAME LIKE '$filter3%' ";
+}
+
+if((isset($_REQUEST['key'])) && ($_REQUEST['key'] != '')){
+    $key = mysqli_real_escape_string($conn, $_REQUEST['key']);
+    if($key == 'grad'){
+        $filter3_cmd = " AND c.std_grad_year = '$filter3' ";
+    }else if($key == 'start'){
+        $filter3_cmd = " AND c.std_start_year = '$filter3' ";
+    }
+    
 }
 
 ?>
@@ -184,8 +196,8 @@ if((isset($_REQUEST['filter3'])) && ($_REQUEST['filter3'] != '')){
                                     <fieldset class="form-group">
                                         <select name="txtKey" id="txtKey" class="form-control">
                                             <option value="" selected>By student ID / Name or Surname</option>
-                                            <option value="start" selected>Start year</option>
-                                            <option value="grad" selected>Graduate year</option>
+                                            <option value="start" <?php if($key == 'start'){ echo "selected"; } ?>>Start year</option>
+                                            <option value="grad" <?php if($key == 'grad'){ echo "selected"; } ?> >Graduate year</option>
                                         </select>
                                     </fieldset>
                                 </div>

@@ -150,8 +150,8 @@ if(isset($_REQUEST['filter1'])){
                                     <fieldset class="form-group">
                                         <select class="form-control" id="users-degree">
                                             <option value="">Any</option>
-                                            <option value="1" <?php if($filter1 == '1'){ echo "selected"; } ?>>Ph.D.</option>
-                                            <option value="2" <?php if($filter1 == '2'){ echo "selected"; } ?>>M.Sc.</option>
+                                            <option value="1" <?php if($filter1 == '1'){ echo "selected"; } ?>>M.Sc.</option>
+                                            <option value="2" <?php if($filter1 == '2'){ echo "selected"; } ?>>Ph.D.</option>
                                             <option value="3" <?php if($filter1 == '3'){ echo "selected"; } ?>>Short course</option>
                                         </select>
                                     </fieldset>

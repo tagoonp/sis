@@ -185,6 +185,7 @@ if(isset($_REQUEST['filter1'])){
                                                 <th style="width: 100px;">Student ID</th>
                                                 <th style="width: 450px;">Full name</th>
                                                 <th style="width: 100px;">Advisor</th>
+                                                <th style="width: 50px;">Year</th>
                                                 <th>Progress</th>
                                                 <?php 
                                                 if($role == 'admin'){
@@ -277,6 +278,7 @@ if(isset($_REQUEST['filter1'])){
                                                                 </div>
                                                             </div>
                                                         </td>
+
                                                         <td>
                                                             <?php 
                                                             $strSQL = "SELECT * FROM sis_advisor a INNER JOIN sis_userinfo b ON a.adv_username = b.USERNAME
@@ -299,6 +301,11 @@ if(isset($_REQUEST['filter1'])){
                                                             }
                                                             ?>
                                                         </td>
+
+                                                        <td>
+                                                            <?php echo date('Y') - $row['std_start_year']; ?>
+                                                        </td>
+
                                                         <td>
                                                             <?php 
                                                             $strSQL = "SELECT * FROM sis_student_progress WHERE sp_std_id = '".$row['USERNAME']."'";

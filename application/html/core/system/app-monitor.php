@@ -181,6 +181,7 @@ if(isset($_REQUEST['filter1'])){
                                     <table id="users-list-datatable" class="table">
                                         <thead>
                                             <tr>
+                                                <th style="width: 50px;">#</th>
                                                 <th style="width: 100px;">Student ID</th>
                                                 <th style="width: 450px;">Full name</th>
                                                 <th style="width: 100px;">Advisor</th>
@@ -225,6 +226,7 @@ if(isset($_REQUEST['filter1'])){
                                                 foreach ($res['data'] as $row) {
                                                     ?>
                                                     <tr>
+                                                        <td><?php echo $c; ?></td>
                                                         <td><?php echo $row['USERNAME']; ?></td>
                                                         <td>
                                                             <div class="row">

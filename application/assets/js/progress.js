@@ -199,6 +199,46 @@ var progress = {
                         }
                    })
     },
+    update_ec_status(){
+        $check = 0;
+        $('.form-control').removeClass('is-invalid')
+        if($('#txtEcStatus').val() == ''){
+            $('#txtEcStatus').addClass('is-invalid'); $check++;
+        }
+
+        if($('#txtEcStatus').val() == 'pass'){
+            if($('#txtEcPassDate').val() == ''){
+                $('#txtEcPassDate').addClass('is-invalid'); $check++;
+            }
+        }
+        
+        if($check != 0){ return ;}
+        var param = {
+            uid: $('#txtUid').val(),
+            std_id: $('#txtStudentId').val(),
+            status: $('#txtEcStatus').val(),
+            pass_date: $('#txtEcPassDate').val(),
+            progress: 'ec'
+        }
+        console.log(param);
+        preload.show()
+        var jxr = $.post(api + 'progress?stage=update_status', param, function(){}, 'json')
+                   .always(function(snap){
+                        console.log(snap);
+                        if(snap.status == 'Success'){
+                            window.location.reload()
+                        }else{
+                            preload.hide()
+                            Swal.fire({
+                                icon: "error",
+                                title: 'Error',
+                                text: "Can not update progress status",
+                                confirmButtonText: 'Re-try',
+                                confirmButtonClass: 'btn btn-danger',
+                            })
+                        }
+                   })
+    },
     update_pub_status(){
         $check = 0;
         $('.form-control').removeClass('is-invalid')

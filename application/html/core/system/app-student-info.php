@@ -285,7 +285,7 @@ if(isset($_REQUEST['page_id'])){
                     </div>
                 </div>
                 <!-- Knowledge base Jumbotron start -->
-                <section class="kb-search">
+                <!-- <section class="kb-search">
                     <div class="" id="previewImg"></div>
                     <div class="row">
                         <div class="col-12">
@@ -296,7 +296,7 @@ if(isset($_REQUEST['page_id'])){
                             </div>
                         </div>
                     </div>
-                </section>
+                </section> -->
                 <!-- Knowledge base Jumbotron ends -->
 
             </div>
@@ -308,7 +308,7 @@ if(isset($_REQUEST['page_id'])){
     <div class="drag-target"></div>
 
     <?php 
-    require('./comp/footer.php');
+    // require('./comp/footer.php');
     require('./comp/modal_addtype.php');
     ?>
 
@@ -414,6 +414,21 @@ if(isset($_REQUEST['page_id'])){
             
 
             student.getNote('<?php echo $id; ?>')
+        })
+
+        $(function(){
+            $('#txtFunding').change(function(){
+                if($('#txtFunding').val() == 'Other'){
+                    $('#hdFund').removeClass('dn')
+                }else{
+                    $('#hdFund').addClass('dn')
+                    $('#txtOtherFund').val('')
+                }
+            })
+
+            $('#btnSavefund').click(function(){
+                staff.update_fund()
+            })
         })
 
 

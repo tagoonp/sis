@@ -727,6 +727,38 @@ if($stage == 'update_status'){
         }
     }
 
+    if($progress == 'ec'){
+        
+        $strSQL = "SELECT * FROM sis_student_progress WHERE sp_std_id = '$std_id'";
+        $resCheck = $db->fetch($strSQL, false, false);
+        if($resCheck){
+            $strSQL = "UPDATE sis_student_progress SET sp_ec = '$status', sp_udatetime = '$datetime' WHERE sp_std_id = '$std_id'";
+            $db->execute($strSQL);
+
+            if($status == 'pass'){
+                $strSQL = "UPDATE sis_student_progress SET sp_ec_passdate = '$pass_date', sp_udatetime = '$datetime' WHERE sp_std_id = '$std_id'";
+                $db->execute($strSQL);
+            }else{
+                $strSQL = "UPDATE sis_student_progress SET sp_ec_passdate = NULL, sp_udatetime = '$datetime' WHERE sp_std_id = '$std_id'";
+                $db->execute($strSQL);
+            }
+
+            $return['status'] = 'Success';
+        }else{
+            $strSQL = "INSERT INTO sis_student_progress (`sp_std_id`, `sp_ec`, `sp_udatetime`) VALUES ('$std_id', '$status', '$datetime')";
+            $db->insert($strSQL, false);
+
+            if($status == 'pass'){
+                $strSQL = "UPDATE sis_student_progress SET sp_ec_passdate = '$pass_date', sp_udatetime = '$datetime' WHERE sp_std_id = '$std_id'";
+                $db->execute($strSQL);
+            }else{
+                $strSQL = "UPDATE sis_student_progress SET sp_ec_passdate = NULL, sp_udatetime = '$datetime' WHERE sp_std_id = '$std_id'";
+                $db->execute($strSQL);
+            }
+            $return['status'] = 'Success';
+        }
+    }
+
     if($progress == 'eng'){
         
         $strSQL = "SELECT * FROM sis_student_progress WHERE sp_std_id = '$std_id'";

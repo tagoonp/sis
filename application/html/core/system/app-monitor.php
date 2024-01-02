@@ -227,9 +227,28 @@ if(isset($_REQUEST['filter1'])){
                                                 foreach ($res['data'] as $row) {
                                                     ?>
                                                     <tr>
-                                                        <td><?php echo $c; ?></td>
-                                                        <td><?php echo $row['USERNAME']; ?></td>
-                                                        <td>
+                                                        <td style="vertical-align: top;"><?php echo $c; ?></td>
+                                                        <td style="vertical-align: top;">
+                                                            <?php echo $row['USERNAME']; ?>
+                                                            <div>
+                                                            <?php 
+                                                            if($row['dg_shorten'] == 'Ph.D.'){
+                                                                ?>
+                                                                <span class="badge badge-danger round">Ph.D.</span>
+                                                                <?php
+                                                            }else if($row['dg_shorten'] == 'M.Sc.'){
+                                                                ?>
+                                                                <span class="badge badge-warning round">M.Sc.</span>
+                                                                <?php
+                                                            }else{
+                                                                ?>
+                                                                <span class="badge badge-warning round">Short-course</span>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                            </div>
+                                                        </td>
+                                                        <td style="vertical-align: top;">
                                                             <div class="row">
                                                                 <div class="col-2">
                                                                     <?php 
@@ -258,28 +277,28 @@ if(isset($_REQUEST['filter1'])){
                                                                             echo $row['FNAME'].' '.$row['MNAME'].' '.$row['LNAME']; 
                                                                         }
                                                                     ?>
-                                                                    <div>
-                                                                    <?php 
-                                                                    if($row['dg_shorten'] == 'Ph.D.'){
+                                                                    
+                                                                    <div style="font-size: 0.8em;">
+                                                                        Funding : <?php 
+                                                                        if(($row['std_fund'] == '') || ($row['std_fund'] == null)){
+                                                                            echo "-";
+                                                                        }else{
+                                                                            if($row['std_fund'] == 'Other'){
+                                                                                echo $row['std_fund_info'];
+                                                                            }else{
+                                                                                echo $row['std_fund']; 
+                                                                            }
+                                                                            echo "<br>";
+                                                                            echo "Condition : " . $row['std_fund_condition'];
+                                                                        }
                                                                         ?>
-                                                                        <span class="badge badge-danger round">Ph.D.</span>
-                                                                        <?php
-                                                                    }else if($row['dg_shorten'] == 'M.Sc.'){
-                                                                        ?>
-                                                                        <span class="badge badge-warning round">M.Sc.</span>
-                                                                        <?php
-                                                                    }else{
-                                                                        ?>
-                                                                        <span class="badge badge-warning round">Short-course</span>
-                                                                        <?php
-                                                                    }
-                                                                    ?>
+                                                                        <br>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </td>
 
-                                                        <td>
+                                                        <td style="vertical-align: top;">
                                                             <?php 
                                                             $strSQL = "SELECT * FROM sis_advisor a INNER JOIN sis_userinfo b ON a.adv_username = b.USERNAME
                                                                        WHERE adv_delete = '0' AND adv_std_id = '".$row['USERNAME']."' AND adv_type = 'main' AND b.USE_STATUS = 'Y'";
@@ -302,11 +321,11 @@ if(isset($_REQUEST['filter1'])){
                                                             ?>
                                                         </td>
 
-                                                        <td>
+                                                        <td style="vertical-align: top;">
                                                             <?php echo date('Y') - $row['std_start_year']; ?>
                                                         </td>
 
-                                                        <td>
+                                                        <td style="vertical-align: top;">
                                                             <?php 
                                                             $strSQL = "SELECT * FROM sis_student_progress WHERE sp_std_id = '".$row['USERNAME']."'";
                                                             $resProgress = $db->fetch($strSQL, false, false);
@@ -376,7 +395,7 @@ if(isset($_REQUEST['filter1'])){
                                                         <?php 
                                                         if($role == 'admin'){
                                                             ?>
-                                                            <td>
+                                                            <td style="vertical-align: top;">
                                                                 <div class="custom-control custom-switch custom-control-inline mb-1 pt-1" onclick="student.unmonitor('<?php echo $row['USERNAME'];?>')">
                                                                     <input type="checkbox" class="custom-control-input" <?php if($row['std_mon_status'] == 'Y'){ echo "checked"; } ?> id="customSwitch1_<?php echo $row['USERNAME']; ?>">
                                                                     <label class="custom-control-label mr-1" for="customSwitch1_<?php echo $row['USERNAME']; ?>"></label>
@@ -386,7 +405,7 @@ if(isset($_REQUEST['filter1'])){
                                                         }
                                                         ?>
                                                         
-                                                        <td>
+                                                        <td style="vertical-align: top;">
                                                             <a href="app-student-info?id=<?php echo $row['USERNAME'];?>" class="btn btn-sm mr-1" style="padding: 5px;"><i class="bx bx-search"></i></a>
                                                             <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-sm" style="padding: 5px;"  data-toggle="modal" data-target="#modalNote" onclick="setNoteOwner('<?php echo $row['USERNAME']; ?>', '<?php echo $row['FNAME'].' '.$row['LNAME']; ?>')" ><i class="bx bx-comment"></i></a>
 

@@ -204,6 +204,43 @@ if($stage == 'update_role'){
     die();
 }
 
+if($stage == 'update_funding'){
+    if(
+        (!isset($_REQUEST['uid'])) ||
+        (!isset($_REQUEST['std_id'])) ||
+        (!isset($_REQUEST['fund'])) ||
+        (!isset($_REQUEST['fund_other'])) || 
+        (!isset($_REQUEST['fund_condifion']))
+      ){
+        $return['status'] = 'Fail';
+        $return['code'] = 'x1001';
+        echo json_encode($return);
+        mysqli_close($conn);
+        die();
+    }
+    $uid = mysqli_real_escape_string($conn, $_POST['uid']);
+    $std_id = mysqli_real_escape_string($conn, $_POST['std_id']);
+    $fund = mysqli_real_escape_string($conn, $_POST['fund']);
+    $fund_other = mysqli_real_escape_string($conn, $_POST['fund_other']);
+    $fund_condifion = mysqli_real_escape_string($conn, $_POST['fund_condifion']);
+
+    $strSQL = "SELECT 1 FROM sis_student_info WHERE std_id = '$std_id' AND std_delete = 'N'";
+    $res = $db->fetch($strSQL, false, false);
+    if($res){
+        $strSQL = "UPDATE sis_student_info SET std_fund = '$fund', std_fund_info = '$fund_other', std_fund_condition = '$fund_condifion' WHERE std_id = '$std_id' AND std_delete = 'N'";
+        $resUpdate = $db->execute($strSQL);
+
+        $return['status'] = 'Success';
+        echo json_encode($return); mysqli_close($conn); die(); 
+        
+    }else{
+        $return['status'] = 'Fail'; $return['err_message'] = 'Not found';
+        echo json_encode($return); mysqli_close($conn); die(); 
+    }
+
+
+}
+
 if($stage == 'add_advisor'){
     if(
         (!isset($_REQUEST['uid'])) ||
@@ -361,6 +398,65 @@ if($stage == 'add_new_staff'){
     mysqli_close($conn);
     die();
 
+}
+
+if($stage == 'update_ec_info'){
+    if(
+        (!isset($_REQUEST['uid'])) ||
+        (!isset($_REQUEST['std_id'])) ||
+        (!isset($_REQUEST['submit_date'])) ||
+        (!isset($_REQUEST['approve_date'])) ||
+        (!isset($_REQUEST['expire_date'])) ||
+        (!isset($_REQUEST['rec']))
+      ){
+        $return['status'] = 'Fail';
+        $return['code'] = 'x1001';
+        echo json_encode($return);
+        mysqli_close($conn);
+        die();
+    }
+    $uid = mysqli_real_escape_string($conn, $_POST['uid']);
+    $std_id = mysqli_real_escape_string($conn, $_POST['std_id']);
+    $submit_date = mysqli_real_escape_string($conn, $_POST['submit_date']);
+    $approve_date = mysqli_real_escape_string($conn, $_POST['approve_date']);
+    $expire_date = mysqli_real_escape_string($conn, $_POST['expire_date']);
+    $rec = mysqli_real_escape_string($conn, $_POST['rec']);
+
+    $strSQL = "UPDATE sis_ec SET ec_status = 'N' WHERE ec_std_id = '$std_id'";
+    $resUpdate = $db->execute($strSQL);
+
+    $strSQL = "INSERT INTO sis_ec (`ec_std_id`, `ec_first_submit_date`, `ec_rec`, `ec_approve`, `ec_expire`, `ec_udatetime`) VALUES ('$std_id', '$submit_date', '$rec', '$approve_date', '$expire_date', '$datetime')";
+    $resInsert = $db->insert($strSQL, false);
+    if($resInsert){
+        $return['status'] = 'Success';
+        echo json_encode($return);  mysqli_close($conn); die();
+    }else{
+        $return['status'] = 'Fail'; $return['error_code'] = 'Error';
+        echo json_encode($return);  mysqli_close($conn); die();
+    }
+    
+}
+
+if($stage == 'update_ec_note'){
+    if(
+        (!isset($_REQUEST['uid'])) ||
+        (!isset($_REQUEST['std_id'])) ||
+        (!isset($_REQUEST['note']))
+      ){
+        $return['status'] = 'Fail';
+        $return['code'] = 'x1001';
+        echo json_encode($return);
+        mysqli_close($conn);
+        die();
+    }
+    $uid = mysqli_real_escape_string($conn, $_POST['uid']);
+    $std_id = mysqli_real_escape_string($conn, $_POST['std_id']);
+    $note = mysqli_real_escape_string($conn, $_POST['note']);
+
+    $strSQL = "INSERT INTO sis_ec_note (`ecn_std_id`, `ecn_udatetime`, `ecn_by`, `ecn_note`) VALUES ('$std_id', '$datetime', '$uid', '$note')";
+    $resInsert = $db->insert($strSQL, false);
+    $return['status'] = 'Success';
+    echo json_encode($return);  mysqli_close($conn); die();
 }
 
 if($stage == 'add_new_student'){

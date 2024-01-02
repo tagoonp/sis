@@ -36,18 +36,17 @@
         ?>
 
         <?php 
-        if($role == 'admin'){
+        if($role == 'staff'){
             ?>
             <li class=" nav-item <?php if($page == 'app-user-add'){ echo "active"; }?>"><a href="Javascript:showModalType()"><i class="menu-livicon" data-icon="plus"></i><span class="menu-title text-truncate text-white" data-i18n="Calendar">Create new user</span></a>
             <li class=" nav-item <?php if($page == 'app-users'){ echo "active"; }?>"><a href="app-users"><i class="menu-livicon" data-icon="users"></i><span class="menu-title text-truncate text-white" data-i18n="Calendar">All users</span></a>
             <li class=" nav-item <?php if($page == 'app-lecturer'){ echo "active"; }?>"><a href="app-lecturer"><i class="menu-livicon" data-icon="rocket"></i><span class="menu-title text-truncate text-white" data-i18n="Calendar">Lecturer</span></a>
-            <!-- <li class=" nav-item <?php if($page == 'app-staff'){ echo "active"; }?>"><a href="app-staff"><i class="menu-livicon" data-icon="pencil"></i><span class="menu-title text-truncate text-white" data-i18n="Calendar">Staff</span></a> -->
             <li class=" nav-item <?php if($page == 'app-monitor'){ echo "active"; }?>"><a href="app-monitor"><i class="menu-livicon" data-icon="dashboard"></i><span class="menu-title text-truncate text-white" data-i18n="Calendar">Monitoring</span></a>
             <li class=" nav-item <?php if($page == 'app-student'){ echo "active"; }?>"><a href="app-student"><i class="menu-livicon" data-icon="user"></i><span class="menu-title text-truncate text-white" data-i18n="Calendar">Student</span></a>
             <?php
         }
         ?>
-
+<!-- 
         <?php 
         if($role == 'staff'){
             ?>
@@ -55,7 +54,7 @@
             <li class=" nav-item <?php if($page == 'app-student'){ echo "active"; }?>"><a href="app-student"><i class="menu-livicon" data-icon="user"></i><span class="menu-title text-truncate text-white" data-i18n="Calendar">Student</span></a>
             <?php
         }
-        ?>
+        ?> -->
 
         <?php 
         if($role == 'lecturer'){

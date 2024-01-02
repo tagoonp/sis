@@ -103,12 +103,13 @@ $resProgress = $db->fetch($strSQL, false, false);
 
                         </div>
                         <div class="tab-pane" id="ec-fill" role="tabpanel" aria-labelledby="ec-tab-fill">
-                            <h4 class="text-dark">Ethics</h4>
-                            <p>
+                            <!-- <h4 class="text-dark">Ethics</h4> -->
+                            <!-- <p>
                                 Tootsie roll oat cake I love bear claw I love caramels caramels halvah chocolate bar. Cotton candy
                                 gummi bears pudding pie apple pie cookie. Cheesecake jujubes lemon drops danish dessert I love
                                 caramels powder.
-                            </p>
+                            </p> -->
+                            <?php  require_once('./comp/progress_ec.php'); ?>
                         </div>
                         <div class="tab-pane" id="pub-fill" role="tabpanel" aria-labelledby="pub-tab-fill">
                             <!-- <h4 class="text-dark">Publications</h4>

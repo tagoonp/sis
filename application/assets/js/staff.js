@@ -1,4 +1,143 @@
 var staff = {
+    save_ec_info(){
+        $check = 0;
+        $('.form-control').removeClass('is-invalid')
+
+        if($('#txtEcSubmitdate').val() == ''){
+            $('#txtEcSubmitdate').addClass('is-invalid')
+            $check++;
+        }
+        if($check != 0){
+            return ;
+        }
+
+        var param = {
+            uid: $('#txtUid').val(),
+            std_id: $('#txtStudentId').val(),
+            submit_date: $('#txtEcSubmitdate').val(),
+            approve_date: $('#txtEcApprovedate').val(),
+            expire_date: $('#txtEcExpiredate').val(),
+            rec: $('#txtRec').val()
+        }
+
+        // console.log(param);
+        // return ;
+
+        preload.show()
+        var jxr = $.post(api + 'staff?stage=update_ec_info', param, function(){}, 'json')
+                    .always(function(snap){
+                        preload.hide()
+                        if(snap.status == 'Success'){
+                            Swal.fire({
+                                icon: "success",
+                                title: 'Success',
+                                text: "EC update success",
+                                confirmButtonText: 'OK',
+                                confirmButtonClass: 'btn btn-success',
+                            })
+                        }else{
+                            Swal.fire({
+                                icon: "error",
+                                title: 'Error',
+                                text: "Can not update",
+                                confirmButtonText: 'Re-try',
+                                confirmButtonClass: 'btn btn-danger',
+                            })
+                        }
+                    })
+
+    },
+    save_ec_note(){
+        $check = 0;
+        $('.form-control').removeClass('is-invalid')
+
+        if($('#txtEcNote').val() == ''){
+            $('#txtEcNote').addClass('is-invalid')
+            $check++;
+        }
+        if($check != 0){
+            return ;
+        }
+
+        var param = {
+            uid: $('#txtUid').val(),
+            std_id: $('#txtStudentId').val(),
+            note: $('#txtEcNote').val()
+        }
+
+        preload.show()
+        var jxr = $.post(api + 'staff?stage=update_ec_note', param, function(){}, 'json')
+                    .always(function(snap){
+                        if(snap.status == 'Success'){
+                            window.location.reload()
+                        }else{
+                            preload.hide()
+                            Swal.fire({
+                                icon: "error",
+                                title: 'Error',
+                                text: "Can not save note",
+                                confirmButtonText: 'Re-try',
+                                confirmButtonClass: 'btn btn-danger',
+                            })
+                        }
+                    })
+    },
+    update_fund(){
+        $check = 0;
+        $('.form-control').removeClass('is-invalid')
+        if($('#txtFunding').val() == ''){
+            $('#txtFunding').addClass('is-invalid')
+            $check++;
+        }else if($('#txtFunding').val() == 'Other'){
+            if($('#txtOtherFund').val() == ''){
+                $('#txtOtherFund').addClass('is-invalid')
+                $check++;
+            }
+        }
+
+        if($('#txtCondition').val() == ''){
+            $('#txtCondition').addClass('is-invalid');
+            $check++;
+        }
+
+        if($check != 0){
+            return ;
+        }
+
+        var param = {
+            uid: $('#txtUid').val(),
+            std_id: $('#txtStudentId').val(),
+            fund: $('#txtFunding').val(),
+            fund_other: $('#txtOtherFund').val(),
+            fund_condifion: $('#txtCondition').val()
+        }
+
+        // console.log(param);
+        // return ;
+
+        preload.show()
+        var jxr = $.post(api + 'staff?stage=update_funding', param, function(){}, 'json')
+                    .always(function(snap){
+                        preload.hide()
+                        if(snap.status == 'Success'){
+                            Swal.fire({
+                                icon: "success",
+                                title: 'Success',
+                                text: "Profile update success",
+                                confirmButtonText: 'OK',
+                                confirmButtonClass: 'btn btn-success',
+                            })
+                        }else{
+                            Swal.fire({
+                                icon: "error",
+                                title: 'Error',
+                                text: "Can not update",
+                                confirmButtonText: 'Re-try',
+                                confirmButtonClass: 'btn btn-danger',
+                            })
+                        }
+                    })
+    },
     update_student_profile(username){
         $check = 0; $('.form-control').removeClass('is-invalid')
 

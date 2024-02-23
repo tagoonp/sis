@@ -174,6 +174,16 @@ if(isset($_REQUEST['filter1'])){
                         </form>
                     </div>
                     <div class="users-list-table">
+                        <div class="row">
+                            <div class="col-12 pb-0">
+                                <h4 class="text-dark">PROGRESS STATUS DEFINITION</h4>
+                                <ul>
+                                    <li><strong>Green </strong> : Adhering to the schedule without any issues.</li>
+                                    <li><strong>Yellow </strong> : Slightly behind schedule and requires follow-up.</li>
+                                    <li><strong>Red</strong> : Significantly behind schedule, must be followed up urgently, and there should be a plan or assistance in place.</li>
+                                </ul>
+                            </div>
+                        </div>
                         <div class="card">
                             <div class="card-body p-0">
                                 <!-- datatable start -->
@@ -186,13 +196,12 @@ if(isset($_REQUEST['filter1'])){
                                                 <th style="width: 450px;">Full name</th>
                                                 <th style="width: 100px;">Advisor</th>
                                                 <th style="width: 50px;">Year</th>
-                                                <th>Progress</th>
                                                 <?php 
                                                 if($role == 'admin'){
                                                     ?><th>Monitor</th><?php
                                                 }
                                                 ?>
-                                                
+                                                <th style="width: 100px;">Progress status</th>
                                                 <th style="width: 200px;">edit</th>
                                             </tr>
                                         </thead>
@@ -207,15 +216,17 @@ if(isset($_REQUEST['filter1'])){
                                             if($filter2 != ''){
                                                 $filter_msg_2 = "AND c.std_study_status = '$filter2' ";
                                             }
-                                            $strSQL = "SELECT * FROM sis_account a INNER JOIN sis_userinfo b ON a.USERNAME = b.USERNAME 
+                                            $strSQL = "SELECT *, e.ssls_level, e.ssls_status FROM sis_account a INNER JOIN sis_userinfo b ON a.USERNAME = b.USERNAME 
                                                        LEFT JOIN sis_student_info c ON a.USERNAME = c.std_id
                                                        LEFT JOIN sis_degree d ON c.std_degree = d.dg_id
+                                                       LEFT JOIN sis_study_level_stagement e ON a.USERNAME = e.ssls_std
                                                        WHERE 
                                                        a.ROLE_STUDENT = 'Y' 
                                                        AND a.DELETE_STATUS = 'N' 
                                                        AND b.USE_STATUS = 'Y'
                                                        AND c.std_delete = 'N'
                                                        AND c.std_mon_status = 'Y'
+                                                       AND (e.ssls_status = 'Y' OR e.ssls_status IS NULL)
                                                        $filter_msg_1 
                                                        $filter_msg_2 
                                                        ORDER BY a.USERNAME
@@ -262,7 +273,7 @@ if(isset($_REQUEST['filter1'])){
                                                                         <?php
                                                                     }else{
                                                                         ?>
-                                                                        <div class="avatar mr-1 avatar-lg" style=";">
+                                                                        <div class="avatar mr-1 avatar-lg" >
                                                                             <img src="<?php echo $row['PHOTO']; ?>" alt="avtar img holder" onclick="window.open('<?php echo $row['PHOTO']; ?>', '_blank')">
                                                                         </div>
                                                                         <?php
@@ -296,6 +307,75 @@ if(isset($_REQUEST['filter1'])){
                                                                     </div>
                                                                 </div>
                                                             </div>
+
+                                                            <div class="row">
+                                                                <div class="col-12 pt-2">
+                                                                <?php 
+                                                                $strSQL = "SELECT * FROM sis_student_progress WHERE sp_std_id = '".$row['USERNAME']."'";
+                                                                $resProgress = $db->fetch($strSQL, false, false);
+                                                                if($resProgress){
+                                                                    $btn_remark = 'btn-outline-secondary'; if($resProgress['sp_pe'] == 'pass'){    $btn_remark = 'btn-success';}
+                                                                    ?>
+                                                                    <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn <?php echo $btn_remark; ?> btn-sm" style="padding: 5px 5px 3px 5px;">PE</a>
+                                                                    
+                                                                    <?php
+                                                                    $btn_remark = 'btn-outline-secondary'; if($resProgress['sp_eng'] == 'pass'){    $btn_remark = 'btn-success';}
+                                                                    ?>
+                                                                    <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn <?php echo $btn_remark; ?> btn-sm" style="padding: 5px 5px 3px 5px;">ENG</a>
+                                                                    <?php
+
+                                                                    $btn_remark = 'btn-outline-secondary'; if($resProgress['sp_qe'] == 'pass'){    $btn_remark = 'btn-success';}
+                                                                    ?>
+                                                                    <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn <?php echo $btn_remark; ?> btn-sm" style="padding: 5px 5px 3px 5px;">QE</a>
+                                                                    <?php
+
+                                                                    $btn_remark = 'btn-outline-secondary'; if($resProgress['sp_ec'] == 'pass'){    $btn_remark = 'btn-success';}
+                                                                    ?>
+                                                                    <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn <?php echo $btn_remark; ?> btn-sm" style="padding: 5px 5px 3px 5px;">EC</a>
+                                                                    <?php
+
+                                                                    $btn_remark = 'btn-outline-secondary'; if($resProgress['sp_pub'] == 'pass'){    $btn_remark = 'btn-success';}
+                                                                    ?>
+                                                                    <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn <?php echo $btn_remark; ?> btn-sm" style="padding: 5px 5px 3px 5px;">PUB</a>
+                                                                    <?php
+
+                                                                    $btn_remark = 'btn-outline-secondary'; if($resProgress['sp_te'] == 'pass'){    $btn_remark = 'btn-success';}
+                                                                    ?>
+                                                                    <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn <?php echo $btn_remark; ?> btn-sm" style="padding: 5px 5px 3px 5px;">TE</a>
+                                                                    <?php
+
+                                                                    $btn_remark = 'btn-outline-secondary'; if($resProgress['sp_ce'] == 'pass'){    $btn_remark = 'btn-success';}
+                                                                    ?>
+                                                                    <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn <?php echo $btn_remark; ?> btn-sm" style="padding: 5px 5px 3px 5px;">CE</a>
+                                                                    <?php
+
+                                                                }else{
+                                                                    ?>
+                                                                    <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">PE</a>
+                                                                    <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">ENG</a>
+                                                                    <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">QE</a>
+                                                                    <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">EC</a>
+                                                                    <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">PUB</a>
+                                                                    <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">TE</a>
+                                                                    <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">CE</a>
+                                                                    <?php
+                                                                }
+                                                                ?>
+                                                                
+                                                                <div style="font-size: 0.8em; margin-top: 5px;" class="text-dark">Recent note : </div>
+                                                                <div id="noteDiv_<?php echo $row['USERNAME'];?>" class="noteDiv text-dark" style="padding: 5px 10px; border: dashed; border-width: 1px 1px 1px 1px; border-color: #ccc; margin-top: 2px; border-radius: 10px; font-size: 0.8em;">
+                                                                    <?php 
+                                                                    $strSQL = "SELECT note_message FROM sis_studynote WHERE note_student = '".$row['USERNAME']."' AND note_delete = 'N' ORDER BY note_id DESC LIMIT 1";
+                                                                    $resMsg = $db->fetch($strSQL, false, false);
+                                                                    if($resMsg){
+                                                                        echo $resMsg['note_message'];
+                                                                    }else{
+                                                                        echo "-";
+                                                                    }
+                                                                    ?>
+                                                                </div>
+                                                                </div>
+                                                            </div>
                                                         </td>
 
                                                         <td style="vertical-align: top;">
@@ -325,73 +405,6 @@ if(isset($_REQUEST['filter1'])){
                                                             <?php echo date('Y') - $row['std_start_year']; ?>
                                                         </td>
 
-                                                        <td style="vertical-align: top;">
-                                                            <?php 
-                                                            $strSQL = "SELECT * FROM sis_student_progress WHERE sp_std_id = '".$row['USERNAME']."'";
-                                                            $resProgress = $db->fetch($strSQL, false, false);
-                                                            if($resProgress){
-                                                                $btn_remark = 'btn-outline-secondary'; if($resProgress['sp_pe'] == 'pass'){    $btn_remark = 'btn-success';}
-                                                                ?>
-                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn <?php echo $btn_remark; ?> btn-sm" style="padding: 5px 5px 3px 5px;">PE</a>
-                                                                
-                                                                <?php
-                                                                $btn_remark = 'btn-outline-secondary'; if($resProgress['sp_eng'] == 'pass'){    $btn_remark = 'btn-success';}
-                                                                ?>
-                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn <?php echo $btn_remark; ?> btn-sm" style="padding: 5px 5px 3px 5px;">ENG</a>
-                                                                <?php
-
-                                                                $btn_remark = 'btn-outline-secondary'; if($resProgress['sp_qe'] == 'pass'){    $btn_remark = 'btn-success';}
-                                                                ?>
-                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn <?php echo $btn_remark; ?> btn-sm" style="padding: 5px 5px 3px 5px;">QE</a>
-                                                                <?php
-
-                                                                $btn_remark = 'btn-outline-secondary'; if($resProgress['sp_ec'] == 'pass'){    $btn_remark = 'btn-success';}
-                                                                ?>
-                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn <?php echo $btn_remark; ?> btn-sm" style="padding: 5px 5px 3px 5px;">EC</a>
-                                                                <?php
-
-                                                                $btn_remark = 'btn-outline-secondary'; if($resProgress['sp_pub'] == 'pass'){    $btn_remark = 'btn-success';}
-                                                                ?>
-                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn <?php echo $btn_remark; ?> btn-sm" style="padding: 5px 5px 3px 5px;">PUB</a>
-                                                                <?php
-
-                                                                $btn_remark = 'btn-outline-secondary'; if($resProgress['sp_te'] == 'pass'){    $btn_remark = 'btn-success';}
-                                                                ?>
-                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn <?php echo $btn_remark; ?> btn-sm" style="padding: 5px 5px 3px 5px;">TE</a>
-                                                                <?php
-
-                                                                $btn_remark = 'btn-outline-secondary'; if($resProgress['sp_ce'] == 'pass'){    $btn_remark = 'btn-success';}
-                                                                ?>
-                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn <?php echo $btn_remark; ?> btn-sm" style="padding: 5px 5px 3px 5px;">CE</a>
-                                                                <?php
-
-                                                            }else{
-                                                                ?>
-                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">PE</a>
-                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">ENG</a>
-                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">QE</a>
-                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">EC</a>
-                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">PUB</a>
-                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">TE</a>
-                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>&page_id=6" class="btn btn-outline-secondary btn-sm" style="padding: 5px 5px 3px 5px;">CE</a>
-                                                                <?php
-                                                            }
-                                                            ?>
-                                                            
-                                                            <div style="font-size: 0.8em; margin-top: 5px;" class="text-dark">Recent note : </div>
-                                                            <div id="noteDiv_<?php echo $row['USERNAME'];?>" class="noteDiv text-dark" style="padding: 5px 10px; border: dashed; border-width: 1px 1px 1px 1px; border-color: #ccc; margin-top: 2px; border-radius: 10px; font-size: 0.8em;">
-                                                                <?php 
-                                                                $strSQL = "SELECT note_message FROM sis_studynote WHERE note_student = '".$row['USERNAME']."' AND note_delete = 'N' ORDER BY note_id DESC LIMIT 1";
-                                                                $resMsg = $db->fetch($strSQL, false, false);
-                                                                if($resMsg){
-                                                                    echo $resMsg['note_message'];
-                                                                }else{
-                                                                    echo "-";
-                                                                }
-                                                                ?>
-                                                            </div>
-                                                        </td>
-
                                                         <?php 
                                                         if($role == 'admin'){
                                                             ?>
@@ -405,6 +418,44 @@ if(isset($_REQUEST['filter1'])){
                                                         }
                                                         ?>
                                                         
+                                                        <td style="vertical-align: top;">
+                                                        <div id="<?php echo $row['USERNAME']; ?>_level" style="padding-bottom: 10px;"><?php 
+                                                            if($row['ssls_level'] != null){
+                                                                if($row['ssls_level'] == 'Green'){
+                                                                    ?>
+                                                                    <i class="bx bxs-circle text-success"></i>
+                                                                    <?php
+                                                                }else if($row['ssls_level'] == 'Yellow'){
+                                                                    ?>
+                                                                    <i class="bx bxs-circle text-warning"></i>
+                                                                    <?php
+                                                                }else if($row['ssls_level'] == 'Red'){
+                                                                    ?>
+                                                                    <i class="bx bxs-circle text-danger"></i>
+                                                                    <?php
+                                                                }else{
+                                                                    echo "NA";
+                                                                }
+                                                            }else{
+                                                                echo "NA";
+                                                            }
+
+                                                            ?>
+                                                            </div>
+                                                            <?php
+                                                            if(($role == 'admin') || ($role == 'staff') || ($currentUser['EDITABLE'] == 'Y')){
+                                                                ?>
+                                                                <select name="txtLevel_<?php echo $row['USERNAME']; ?>" id="txtLevel_<?php echo $row['USERNAME']; ?>" class="form-control" onchange="change_level('<?php echo $row['USERNAME']; ?>')">
+                                                                    <option value="">NA</option>
+                                                                    <option value="Green" <?php if($row['ssls_level'] == 'Green'){ echo "selected"; } ?>>Green</option>
+                                                                    <option value="Yellow" <?php if($row['ssls_level'] == 'Yellow'){ echo "selected"; } ?>>Yellow</option>
+                                                                    <option value="Red" <?php if($row['ssls_level'] == 'Red'){ echo "selected"; } ?>>Red</option>
+                                                                </select>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                            
+                                                        </td>
                                                         <td style="vertical-align: top;">
                                                             <a href="app-student-info?id=<?php echo $row['USERNAME'];?>" class="btn btn-sm mr-1" style="padding: 5px;"><i class="bx bx-search"></i></a>
                                                             <a href="../../../html/ltr/vertical-menu-template/app-users-edit.html" class="btn btn-sm" style="padding: 5px;"  data-toggle="modal" data-target="#modalNote" onclick="setNoteOwner('<?php echo $row['USERNAME']; ?>', '<?php echo $row['FNAME'].' '.$row['LNAME']; ?>')" ><i class="bx bx-comment"></i></a>
@@ -528,8 +579,6 @@ if(isset($_REQUEST['filter1'])){
 
         var editor_doclist = ''
         $(document).ready(function(){
-            preload.hide()
-
             editor_doclist = CKEDITOR.replace( 'txtNote', {
                 wordcount : {
                 showCharCount : false,
@@ -537,7 +586,36 @@ if(isset($_REQUEST['filter1'])){
                 },
                 height: '250px'
             });
+
+            setTimeout(() => {
+                preload.hide()
+            }, 2000);
         })
+
+        function change_level(std_id){
+            console.log(std_id);
+            $target_status = $('#txtLevel_' + std_id).val()
+            var param = {
+                uid: $('#txtUid').val(),
+                target_std_id: std_id,
+                target_status: $target_status 
+            }
+            console.log(param);
+            var jxr = $.post(api + 'progress?stage=update_level', param, function(){}, 'json')
+                   .always(function(snap){
+                        console.log(snap);
+                   })
+            
+            if($target_status == 'Green'){
+                $('#' + std_id + '_level').html('<i class="bx bxs-circle text-success"></i>')
+            }else if($target_status == 'Yellow'){
+                $('#' + std_id + '_level').html('<i class="bx bxs-circle text-warning"></i>')
+            }else if($target_status == 'Red'){
+                $('#' + std_id + '_level').html('<i class="bx bxs-circle text-danger"></i>')
+            }else{
+                $('#' + std_id + '_level').html('NA')
+            }
+        }
 
         function setNoteOwner(id, fname){
             student.getNote(id)

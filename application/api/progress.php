@@ -21,6 +21,42 @@ if(!isset($_REQUEST['stage'])){
 $stage = mysqli_real_escape_string($conn, $_REQUEST['stage']);
 $return = array();
 
+if($stage == 'update_level'){
+    if(
+        (!isset($_REQUEST['uid'])) ||
+        (!isset($_REQUEST['target_std_id'])) ||
+        (!isset($_REQUEST['target_status']))
+      ){
+        $return['status'] = 'Fail';
+        $return['error_message'] = 'Error x1001';
+        echo json_encode($return);
+        mysqli_close($conn);
+        die();
+    }
+
+    $uid = mysqli_real_escape_string($conn, $_POST['uid']);
+    $target_std_id = mysqli_real_escape_string($conn, $_POST['target_std_id']);
+    $target_status = mysqli_real_escape_string($conn, $_POST['target_status']);
+
+    $strSQL = "UPDATE sis_study_level_stagement SET ssls_status = 'N' WHERE ssls_std = '$target_std_id'";
+    $resUpdate = $db->execute($strSQL);
+
+    $strSQL = "INSERT INTO sis_study_level_stagement (`ssls_std`, `ssls_level`, `ssls_udatetime`, `ssls_by`, `ssls_status`) VALUES ('$target_std_id', '$target_status', '$datetime', '$uid', 'Y')";
+    $resInsert = $db->insert($strSQL, true);
+    if($resInsert){ 
+        $return['status'] = 'Success';
+        echo json_encode($return);
+        mysqli_close($conn);
+        die();
+    }else{
+        $return['status'] = 'Fail';
+        $return['error_message'] = 'Can not update';
+        echo json_encode($return);
+        mysqli_close($conn);
+        die();
+    }
+}
+
 if($stage == 'add_pub'){
     if(
         (!isset($_REQUEST['uid'])) ||

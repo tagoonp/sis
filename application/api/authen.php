@@ -89,6 +89,41 @@ if($stage == 'create_session'){
     }
 }
 
+if($stage == 'medipe_authen'){
+    if(
+        (!isset($_REQUEST['token'])) ||
+        (!isset($_REQUEST['pid'])) ||
+        (!isset($_REQUEST['username'])) ||
+        (!isset($_REQUEST['profile'])) || 
+        (!isset($_REQUEST['email'])) || 
+        (!isset($_REQUEST['uid'])) 
+      ){
+        $return['status'] = 'Fail';
+        $return['error_message'] = 'Error x1001';
+        echo json_encode($return);
+        mysqli_close($conn);
+        die();
+    }
+
+    $uid = mysqli_real_escape_string($conn, $_REQUEST['uid']);
+    $token = mysqli_real_escape_string($conn, $_REQUEST['token']);
+    $pid = mysqli_real_escape_string($conn, $_REQUEST['pid']);
+    $username = mysqli_real_escape_string($conn, $_REQUEST['username']);
+    $profile = mysqli_real_escape_string($conn, $_REQUEST['profile']);
+    $email = mysqli_real_escape_string($conn, $_REQUEST['email']);
+
+    die();
+
+    $strSQL = "SELECT * FROM sis_account a INNER JOIN sis_userinfo b ON a.USERNAME = b.USERNAME 
+               WHERE 
+               a.ACTIVE_STATUS = 'Y' 
+               AND a.DELETE_STATUS = 'N' 
+               AND b.USE_STATUS = 'Y' 
+               AND a.USERNAME = '$uid'";
+    $res = $db->fetch($strSQL, false, false);
+
+
+}
 
 if($stage == 'updatecontact'){
     if(

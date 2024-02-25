@@ -43,18 +43,12 @@
             <li class=" nav-item <?php if($page == 'app-lecturer'){ echo "active"; }?>"><a href="app-lecturer"><i class="menu-livicon" data-icon="rocket"></i><span class="menu-title text-truncate text-white" data-i18n="Calendar">Lecturer</span></a>
             <li class=" nav-item <?php if($page == 'app-monitor'){ echo "active"; }?>"><a href="app-monitor"><i class="menu-livicon" data-icon="dashboard"></i><span class="menu-title text-truncate text-white" data-i18n="Calendar">Monitoring</span></a>
             <li class=" nav-item <?php if($page == 'app-student'){ echo "active"; }?>"><a href="app-student"><i class="menu-livicon" data-icon="user"></i><span class="menu-title text-truncate text-white" data-i18n="Calendar">Student</span></a>
+
+            <li class=" navigation-header text-truncate text-white"><span data-i18n="Apps">Report</span></li>
+            <li class=" nav-item <?php if($page == 'app-report-1'){ echo "active"; }?>"><a href="app-report-1"><i class="menu-livicon" data-icon="bar-chart"></i><span class="menu-title text-truncate text-white" data-i18n="Calendar">Number of student</span></a>
             <?php
         }
         ?>
-<!-- 
-        <?php 
-        if($role == 'staff'){
-            ?>
-            <li class=" nav-item <?php if($page == 'app-monitor'){ echo "active"; }?>"><a href="app-monitor"><i class="menu-livicon" data-icon="dashboard"></i><span class="menu-title text-truncate text-white" data-i18n="Calendar">Monitoring</span></a>
-            <li class=" nav-item <?php if($page == 'app-student'){ echo "active"; }?>"><a href="app-student"><i class="menu-livicon" data-icon="user"></i><span class="menu-title text-truncate text-white" data-i18n="Calendar">Student</span></a>
-            <?php
-        }
-        ?> -->
 
         <?php 
         if($role == 'lecturer'){

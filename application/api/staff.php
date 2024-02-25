@@ -67,7 +67,15 @@ if($stage == 'send_message'){
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
     $result = curl_exec($ch);
 
-    echo $result;
+    // echo $result;
+
+    $strSQL = "INSERT INTO sis_messaging_log (`msl_datetime`, `msl_message`, `msl_to_id`, `msl_to_token`, `msl_by`, `msl_send_status`) 
+               VALUES ('$datetime', '$message', '$to_id', '$to_token', '$uid', 'Y')";
+    $resInsert = $db->insert($strSQL, false);
+    $return['status'] = 'Success';
+    echo json_encode($return);
+    mysqli_close($conn);
+    die();
 }
 
 if($stage == 'check_before_add'){

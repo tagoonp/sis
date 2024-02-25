@@ -19,8 +19,8 @@ $post = json_encode(array(
     'messages' => array($messages),
 ));
 
-echo json_encode($post);
-die();
+// echo json_encode($post);
+// die();
 
 // URL ของบริการ Replies สำหรับการตอบกลับด้วยข้อความอัตโนมัติ
 $url = 'https://api.line.me/v2/bot/message/multicast';

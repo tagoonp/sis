@@ -233,6 +233,13 @@ if(isset($_REQUEST['page_id'])){
                                         </div>
                                         Graduate info.
                                     </a>
+                                    <a href="app-student-info?id=<?php echo $id; ?>&page_id=9" class="list-group-item <?php if($page_id == '9'){ echo "active"; } ?>">
+                                        <div class="fonticon-wrap d-inline mr-25">
+                                            <i class="livicon-evo" data-options="name: comment.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
+                                            </i>
+                                        </div>
+                                        Send message
+                                    </a>
                                     <a href="app-student-info?id=<?php echo $id; ?>&page_id=7" class="list-group-item <?php if($page_id == '7'){ echo "active"; } ?>">
                                         <div class="fonticon-wrap d-inline mr-25">
                                             <i class="livicon-evo" data-options="name: notebook.svg; size: 24px; style: lines; strokeColor:#475f7b; eventOn:grandparent; duration:0.85;">
@@ -276,6 +283,9 @@ if(isset($_REQUEST['page_id'])){
                                 break;
                             case "8":
                                 require_once('./comp/graduate_info.php');
+                                break;
+                            case "9":
+                                require_once('./comp/send_message.php');
                                 break;
                             case "7":
                                 require_once('./comp/note.php');
@@ -375,6 +385,7 @@ if(isset($_REQUEST['page_id'])){
     <script src="../../../app-assets/js/core/app.js"></script>
     <script src="../../../app-assets/js/scripts/components.js"></script>
     <script src="../../../app-assets/js/scripts/footer.js"></script>
+    <script src="../../../app-assets/vendors/apexcharts/apexcharts.min.js"></script>
     <script src="../../../app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
     <script src="../../../app-assets/vendors/preload.js/dist/js/preload.js"></script>
     <script src="../../../app-assets/vendors/ckeditor_lite/ckeditor.js"></script>
@@ -429,7 +440,108 @@ if(isset($_REQUEST['page_id'])){
             $('#btnSavefund').click(function(){
                 staff.update_fund()
             })
+
+            if($('#progressChart').length){
+                genChart()
+            }
         })
+
+        function genChart(){
+            var options = {
+            series: [
+            {
+                data: [
+                    {
+                        x: 'Proposal examination',
+                        y: [
+                        new Date('2017-06-22').getTime(),
+                        new Date('2018-07-24').getTime()
+                        ]
+                    },
+                    {
+                        x: 'English test',
+                        y: [
+                        new Date('2017-06-22').getTime(),
+                        new Date('2018-06-22').getTime()
+                        ]
+                    },
+                    {
+                        x: 'Qualification exam',
+                        y: [
+                        new Date('2018-07-24').getTime(),
+                        new Date('2018-07-24').getTime()
+                        ]
+                    },
+                    {
+                        x: 'Ethic committee approval',
+                        y: [
+                        new Date('2018-07-24').getTime(),
+                        new Date('2018-12-24').getTime()
+                        ]
+                    },
+                    {
+                        x: 'Publications',
+                        y: [
+                            new Date('2018-12-10').getTime(),
+                            new Date('2019-06-18').getTime()
+                        ]
+                    },
+                    {
+                        x: 'Thesis examination',
+                        y: [
+                            new Date('2018-12-24').getTime(),
+                            new Date('2022-05-09').getTime()
+                        ]
+                    },
+                    {
+                        x: 'Complehensive examination',
+                        y: [
+                            new Date('2018-12-24').getTime(),
+                            new Date('2022-03-09').getTime()
+                        ]
+                    }
+                ]
+            }
+            ],
+            chart: {
+                height: 350,
+                type: 'rangeBar'
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: true,
+                    borderRadius: 10,
+                    borderRadiusApplication: 'around',
+                    // borderRadiusWhenStacked: 'last',
+                }
+            },
+            dataLabels: {
+                enabled: true,
+                formatter: function(val) {
+                    var a = moment(val[0])
+                    var b = moment(val[1])
+                    var diff = b.diff(a, 'days')
+                    return diff + (diff > 1 ? ' days' : ' day')
+                }
+            },
+            xaxis: {
+                type: 'datetime'
+            },
+            fill: {
+            type: 'gradient',
+            gradient: {
+                gradientToColors: ['#36BDCB'],
+                inverseColors: false,
+                stops: [0, 100]
+            }
+            }
+
+            };
+
+            var chart = new ApexCharts(document.querySelector("#progressChart"), options);
+            chart.render();
+        
+        }
 
 
     </script>

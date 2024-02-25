@@ -11,6 +11,13 @@ $resProgress = $db->fetch($strSQL, false, false);
                     <h3 class="text-white mb-0">Study progress</h3>
                 </div>
                 <div class="card-body pt-2">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="text-dark">Progress summary chart</h5>
+                            <div id="progressChart"></div>
+                        </div>
+                    </div>
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
                         <li class="nav-item">
@@ -145,3 +152,7 @@ $resProgress = $db->fetch($strSQL, false, false);
         </div>
     </div>
 </section>
+
+<script>
+    
+</script>

@@ -258,7 +258,17 @@ if(isset($_REQUEST['filter3'])){
                                                             </div>
                                                         </td>
                                                         <td class="text-right">
-                                                            <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>" class="pr-1"><i class="bx bx-search"></i></a>
+                                                            <?php 
+                                                            if(($row['ROLE_STAFF'] == 'Y') || ($row['ROLE_LECTURER'] == 'Y')){
+                                                                ?>
+                                                                <a href="app-user-info?id=<?php echo $row['USERNAME']; ?>" class="pr-1"><i class="bx bx-search"></i></a>
+                                                                <?php
+                                                            }else{
+                                                                ?>
+                                                                <a href="app-student-info?id=<?php echo $row['USERNAME']; ?>" class="pr-1"><i class="bx bx-search"></i></a>
+                                                                <?php
+                                                            }
+                                                            ?>
                                                             <a href="Javascript:staff.deleteUser('<?php echo $row['USERNAME']; ?>', 'staff')" class="text-danger"><i class="bx bx-trash"></i></a>
                                                         </td>
                                                     </tr>

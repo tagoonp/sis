@@ -4,6 +4,8 @@ require('../config/config.php');
 require('../config/database.php'); 
 require('../config/function.php'); 
 
+
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -11,7 +13,8 @@ error_reporting(E_ALL);
 $db = new Database();
 $conn = $db->conn();
 
-require('../config/sendemail.php'); 
+// require('../config/sendemail.php'); 
+require("../vendor/autoload.php");
 
 if(!isset($_REQUEST['stage'])){
   mysqli_close($conn);
@@ -20,6 +23,53 @@ if(!isset($_REQUEST['stage'])){
 
 $stage = mysqli_real_escape_string($conn, $_REQUEST['stage']);
 $return = array();
+
+if($stage == 'send_message'){
+    if(
+        (!isset($_REQUEST['uid'])) ||
+        (!isset($_REQUEST['message'])) ||
+        (!isset($_REQUEST['to_id'])) || 
+        (!isset($_REQUEST['to_token'])) 
+      ){
+        $return['status'] = 'Fail';
+        $return['error_message'] = 'Error x1001';
+        echo json_encode($return);
+        mysqli_close($conn);
+        die();
+    }
+
+    $uid = mysqli_real_escape_string($conn, $_POST['uid']);
+    $message = mysqli_real_escape_string($conn, $_POST['message']);
+    $to_id = mysqli_real_escape_string($conn, $_POST['to_id']);
+    $to_token = mysqli_real_escape_string($conn, $_POST['to_token']);
+
+    $access_token = LINE_MESSAGE_TOKEN;
+    $line_key_array[] = $to_token;
+    
+    // ข้อความที่ต้องการส่ง
+    $messages = array(
+        'type' => 'text',
+        'text' => $message ,
+    );
+    $post = json_encode(array(
+        'to' => $line_key_array,
+        'messages' => array($messages),
+    ));
+
+    // URL ของบริการ Replies สำหรับการตอบกลับด้วยข้อความอัตโนมัติ
+    $url = 'https://api.line.me/v2/bot/message/multicast';
+    $headers = array('Content-Type: application/json', 'Authorization: Bearer '.$access_token);
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+    $result = curl_exec($ch);
+
+    echo $result;
+}
+
 if($stage == 'check_before_add'){
 
     if(

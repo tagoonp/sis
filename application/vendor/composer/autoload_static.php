@@ -7,6 +7,10 @@ namespace Composer\Autoload;
 class ComposerStaticInit58fea101775467f46404e45039538ab1
 {
     public static $prefixLengthsPsr4 = array (
+        'L' => 
+        array (
+            'LINE\\' => 5,
+        ),
         'H' => 
         array (
             'Hybridauth\\' => 11,
@@ -18,6 +22,10 @@ class ComposerStaticInit58fea101775467f46404e45039538ab1
     );
 
     public static $prefixDirsPsr4 = array (
+        'LINE\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/linecorp/line-bot-sdk/src',
+        ),
         'Hybridauth\\' => 
         array (
             0 => __DIR__ . '/..' . '/hybridauth/hybridauth/src',

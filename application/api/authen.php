@@ -112,23 +112,57 @@ if($stage == 'medipe_authen'){
     $profile = mysqli_real_escape_string($conn, $_REQUEST['profile']);
     $email = mysqli_real_escape_string($conn, $_REQUEST['email']);
 
-    echo $uid. "<br>";
-    echo $token. "<br>";
-    echo $pid. "<br>";
-    echo $username. "<br>";
-    echo $profile. "<br>";
-    echo $email. "<br>";
+    // echo $uid. "<br>";
+    // echo $token. "<br>";
+    // echo $pid. "<br>";
+    // echo $username. "<br>";
+    // echo $profile. "<br>";
+    // echo $email. "<br>";
 
-    die();
+    // die();
 
     $strSQL = "SELECT * FROM sis_account a INNER JOIN sis_userinfo b ON a.USERNAME = b.USERNAME 
                WHERE 
                a.ACTIVE_STATUS = 'Y' 
                AND a.DELETE_STATUS = 'N' 
                AND b.USE_STATUS = 'Y' 
-               AND a.USERNAME = '$uid'";
+               AND a.USERNAME = '$username'
+               ";
     $res = $db->fetch($strSQL, false, false);
+    if($res){
 
+        if($res['LINE_TOKEN'] == null){
+            $strSQL = "UPDATE sis_account SET LINE_TOKEN = '$token' WHERE USERNAME = '$username'";
+            $resUpdate = $db->execute($strSQL);
+        }
+
+        $_SESSION['doe_uid'] = $username; // username
+
+        if($res['ROLE_ADMIN'] == 'Y'){
+            $_SESSION['doe_sis_role'] = 'admin';
+        }else{
+            if($res['ROLE_STAFF'] == 'Y'){
+                $_SESSION['doe_sis_role'] = 'staff';
+            }else{
+                if($res['ROLE_LECTURER'] == 'Y'){
+                    $_SESSION['doe_sis_role'] = 'lecturer';
+                }else{
+                    $_SESSION['doe_sis_role'] = 'student';
+                }
+            }
+        }
+        
+        $_SESSION['doe_id'] = session_id();
+        $db->close();
+        header('Location: ../html/core/system/');       
+
+        die();
+
+    }else{
+        echo "Permission denine, please contact system administrator";
+        $db->close();
+        die();
+    }
 
 }
 

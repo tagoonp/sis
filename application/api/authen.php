@@ -112,6 +112,13 @@ if($stage == 'medipe_authen'){
     $profile = mysqli_real_escape_string($conn, $_REQUEST['profile']);
     $email = mysqli_real_escape_string($conn, $_REQUEST['email']);
 
+    echo $uid. "<br>";
+    echo $token. "<br>";
+    echo $pid. "<br>";
+    echo $username. "<br>";
+    echo $profile. "<br>";
+    echo $email. "<br>";
+
     die();
 
     $strSQL = "SELECT * FROM sis_account a INNER JOIN sis_userinfo b ON a.USERNAME = b.USERNAME 

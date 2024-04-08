@@ -6,7 +6,7 @@
     //ใส่ secret key ที่ได้จากฝ่ายเทคโนโลยีสารสนเทศ
     //โทร. 1950 ติดต่อ ไชยยันต์ หรือ ปฐมฤกษ์
     //Test ใน 127.0.0.1 หรือ localhost ให้ใส่ .
-    $jwt->secret = '.';
+    $jwt->secret = 'ztzUaqMrLiBdzy$5kfDB01Dub245HPAH';
 
 
     if(isset($_GET['response'])){
